@@ -1,0 +1,13 @@
+--Calculates the total hours worked by a team @T_ID.
+CREATE FUNCTION dbo.GetHoursWorked(@T_ID INT)
+  RETURNS FLOAT
+AS
+  BEGIN
+    DECLARE @TOTAL FLOAT;
+    SELECT @TOTAL = sum(HOURS_LOGGED)
+    FROM TIMES, EMPLOYEES
+    WHERE TIMES.EID = EMPLOYEES.EMPLOYEE_ID
+          AND
+          EMPLOYEES.TEAM_ID = @T_ID
+    RETURN @TOTAL
+  END;
