@@ -1,5 +1,5 @@
 CREATE TABLE PROJECTS (
-  ID                     INT         NOT NULL,
+  PROJECT_ID                     INT         NOT NULL,
   NAME                   VARCHAR(70) NOT NULL,
   BUDGET                 FLOAT       NOT NULL,
   BUDGET_USED            FLOAT       NOT NULL,
@@ -8,6 +8,7 @@ CREATE TABLE PROJECTS (
   CHANGE_DATE            DATETIME,
   COMMENT                VARCHAR(250),
   CONTROLLING_TEAM       INT,
+  START_DATE              DATETIME NOT NULL,
   STATUS_TYPE            VARCHAR(35) NOT NULL CHECK (STATUS_TYPE IN ('Complete', 'In Dev',
                                                                      'In QA', 'Waiting', 'In Review')),
   MODIFIED       AS (EID + ' ' + CHANGE_DATE),
