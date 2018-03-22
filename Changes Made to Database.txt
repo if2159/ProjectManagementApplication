@@ -1,0 +1,8 @@
+The following are changes made to the database:
+
+Deleted location from table: DEPARTMENTS
+Changed column names to all caps for table: DEPARTMENTS
+Added START_DATE to table: PROJECTS
+Changed HASH to HASHED_PASSWORDS from table: USERS
+Dropped TEAM_ID and NAME, also removed FK for TEAM_ID from table: USERS
+Dropped NAME from table: Employee
