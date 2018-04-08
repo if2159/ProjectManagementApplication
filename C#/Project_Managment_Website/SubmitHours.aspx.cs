@@ -4,6 +4,12 @@ using System.Data.SqlClient;
 
 public partial class SubmitHours : System.Web.UI.Page
 {
+    /// <summary>
+    /// This method is called on page load. It will validate a user has a valid session 
+    /// and redirect them to the login page if it is not valid.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!AuthenticateSession()) {
@@ -11,6 +17,10 @@ public partial class SubmitHours : System.Web.UI.Page
         }
     }
 
+    /// <summary>
+    /// Retrieves the user's information from the cookies and validates the session.
+    /// </summary>
+    /// <returns>True if a valid session. False otherwise.</returns>
     private bool AuthenticateSession()
     {
         if (Request.Cookies["SessionID"] != null){
@@ -22,7 +32,12 @@ public partial class SubmitHours : System.Web.UI.Page
         }
     }
 
-    protected void Button1_Click(object sender, EventArgs e)
+    /// <summary>
+    /// Called when the Submit button is clicked. Will submit the hours to the Database for the logged in user.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void submitHoursButton_Click(object sender, EventArgs e)
     {
         String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
 

@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Web;
 
 /// <summary>
 /// Summary description for LoginValidator
@@ -13,6 +10,13 @@ using System.Web;
 public class LoginValidator
 {
 
+    /// <summary>
+    /// Loads the hashed password for supplied email.
+    /// Then compares the hashes to validate that a user has the correct password/email combination.
+    /// </summary>
+    /// <param name="password">The password that the user supplies. This is hashed then compared to the stored hash.</param>
+    /// <param name="email">The user's provided email. This is used to find the user's stored hash in the Database.</param>
+    /// <returns>True if hashes match. False otherwise; e.g. user does not exist, passwords do not match.</returns>
     public static String ValidateUserCredentials(String password, String email) {
         String connectionString = System.Configuration.ConfigurationManager
             .ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
@@ -51,6 +55,11 @@ public class LoginValidator
     public const int SaltIndex = 1;
     public const int Pbkdf2Index = 2;
 
+    /// <summary>
+    /// Hashes and returns the supplied string. This includes the number of iterations, salt, and hash.
+    /// </summary>
+    /// <param name="password">The string to hash.</param>
+    /// <returns>A string includes the number of iterations, salt, and hash for the provided password.</returns>
     public static string HashPassword(string password)
     {
         var cryptoProvider = new RNGCryptoServiceProvider();
@@ -63,6 +72,12 @@ public class LoginValidator
                Convert.ToBase64String(hash);
     }
 
+    /// <summary>
+    /// Compares a plain text password with the correct hash.
+    /// </summary>
+    /// <param name="password">Plain text password.</param>
+    /// <param name="correctHash">Correct hash from the database.</param>
+    /// <returns>True if the hashes match. False otherwise.</returns>
     public static bool ValidatePassword(string password, string correctHash)
     {
         char[] delimiter = { ':' };
@@ -92,6 +107,12 @@ public class LoginValidator
         return pbkdf2.GetBytes(outputBytes);
     }
 
+    /// <summary>
+    /// Validates if a user has a valid stored session token.
+    /// </summary>
+    /// <param name="employeeID">The logged in user.</param>
+    /// <param name="GUID">The token supplied by the user's browser.</param>
+    /// <returns>True if the token is stored in the database for this user. False otherwise.</returns>
     public static bool ValidateSession(String employeeID, String GUID) {
         String connectionString = System.Configuration.ConfigurationManager
             .ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;

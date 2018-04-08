@@ -16,7 +16,7 @@
         <asp:DropDownList ID="projectDropDown" runat="server" DataSourceID="SqlDataSource1" DataTextField="NAME" DataValueField="PROJECT_ID">
         </asp:DropDownList>
         <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT [PROJECT_ID], [NAME] FROM [PROJECTS]"></asp:SqlDataSource>
-        <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Button" />
+        <asp:Button ID="submitHoursButton" runat="server" OnClick="submitHoursButton_Click" Text="Submit" />
         <br />
         <asp:Label ID="outputLabel" runat="server" Text=""></asp:Label>
         </div>

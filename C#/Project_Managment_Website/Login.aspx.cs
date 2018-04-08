@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
 public partial class Login : System.Web.UI.Page
 {
@@ -46,7 +42,7 @@ public partial class Login : System.Web.UI.Page
     /// Generates the token using a GUID.
     /// </summary>
     /// <param name="employeeID">The employee ID to use for the session token.</param>
-    /// <returns></returns>
+    /// <returns>The GUID Created for this session.</returns>
     private Guid createSessionToken(String employeeID)
     {
         Guid sessionID = Guid.NewGuid();
