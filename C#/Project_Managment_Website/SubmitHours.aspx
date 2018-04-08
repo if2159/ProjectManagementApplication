@@ -10,12 +10,6 @@
     <form id="form1" runat="server">
     <div>
     
-        <asp:Label ID="usernameLabel" runat="server" Text="Email: "></asp:Label>
-        <asp:TextBox ID="emailField" runat="server" ></asp:TextBox>
-        <asp:Label ID="passwordLabel" runat="server" Text="Password"></asp:Label>
-        <asp:TextBox ID="passwordField" runat="server"></asp:TextBox>
-        <br />
-        <br />
         <asp:Label ID="hoursLabel" runat="server" Text="Hours: "></asp:Label>
         <asp:TextBox ID="hoursField" runat="server"></asp:TextBox>
         <asp:Label ID="projectLabel" runat="server" Text="Project: "></asp:Label>

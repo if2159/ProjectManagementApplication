@@ -9,11 +9,18 @@ using System.Web.UI.WebControls;
 
 public partial class Login : System.Web.UI.Page
 {
+
     protected void Page_Load(object sender, EventArgs e)
     {
 
     }
 
+    /// <summary>
+    /// This method is called whenever the login button is clicked. 
+    /// It validates the user's password and email combination.
+    /// </summary>
+    /// <param name="sender"> Auto generated param</param>
+    /// <param name="e">Auto generated param</param>
     protected void loginButton_Click(object sender, EventArgs e) {
         String employeeID = LoginValidator.ValidateUserCredentials(passwordField.Text, emailField.Text.ToLower());
         if (employeeID.Length > 0) { //Username/Password is valid
@@ -24,12 +31,23 @@ public partial class Login : System.Web.UI.Page
         }
     }
 
+    /// <summary>
+    /// Is called whenever a user is successfully validated.
+    /// Redirects the user to the SubmiteHours page.
+    /// </summary>
+    /// <param name="employeeID">The employee ID used to create the session tokens.</param>
     private void loginSuccess(String employeeID) {
-        Guid sessionID = createSessionCookie(employeeID);
+        Guid sessionID = createSessionToken(employeeID);
         Response.Redirect("SubmitHours.aspx");
     }
 
-    private Guid createSessionCookie(String employeeID)
+    /// <summary>
+    /// Creates the user session Token then rights it to the user's browser and the the Database.
+    /// Generates the token using a GUID.
+    /// </summary>
+    /// <param name="employeeID">The employee ID to use for the session token.</param>
+    /// <returns></returns>
+    private Guid createSessionToken(String employeeID)
     {
         Guid sessionID = Guid.NewGuid();
         writeSessionID(sessionID, employeeID);
@@ -37,6 +55,14 @@ public partial class Login : System.Web.UI.Page
         return sessionID;
     }
 
+    /// <summary>
+    /// This method writes the user's session token to their browser.
+    /// Cookie values:
+    /// Username=employeeID
+    /// SessionID=token
+    /// </summary>
+    /// <param name="sessionID">The GUID that identifies this users session.</param>
+    /// <param name="employeeID">The user this session is for.</param>
     private void writeCookie(Guid sessionID, string employeeID)
     {
         HttpCookie userCookie = new HttpCookie("UserID");
@@ -48,6 +74,11 @@ public partial class Login : System.Web.UI.Page
         Response.Cookies.Add(userCookie);
     }
 
+    /// <summary>
+    /// This method writes the supplied session ID to the Database SESSIONS Table
+    /// </summary>
+    /// <param name="sessionID">The identifying session token.</param>
+    /// <param name="employeeID">The employee that the session is for.</param>
     private void writeSessionID(Guid sessionID, string employeeID)
     {
         String connectionString = System.Configuration.ConfigurationManager
