@@ -8,8 +8,9 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class Departments : System.Web.UI.Page {
-    private static String[] allowedRoles = { "ADMIN", "DEPARTMENT_LEAD"};
+public partial class CreateUserRoles : System.Web.UI.Page
+{
+    private static String[] allowedRoles = { "ADMIN" };
     private static String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
 
     /// <summary>
@@ -23,12 +24,15 @@ public partial class Departments : System.Web.UI.Page {
         if (!AuthenticateSession())
         {
             Response.Redirect("Login.aspx");
-        } else if (!CheckRole()) {
+        }
+        else if (!CheckRole())
+        {
             Response.Redirect("AccessForbidden.aspx");
         }
     }
 
-    private bool CheckRole() {
+    private bool CheckRole()
+    {
         // ArrayList myArrayList = new ArrayList();
         // myArrayList.AddRange(myStringArray);
         if (Request.Cookies["SessionID"] != null)
@@ -72,33 +76,15 @@ public partial class Departments : System.Web.UI.Page {
             con.Open();
             //Submit the hours for the employee
             String submitStatement =
-                "INSERT INTO DEPARTMENTS (NAME, STREET_NUMBER, STREET_NAME, CITY, STATE_PROVINCE_REGION, ZIPCODE, COUNTRY) " +
-                "VALUES (@NAME, @STREET_NUMBER, @STREET_NAME, @CITY, @STATE_PROVINCE_REGION, @ZIPCODE, @COUNTRY)";
+                "INSERT INTO USER_ROLES (ROLE_DESCRIPTION) " +
+                "VALUES (@DESCRIPTION)";
             SqlCommand cmd = new SqlCommand(submitStatement, con);
-            SqlParameter nameParameter = new SqlParameter("@NAME", SqlDbType.VarChar, 70);
-            SqlParameter streetNumberParameter = new SqlParameter("@STREET_NUMBER", SqlDbType.VarChar, 20);
-            SqlParameter streetNameParameter = new SqlParameter("@STREET_NAME", SqlDbType.VarChar, 50);
-            SqlParameter cityParameter = new SqlParameter("@CITY", SqlDbType.VarChar, 60);
-            SqlParameter stateParameter = new SqlParameter("@STATE_PROVINCE_REGION", SqlDbType.VarChar, 50);
-            SqlParameter zipcodeParameter = new SqlParameter("@ZIPCODE", SqlDbType.VarChar, 16);
-            SqlParameter countryParameter = new SqlParameter("@COUNTRY", SqlDbType.VarChar, 90);
+            SqlParameter descriptionParameter = new SqlParameter("@DESCRIPTION", SqlDbType.VarChar, 20);
 
-            nameParameter.Value = departmentNameField.Text;
-            streetNumberParameter.Value = streetNumberField.Text;
-            streetNameParameter.Value = streetNameField.Text;
-            cityParameter.Value = cityField.Text;
-            stateParameter.Value = stateProvinceField.Text;
-            zipcodeParameter.Value = zipcodeField.Text;
-            countryParameter.Value = countryField.Text;
+            descriptionParameter.Value = roleNameField.Text.ToUpper();
 
+            cmd.Parameters.Add(descriptionParameter);
 
-            cmd.Parameters.Add(nameParameter);
-            cmd.Parameters.Add(streetNumberParameter);
-            cmd.Parameters.Add(streetNameParameter);
-            cmd.Parameters.Add(cityParameter);
-            cmd.Parameters.Add(stateParameter);
-            cmd.Parameters.Add(zipcodeParameter);
-            cmd.Parameters.Add(countryParameter);
 
             cmd.Prepare();
             cmd.ExecuteNonQuery();
