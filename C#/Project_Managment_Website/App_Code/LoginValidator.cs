@@ -10,6 +10,10 @@ using System.Security.Cryptography;
 public class LoginValidator
 {
 
+    private static String connectionString = System.Configuration.ConfigurationManager
+        .ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
+
+
     /// <summary>
     /// Loads the hashed password for supplied email.
     /// Then compares the hashes to validate that a user has the correct password/email combination.
@@ -18,8 +22,7 @@ public class LoginValidator
     /// <param name="email">The user's provided email. This is used to find the user's stored hash in the Database.</param>
     /// <returns>True if hashes match. False otherwise; e.g. user does not exist, passwords do not match.</returns>
     public static String ValidateUserCredentials(String password, String email) {
-        String connectionString = System.Configuration.ConfigurationManager
-            .ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
+        
 
         using (SqlConnection con = new SqlConnection(connectionString)) {
             String queryStatement = "SELECT EMPLOYEE_ID, HASHED_PASSWORD FROM dbo.USERS WHERE EMAIL = @email";
@@ -114,9 +117,7 @@ public class LoginValidator
     /// <param name="GUID">The token supplied by the user's browser.</param>
     /// <returns>True if the token is stored in the database for this user. False otherwise.</returns>
     public static bool ValidateSession(String employeeID, String GUID) {
-        String connectionString = System.Configuration.ConfigurationManager
-            .ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
-
+        
         using (SqlConnection con = new SqlConnection(connectionString))
         {
             String queryStatement = "SELECT SESSION_ID FROM dbo.SESSIONS WHERE EMPLOYEE_ID = @eid";
@@ -149,7 +150,49 @@ public class LoginValidator
 
             return false;
         }
+    }
+    /// <summary>
+    /// This method will verify that the employeeID has one of the roles in the requiredRoles List.
+    /// </summary>
+    /// <param name="employeeID">The user to get the role of.</param>
+    /// <param name="requiredRoles">The roles that are allowed to access this page.</param>
+    /// <returns>True if the user's role is in requiredRoles otherwise false.</returns>
+    public static bool ValidatorUserRole(String employeeID, ArrayList requiredRoles) {
+
+        using (SqlConnection con = new SqlConnection(connectionString))
+        {
+            String queryStatement = "SELECT ROLE_DESCRIPTION FROM dbo.USER_ROLES AS UR, dbo.USERS AS U WHERE U.EMPLOYEE_ID = @eid AND U.ROLE = UR.ROLE_ID";
+            con.Open();
+            SqlCommand cmd = new SqlCommand(queryStatement, con);
+            SqlParameter eidParameter = new SqlParameter("@eid", SqlDbType.Decimal);
+            eidParameter.Precision = 10;
+            eidParameter.Scale = 0;
+            eidParameter.Value = Decimal.Parse(employeeID);
+            cmd.Parameters.Add(eidParameter);
+            cmd.Prepare();
+            String usersRole = "Guest";
+            using (SqlDataReader rdr = cmd.ExecuteReader()) 
+            {
+                if (!rdr.HasRows)
+                {
+                    return false;
+                }
+
+                while (rdr.Read())
+                {
+                    usersRole = rdr.GetString(0);
+
+                }
+            }
+
+            if (requiredRoles.Contains(usersRole))
+            {
+                return true;
+            }
+
+            return false;
         }
+    }
 
 
 }

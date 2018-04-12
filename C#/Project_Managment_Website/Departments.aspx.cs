@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -7,8 +8,8 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class Departments : System.Web.UI.Page
-{
+public partial class Departments : System.Web.UI.Page {
+    private static String[] allowedRoles = { "ADMIN", "DEPARTMENT_LEAD"};
     /// <summary>
     /// This method is called on page load. It will validate a user has a valid session 
     /// and redirect them to the login page if it is not valid.
@@ -20,6 +21,24 @@ public partial class Departments : System.Web.UI.Page
         if (!AuthenticateSession())
         {
             Response.Redirect("Login.aspx");
+        } else if (!CheckRole()) {
+            Response.Redirect("AccessForbidden.aspx");
+        }
+    }
+
+    private bool CheckRole() {
+        // ArrayList myArrayList = new ArrayList();
+        // myArrayList.AddRange(myStringArray);
+        if (Request.Cookies["SessionID"] != null)
+        {
+            String employeeID = Request.Cookies["UserID"].Value.Split('=')[1];
+            ArrayList roles = new ArrayList();
+            roles.AddRange(allowedRoles);
+            return LoginValidator.ValidatorUserRole(employeeID, roles);
+        }
+        else
+        {
+            return false;
         }
     }
 
