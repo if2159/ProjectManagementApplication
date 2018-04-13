@@ -11,7 +11,7 @@ using System.Configuration;
 using System.Data.SqlTypes;
 
 /// <summary>
-/// 3 drop downs
+/// 2 drop downs and 1 textbox, a label that changes based on create submission
 /// checkIfTeamLead() checks if the inputted employeeID has the status of TEAM_LEAD
 /// assignValue() assigns DBNULL or the value selected to the sqlParameter
 /// SqlDataSouce1_DataBound() adds the option of NULL which has a value 0, into the dropdown for projectID
