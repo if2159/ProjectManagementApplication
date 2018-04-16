@@ -1,4 +1,4 @@
-<%@ Page Language="C#" AutoEventWireup="true" CodeFile="testInsert.aspx.cs" Inherits="testInsert" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="CreateTeam.aspx.cs" Inherits="CreateTeam" %>
 <%@Import Namespace="System.Data" %>
 <%@Import Namespace="System.Data.Common" %>
 <%@Import Namespace="System.Data.SqlClient" %>
