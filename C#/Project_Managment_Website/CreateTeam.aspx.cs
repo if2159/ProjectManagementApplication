@@ -17,7 +17,7 @@ using System.Data.SqlTypes;
 /// SqlDataSouce1_DataBound() adds the option of NULL which has a value 0, into the dropdown for projectID
 /// </summary>
 
-public partial class testInsert : System.Web.UI.Page
+public partial class CreateTeam : System.Web.UI.Page
 {
 
     private static String[] allowedRoles = { "TEAM_LEAD", "ADMIN" };
