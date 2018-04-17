@@ -127,7 +127,7 @@ public partial class UpdateProject : System.Web.UI.Page
                 cmd.Parameters.Add(statusTypeParameter);
                 cmd.Prepare();
                 cmd.ExecuteNonQuery();
-                Label3.Text = "Team Updated!";
+                Label3.Text = "Project Updated!";
             }
         }
     }
