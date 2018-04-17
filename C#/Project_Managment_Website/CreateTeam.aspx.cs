@@ -11,16 +11,16 @@ using System.Configuration;
 using System.Data.SqlTypes;
 
 /// <summary>
-/// 2 drop downs and 1 textbox, a label that changes based on create submission
-/// checkIfTeamLead() checks if the inputted employeeID has the status of TEAM_LEAD
+/// checkIfValidEmployeeID() checks if the submitted employeeID is a record in EMPLOYEE
 /// assignValue() assigns DBNULL or the value selected to the sqlParameter
+/// assignTeamLead() promote the employee to teamLead
 /// SqlDataSouce1_DataBound() adds the option of NULL which has a value 0, into the dropdown for projectID
 /// </summary>
 
 public partial class CreateTeam : System.Web.UI.Page
 {
 
-    private static String[] allowedRoles = { "TEAM_LEAD", "ADMIN" };
+    private static String[] allowedRoles = {"ADMIN", "DEPARTMENT_LEAD" };
     private static String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
 
     protected void Page_Load(object sender, EventArgs e)
@@ -71,12 +71,10 @@ public partial class CreateTeam : System.Web.UI.Page
 
         using (SqlConnection con = new SqlConnection(connectionString))
         {
-            //DO some function call to make sure the entered employeeID is valid 
-
-
-
-            if (checkIfTeamLead())
+            //DO some function call to make sure the entered employeeID is valid
+            if (checkIfValidEmployeeID())
             {
+                assignTeamLead();
                 con.Open();
                 String submitStatement =
                              "INSERT INTO TEAMS(PROJECT_ID, DEPARTMENT_ID, TEAMLEAD_ID)" +
@@ -98,10 +96,14 @@ public partial class CreateTeam : System.Web.UI.Page
                 cmd.Prepare();
                 cmd.ExecuteNonQuery();
                 Label4.Text = "Team has been created!";
+                con.Close();
+
+
+
             }
             else
             {
-                Label4.Text = "Invalid employee ID for Team Lead";
+                Label4.Text = "Invalid employee ID";
             }
         }
     }
@@ -115,11 +117,11 @@ public partial class CreateTeam : System.Web.UI.Page
         else { parameter.Value = valueSelected; }
     }
 
-    protected bool checkIfTeamLead()
+    protected bool checkIfValidEmployeeID()
     {
         using (SqlConnection con = new SqlConnection(connectionString))
         {
-            String queryStatement = "SELECT U.EMPLOYEE_ID FROM USERS AS U, USER_ROLES AS UR WHERE EMPLOYEE_ID = @eid AND U.ROLE = UR.ROLE_ID AND UR.ROLE_DESCRIPTION = 'TEAM_LEAD'";
+            String queryStatement = "SELECT U.EMPLOYEE_ID FROM USERS AS U WHERE EMPLOYEE_ID = @eid";
             con.Open();
             SqlCommand cmd = new SqlCommand(queryStatement, con);
             SqlParameter eidParameter = new SqlParameter("@eid", SqlDbType.Int);
@@ -131,14 +133,35 @@ public partial class CreateTeam : System.Web.UI.Page
             {
                 if (rdr.HasRows)
                 {
+                    con.Close();
                     return true;
+                    
                 }
                 else
                 {
+                    con.Close();
                     return false;
                 }
             }
         }
+    }
+
+    protected void assignTeamLead()
+    {
+        using (SqlConnection con = new SqlConnection(connectionString))
+        {
+            String queryStatement = "UPDATE USERS SET ROLE = 6 WHERE EMPLOYEE_ID = @eid";
+            con.Open();
+            SqlCommand cmd = new SqlCommand(queryStatement, con);
+            SqlParameter eidParameter = new SqlParameter("@eid", SqlDbType.Int);
+
+            eidParameter.Value = int.Parse(teamLeadID.Text);
+            cmd.Parameters.Add(eidParameter);
+            cmd.Prepare();
+            cmd.ExecuteNonQuery();
+            con.Close();
+        }
+
     }
 
     //for ProjectDropDown{
