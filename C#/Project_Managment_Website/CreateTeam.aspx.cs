@@ -125,7 +125,10 @@ public partial class CreateTeam : System.Web.UI.Page
             con.Open();
             SqlCommand cmd = new SqlCommand(queryStatement, con);
             SqlParameter eidParameter = new SqlParameter("@eid", SqlDbType.Int);
-
+            if (string.IsNullOrEmpty(teamLeadID.Text))
+            {
+                    return false;
+            }
             eidParameter.Value = int.Parse(teamLeadID.Text);
             cmd.Parameters.Add(eidParameter);
             cmd.Prepare();
