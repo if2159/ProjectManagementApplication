@@ -162,7 +162,7 @@ public partial class UpdateTeam : System.Web.UI.Page
     /// <summary>
     /// checks if inputted TEAMLEAD_ID is valid, and also a team to update is selected
     /// if teamLeadIDTextBox is left empty, assume there is no update to that attribute and 
-    /// use the original value on update, else demote the previous lead to developer, and promote
+    /// use the original value on update, and promote
     /// new employee to lead
     /// </summary>
     /// <param name="sender"></param>
@@ -190,7 +190,7 @@ public partial class UpdateTeam : System.Web.UI.Page
                 else
                 {
                     TeamLeadIDParameter.Value = int.Parse(teamLeadIDTextBox.Text);
-                    demotePreviousTeamLead();
+                    //demotePreviousTeamLead();
                     assignTeamLead();
                 }
                 TeamIDParameter.Value = int.Parse(teamsDropDown.SelectedValue);
