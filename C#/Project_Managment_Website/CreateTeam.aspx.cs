@@ -11,12 +11,11 @@ using System.Configuration;
 using System.Data.SqlTypes;
 
 /// <summary>
-/// 2 drop downs, one textBox. Have a -Select- value for all dropDowns, value set to 0
+/// 2 drop downs, one textBox. Have a -Select- value for all dropDowns, value set to -1
 /// checkIfValidEmployeeID() checks if the submitted employeeID is a record in EMPLOYEE
 /// assignValue() assigns DBNULL or the value selected to the sqlParameter
 /// assignTeamLead() promote the employee to teamLead
 /// SqlDataSouce1_DataBound() adds the option of NULL which has a value 0, into the dropdown for projectID
-/// Similar for other dropDown
 /// </summary>
 
 public partial class CreateTeam : System.Web.UI.Page
