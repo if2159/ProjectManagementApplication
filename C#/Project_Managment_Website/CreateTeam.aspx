@@ -23,14 +23,13 @@
 
         <asp:Label ID="Label2" runat="server" Text="Department Name"></asp:Label>
 
-        <asp:DropDownList ID="departmentDropDown" runat="server" DataSourceID="SqlDataSource2" DataTextField="NAME" DataValueField="DEPARTMENT_ID" OnSelectedIndexChanged="departmentDropDown_SelectedIndexChanged">
-        </asp:DropDownList>
         <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT [DEPARTMENT_ID], [NAME] FROM [DEPARTMENTS]" OnSelecting="SqlDataSource2_Selecting"></asp:SqlDataSource>
+        <asp:DropDownList ID="departmentDropDown" runat="server" DataSourceID="SqlDataSource2" DataTextField="NAME" DataValueField="DEPARTMENT_ID" OnSelectedIndexChanged="departmentDropDown_SelectedIndexChanged" ondatabound ="SqlDataSouce2_DataBound">
+        </asp:DropDownList>
+
+        </div>
         <br />
-
-        <asp:Label ID="Label3" runat="server" Text="Team Lead"></asp:Label>
-
-        
+        <asp:Label ID="Label3" runat="server" Text="Team Lead"></asp:Label>        
         <asp:TextBox ID="teamLeadID" runat="server" OnTextChanged="TextBox1_TextChanged"></asp:TextBox>
 
         

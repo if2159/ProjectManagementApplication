@@ -11,10 +11,12 @@ using System.Configuration;
 using System.Data.SqlTypes;
 
 /// <summary>
+/// 2 drop downs, one textBox. Have a -Select- value for all dropDowns, value set to 0
 /// checkIfValidEmployeeID() checks if the submitted employeeID is a record in EMPLOYEE
 /// assignValue() assigns DBNULL or the value selected to the sqlParameter
 /// assignTeamLead() promote the employee to teamLead
 /// SqlDataSouce1_DataBound() adds the option of NULL which has a value 0, into the dropdown for projectID
+/// Similar for other dropDown
 /// </summary>
 
 public partial class CreateTeam : System.Web.UI.Page
@@ -71,8 +73,17 @@ public partial class CreateTeam : System.Web.UI.Page
 
         using (SqlConnection con = new SqlConnection(connectionString))
         {
+            if (int.Parse(projectDropDown.SelectedValue) == -1)
+            {
+                Label4.Text = "Please select a project if there is one";
+            }
+            else if(int.Parse(departmentDropDown.SelectedValue) == -1)
+            {
+                Label4.Text = "Please select a department";
+            }
+
             //DO some function call to make sure the entered employeeID is valid
-            if (checkIfValidEmployeeID())
+            else if(checkIfValidEmployeeID())
             {
                 assignTeamLead();
                 con.Open();
@@ -101,10 +112,12 @@ public partial class CreateTeam : System.Web.UI.Page
 
 
             }
+
             else
             {
                 Label4.Text = "Invalid employee ID";
             }
+
         }
     }
 
@@ -157,7 +170,6 @@ public partial class CreateTeam : System.Web.UI.Page
             con.Open();
             SqlCommand cmd = new SqlCommand(queryStatement, con);
             SqlParameter eidParameter = new SqlParameter("@eid", SqlDbType.Int);
-
             eidParameter.Value = int.Parse(teamLeadID.Text);
             cmd.Parameters.Add(eidParameter);
             cmd.Prepare();
@@ -201,6 +213,16 @@ public partial class CreateTeam : System.Web.UI.Page
 
     protected void SqlDataSouce1_DataBound(object sender, EventArgs e) {
         projectDropDown.Items.Add(new ListItem("None", "0"));
+        projectDropDown.Items.Insert(0, new ListItem("-Select-", "-1"));
+        projectDropDown.SelectedIndex = 0; ;
+        
+    }
+
+    protected void SqlDataSouce2_DataBound(object sender, EventArgs e)
+    {
+        //projectDropDown.Items.Add(new ListItem("-Select-", "0"));
+        departmentDropDown.Items.Insert(0, new ListItem("-Select-", "-1"));
+        departmentDropDown.SelectedIndex = 0; ;
     }
 
 
