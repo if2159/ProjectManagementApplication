@@ -13,7 +13,7 @@ using System.Data.SqlTypes;
 public partial class UpdateProject : System.Web.UI.Page
 {
     
-    private static String[] allowedRoles = { "DEPARTMENT_LEAD", "ADMIN", "TEAM_LEAD" };
+    private static String[] allowedRoles = { "DEPARTMENT_LEAD", "ADMIN" };
     private static String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
 
     protected void Page_Load(object sender, EventArgs e)
@@ -58,16 +58,86 @@ public partial class UpdateProject : System.Web.UI.Page
             return false;
         }
     }
-     
+    
     //projectsDropDown
     protected void projectsDropDown_SelectedIndexChanged(object sender, EventArgs e)
     {
+        
+        int statusID = autoSelectCurrentProject();
+        if (statusID == 0)
+        {
+            Label3.Text = "Please select a project";
+        }
+        else
+        {
+            Label3.Text = "";
+            //int statusID = int.Parse(projectsDropDown.SelectedValue);
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                String queryStatement = "SELECT STATUS_DESCRIPTION FROM STATUSES WHERE STATUS_ID = @statusID";
+                con.Open();
+                SqlCommand cmd = new SqlCommand(queryStatement, con);
+                SqlParameter ProjectIDParameter = new SqlParameter("@statusID", SqlDbType.Int);
+                ProjectIDParameter.Value = statusID;
+                cmd.Parameters.Add(ProjectIDParameter);
+                cmd.Prepare();
+
+                string roleDesc;
+
+                using (SqlDataReader rdr = cmd.ExecuteReader())
+                {
+                    rdr.Read();
+                    roleDesc = (string)rdr["STATUS_DESCRIPTION"];
+                }
+
+                statusDropDown.SelectedIndex =
+                    statusDropDown.Items.IndexOf(statusDropDown.Items.FindByText(roleDesc));
+            }
+        }
+
+    }
+
+    protected int autoSelectCurrentProject()
+    {
+        if (int.Parse(projectsDropDown.SelectedValue) == 0)
+        {
+            return 0;
+        }
+        else
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                String queryStatement = "SELECT STATUS_TYPE FROM PROJECTS WHERE PROJECT_ID = @projectID";
+                con.Open();
+                SqlCommand cmd = new SqlCommand(queryStatement, con);
+                SqlParameter projectIDParameter = new SqlParameter("@projectID", SqlDbType.Int);
+                projectIDParameter.Value = int.Parse(projectsDropDown.SelectedValue);
+                cmd.Parameters.Add(projectIDParameter);
+                cmd.Prepare();
+
+                int statusID;
+                using (SqlDataReader rdr = cmd.ExecuteReader())
+                {
+                    rdr.Read();
+                    if (!rdr.IsDBNull(rdr.GetOrdinal("STATUS_TYPE")))
+                    {
+                        statusID = (int)rdr["STATUS_TYPE"];
+                    }
+                    else
+                    {
+                        statusID = 0;
+                    }
+                    con.Close();
+                    return statusID;
+                }
+            }
+        }
 
 
     }
     protected void SqlDataSouce1_DataBound(object sender, EventArgs e)
     {
-        projectsDropDown.Items.Insert(0, new ListItem("-Select-", String.Empty));
+        projectsDropDown.Items.Insert(0, new ListItem("-Select-", "0"));
         projectsDropDown.SelectedIndex = 0; ;
     }
 
@@ -104,9 +174,9 @@ public partial class UpdateProject : System.Web.UI.Page
 
     protected void Button1_Click(object sender, EventArgs e)
     {
-        if (string.IsNullOrEmpty((projectsDropDown.SelectedValue)))
+        if (int.Parse(projectsDropDown.SelectedValue) == 0)
         {
-            Label3.Text = "Please selected a project";
+            Label3.Text = "Please select a project";
         }
         else
         {
@@ -127,7 +197,7 @@ public partial class UpdateProject : System.Web.UI.Page
                 cmd.Parameters.Add(statusTypeParameter);
                 cmd.Prepare();
                 cmd.ExecuteNonQuery();
-                Label3.Text = "Project Updated!";
+                Label3.Text = "Team Updated!";
             }
         }
     }
