@@ -76,22 +76,22 @@ public partial class Projects : System.Web.UI.Page
                     "VALUES (@NAME, @BUDGET,@CONTROLLING_DEPARTMENT,@EID,@CONTROLLING_TEAM,@START_DATE,@STATUS_TYPE)";
                 SqlCommand cmd = new SqlCommand(submitStatement, con);
                 SqlParameter nameParameter = new SqlParameter("@NAME", SqlDbType.VarChar, 70);
-                SqlParameter budgetNumberParameter = new SqlParameter("@BUDGET", SqlDbType.VarChar, 20);
+                SqlParameter budgetNumberParameter = new SqlParameter("@BUDGET", SqlDbType.Int);
                 SqlParameter controllingDeparmentNumberParameter =
-                    new SqlParameter("@CONTROLLING_DEPARTMENT", SqlDbType.VarChar, 50);
-                SqlParameter eidNumberParameter = new SqlParameter("@EID", SqlDbType.VarChar, 60);
+                    new SqlParameter("@CONTROLLING_DEPARTMENT", SqlDbType.Int);
+                SqlParameter eidNumberParameter = new SqlParameter("@EID", SqlDbType.Int);
                 SqlParameter controllingTeamNumberParameter =
-                    new SqlParameter("@CONTROLLING_TEAM", SqlDbType.VarChar, 50);
-                SqlParameter startDateParameter = new SqlParameter("@START_DATE", SqlDbType.VarChar, 16);
-                SqlParameter statusTypeParameter = new SqlParameter("@STATUS_TYPE", SqlDbType.VarChar, 90);
+                    new SqlParameter("@CONTROLLING_TEAM", SqlDbType.Int);
+                SqlParameter startDateParameter = new SqlParameter("@START_DATE", SqlDbType.DateTime);
+                SqlParameter statusTypeParameter = new SqlParameter("@STATUS_TYPE", SqlDbType.Int);
 
                 nameParameter.Value = projectNameField.Text;
-                budgetNumberParameter.Value = budgetField.Text;
-                controllingDeparmentNumberParameter.Value = controllingDepartmentField.Text;
-                eidNumberParameter.Value = employeeIDField.Text;
-                controllingTeamNumberParameter.Value = teamsDropDownField.Text;
-                startDateParameter.Value = startDateField.Text;
-                statusTypeParameter.Value = statusTypeField.Text;
+                budgetNumberParameter.Value = int.Parse(budgetField.Text);
+                controllingDeparmentNumberParameter.Value = int.Parse(controllingDepartmentField.Text);
+                eidNumberParameter.Value = int.Parse(employeeIDField.Text);
+                assignValue(int.Parse(teamsDropDownField.SelectedValue), controllingTeamNumberParameter);
+                startDateParameter.Value = DateTime.Parse(startDateField.Text);
+                statusTypeParameter.Value = int.Parse(statusTypeField.Text);
 
 
                 cmd.Parameters.Add(nameParameter);
@@ -145,7 +145,7 @@ public partial class Projects : System.Web.UI.Page
     //Insert a -Select- item, used to determine if user tries to submit page without proper team selected
     protected void SqlDataSouce2_DataBound(object sender, EventArgs e)
     {
-        teamsDropDownField.Items.Add(new ListItem("None", String.Empty));
+        teamsDropDownField.Items.Add(new ListItem("None", "0"));
         teamsDropDownField.Items.Insert(0, new ListItem("-Select-", "-1"));
         teamsDropDownField.SelectedIndex = 0; ;
     }
@@ -209,5 +209,13 @@ public partial class Projects : System.Web.UI.Page
                 }
             }
         }
+    }
+    protected void assignValue(int valueSelected, SqlParameter parameter)
+    {
+        if (valueSelected == 0)
+        {
+            parameter.Value = DBNull.Value;
+        }
+        else { parameter.Value = valueSelected; }
     }
 }
