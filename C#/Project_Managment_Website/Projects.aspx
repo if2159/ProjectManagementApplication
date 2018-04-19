@@ -14,19 +14,25 @@
         <asp:TextBox ID="projectNameField" runat="server"></asp:TextBox>
         <asp:RequiredFieldValidator runat="server" id="RequiredFieldValidator1" controltovalidate="projectNameField" errormessage="Please enter name!" />
         <br />
+
         <asp:Label ID="Label2" runat="server" Text="Budget:      "></asp:Label>
         <asp:TextBox ID="budgetField" runat="server" ></asp:TextBox>
         <asp:RequiredFieldValidator runat="server" id="RequiredFieldValidator2" controltovalidate="budgetField" errormessage="Please enter Budget!" />
+        <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="budgetField" runat="server" ErrorMessage="Only Numbers allowed" ValidationExpression="\d+"></asp:RegularExpressionValidator>
         <br />
+        
         <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT [DEPARTMENT_ID] FROM [DEPARTMENTS]" OnSelecting="SqlDataSource1_Selecting"></asp:SqlDataSource>
         <asp:Label ID="Label3" runat="server" Text="Controlling Department: "></asp:Label>
         <asp:DropDownList ID="controllingDepartmentField" runat="server" DataSourceID="SqlDataSource1" DataTextField="DEPARTMENT_ID" DataValueField="DEPARTMENT_ID" OnSelectedIndexChanged="deparmentsDropDown_SelectedIndexChanged" AutoPostBack="True" OnDataBound ="SqlDataSouce1_DataBound">
         </asp:DropDownList>
         <br />
+        
         <asp:SqlDataSource ID="SqlDataSource3" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT [EMPLOYEE_ID] FROM [EMPLOYEES]" OnSelecting="SqlDataSource1_Selecting"></asp:SqlDataSource>
         <asp:Label ID="Label4" runat="server" Text="Employee ID: "></asp:Label>
         <asp:TextBox ID="employeeIDField" runat="server" DataSourceID="SqlDataSource3" DataTextField="EMPLOYEE_ID" DataValueField="EMPLOYEE_ID" OnSelectedIndexChanged="employeeIDField_SelectedIndexChanged" AutoPostBack="true" OnDataBound ="SqlDataSouce3_DataBound" OnTextChanged="employeeIDField_TextChanged1"></asp:TextBox>
         <asp:RequiredFieldValidator runat="server" id="RequiredFieldValidator3" controltovalidate="employeeIDField" errormessage="Please enter Employee ID!" />
+        <asp:RegularExpressionValidator ID="RegularExpressionValidator2" ControlToValidate="employeeIDField" runat="server" ErrorMessage="Only Numbers allowed" ValidationExpression="\d+">
+        </asp:RegularExpressionValidator>
         <br />
 
         <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT [TEAM_ID] FROM [TEAMS]" OnSelecting="SqlDataSource1_Selecting"></asp:SqlDataSource>
