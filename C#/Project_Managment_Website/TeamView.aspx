@@ -31,10 +31,13 @@
             <br />
             <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Submit" />
             <br />
+            <asp:Label ID="Label6" runat="server" Text=""></asp:Label>
+            <br />
+            <asp:Label ID="Label5" runat="server" Text=""></asp:Label>
+            <br />
 
             <asp:GridView ID="GridView1" runat="server" OnSelectedIndexChanged="GridView1_SelectedIndexChanged">
             </asp:GridView>
-            <asp:Label ID="Label5" runat="server" Text=""></asp:Label>
             <br />
             <asp:Label ID="Label3" runat="server" Text=""></asp:Label>
         </div>

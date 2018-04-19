@@ -85,7 +85,7 @@ public partial class TeamView : System.Web.UI.Page
             using (SqlConnection con1 = new SqlConnection(connectionString))
             {
                 con1.Open();
-                string submitStatement = "select PROJECTS.NAME AS 'PROJECT_NAME', SUM(TIMES.HOURS_LOGGED) AS 'HOURS_WORKED', EMPLOYEES.FIRST_NAME, EMPLOYEES.LAST_NAME " +
+                string submitStatement = "select SUM(TIMES.HOURS_LOGGED) AS 'HOURS_WORKED', EMPLOYEES.FIRST_NAME, EMPLOYEES.LAST_NAME " +
                                          "FROM TIMES, EMPLOYEES, TEAMS, PROJECTS " +
                                          "WHERE TIMES.EID = EMPLOYEES.EMPLOYEE_ID AND EMPLOYEES.TEAM_ID = @teamID AND TEAMS.TEAM_ID = EMPLOYEES.TEAM_ID AND PROJECTS.PROJECT_ID = TEAMS.PROJECT_ID AND PROJECTS.START_DATE BETWEEN @startDate AND @endDate " +
                                          "GROUP BY TIMES.EID, EMPLOYEES.FIRST_NAME, EMPLOYEES.LAST_NAME, EMPLOYEES.TEAM_ID, TEAMS.TEAMLEAD_ID, PROJECTS.NAME";
@@ -117,6 +117,7 @@ public partial class TeamView : System.Web.UI.Page
                         else
                         {
                             Label5.Text = "Team's combined work time on project: " + hoursWorkedByTeamOnProject(int.Parse(teamsLeadingDropDown.SelectedValue)).ToString();
+                            Label6.Text = "Team is working on project: " + projectTeamWorkingOn(int.Parse(teamsLeadingDropDown.SelectedValue));
                         }
                         
                     }
@@ -134,6 +135,45 @@ public partial class TeamView : System.Web.UI.Page
             }
         }
 
+    }
+
+    /// <summary>
+    /// Finds the name of the project the team is working on
+    /// </summary>
+    /// <param name="teamID"></param>
+    /// <returns></returns>
+    protected string projectTeamWorkingOn(int teamID)
+    {
+        string projectTeamWorksOn = "";
+        using (SqlConnection con = new SqlConnection(connectionString))
+        {
+            String queryStatement = "select PROJECTS.NAME "+
+                                    "from teams, projects "+
+                                    "where teams.PROJECT_ID = PROJECTS.PROJECT_ID AND TEAMS.TEAM_ID = @teamID";
+            con.Open();
+            SqlCommand cmd = new SqlCommand(queryStatement, con);
+            SqlParameter teamIDParameter = new SqlParameter("@teamID", SqlDbType.Int);
+            teamIDParameter.Value = teamID;
+            cmd.Parameters.Add(teamIDParameter);
+            cmd.Prepare();
+
+
+            using (SqlDataReader rdr = cmd.ExecuteReader())
+            {
+                while (rdr.Read())
+                {
+                    if (!rdr.IsDBNull(rdr.GetOrdinal("NAME")))
+                    {
+                        projectTeamWorksOn = Convert.ToString((rdr["NAME"]));
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
+        }
+        return projectTeamWorksOn;
     }
 
     /// <summary>
@@ -256,6 +296,7 @@ public partial class TeamView : System.Web.UI.Page
     protected void Button1_Click(object sender, EventArgs e)
     {
         Label5.Text = "";
+        Label6.Text = "";
         displayData();
     }
 
