@@ -1,18 +1,18 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace WebApplication3
-{
+
     public partial class Employees : System.Web.UI.Page
     {
-        private static String[] allowedRoles = { "ADMIN" };
-        private static String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
+    private static String[] allowedRoles = { "ADMIN" };
+    private static String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
 
         /// <summary>
         /// This method is called on page load. It will validate a user has a valid session
@@ -30,7 +30,7 @@ namespace WebApplication3
             {
                 Response.Redirect("AccessForbidden.aspx");
             }
-        }
+    }   
 
         /// <summary>
         /// Retrieves the user's information from the cookies and validates the session.
@@ -63,14 +63,14 @@ namespace WebApplication3
             {
                 return false;
             }
-        }
+    }
 
-        /// <summary>
-        /// Called when the submit button is clicked. Will create a new Employee in the Database with the entered values
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void Submit_Click(object sender, EventArgs e)
+    /// <summary>
+    /// Called when the submit button is clicked. Will create a new Employee in the Database with the entered values
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void Submit_Click(object sender, EventArgs e)
         {
             String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
 
@@ -93,11 +93,11 @@ namespace WebApplication3
                 fnameParameter.Value = fnameField.Text;
                 minitParameter.Value = mInitField.Text;
                 lnameParameter.Value = lnameField.Text;
-                eidParameter.Value = Decimal.Parse(eidField);
+                eidParameter.Value = Decimal.Parse(eidField.Text);
                 eidParameter.Scale = 0;
                 eidParameter.Precision = 10;
-                wageParameter.Value = float.Parse(wageField);
-                manageParameter.Value = int.Parse(manageDropDown.SelectedValue);
+                wageParameter.Value = float.Parse(wageField.Text);
+                assignValue(int.Parse(manageDropDown.SelectedValue), manageParameter);
                 teamParameter.Value = int.Parse(teamDropDown.SelectedValue);
 
                 cmd.Parameters.Add(fnameParameter);
@@ -112,5 +112,20 @@ namespace WebApplication3
                 outputLabel.Text += "Entry has been recorded.";
             }
         }
-    }
+
+        protected void assignValue(int valueSelected, SqlParameter parameter)
+        {
+            if (valueSelected == 0)
+            {
+                parameter.Value = DBNull.Value;
+            }
+            else { parameter.Value = valueSelected; }
+        }
+
+        protected void SqlDataSource1_DataBound(object sender, EventArgs e)
+        {
+            manageDropDown.Items.Add(new ListItem("None", "-1"));
+            manageDropDown.SelectedIndex = 0; ;
+
+        }
 }
