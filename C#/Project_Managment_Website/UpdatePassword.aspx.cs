@@ -69,43 +69,4 @@ public partial class UpdatePassword : System.Web.UI.Page
 
 
     }
-    protected void SqlDataSouce2_DataBound(object sender, EventArgs e)
-    {
-
-    }
-    protected void SqlDataSource1_Selecting(object sender, SqlDataSourceSelectingEventArgs e)
-    {
-
-    }
-    protected bool checkIfValidEmployeeID()
-    {
-        using (SqlConnection con = new SqlConnection(connectionString))
-        {
-            String queryStatement = "SELECT U.EMPLOYEE_ID FROM USERS AS U WHERE EMPLOYEE_ID = @eid";
-            con.Open();
-            SqlCommand cmd = new SqlCommand(queryStatement, con);
-            SqlParameter eidParameter = new SqlParameter("@eid", SqlDbType.Int);
-            if (string.IsNullOrEmpty(employeeEmailField.Text))
-            {
-                return false;
-            }
-            eidParameter.Value = int.Parse(employeeEmailField.Text);
-            cmd.Parameters.Add(eidParameter);
-            cmd.Prepare();
-            using (SqlDataReader rdr = cmd.ExecuteReader())
-            {
-                if (rdr.HasRows)
-                {
-                    con.Close();
-                    return true;
-
-                }
-                else
-                {
-                    con.Close();
-                    return false;
-                }
-            }
-        }
-    }
 }
