@@ -85,7 +85,7 @@ public partial class TeamView : System.Web.UI.Page
             using (SqlConnection con1 = new SqlConnection(connectionString))
             {
                 con1.Open();
-                string submitStatement = "select PROJECTS.NAME AS 'PROJECT_NAME', SUM(TIMES.HOURS_LOGGED) AS 'HOURS_WORKED', EMPLOYEES.FIRST_NAME, EMPLOYEES.LAST_NAME " +
+                string submitStatement = "select SUM(TIMES.HOURS_LOGGED) AS 'HOURS_WORKED', EMPLOYEES.FIRST_NAME, EMPLOYEES.LAST_NAME " +
                                          "FROM TIMES, EMPLOYEES, TEAMS, PROJECTS " +
                                          "WHERE TIMES.EID = EMPLOYEES.EMPLOYEE_ID AND EMPLOYEES.TEAM_ID = @teamID AND TEAMS.TEAM_ID = EMPLOYEES.TEAM_ID AND PROJECTS.PROJECT_ID = TEAMS.PROJECT_ID AND PROJECTS.START_DATE BETWEEN @startDate AND @endDate " +
                                          "GROUP BY TIMES.EID, EMPLOYEES.FIRST_NAME, EMPLOYEES.LAST_NAME, EMPLOYEES.TEAM_ID, TEAMS.TEAMLEAD_ID, PROJECTS.NAME";
