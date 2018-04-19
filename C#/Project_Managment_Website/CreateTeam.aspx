@@ -31,6 +31,8 @@
         <br />
         <asp:Label ID="Label3" runat="server" Text="Team Lead"></asp:Label>        
         <asp:TextBox ID="teamLeadID" runat="server" OnTextChanged="TextBox1_TextChanged"></asp:TextBox>
+        <asp:RegularExpressionValidator ID="RegularExpressionValidator2" ControlToValidate="teamLeadID" runat="server" ErrorMessage="Only Numbers allowed" ValidationExpression="\d+">
+       </asp:RegularExpressionValidator>
 
         
         <br />
