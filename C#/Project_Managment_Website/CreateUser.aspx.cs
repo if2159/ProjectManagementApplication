@@ -132,6 +132,11 @@ public partial class CreateUser : System.Web.UI.Page
             finalLabel.Text = "Email is taken";
             return;
         }
+        else if(int.Parse(roleDropDown.SelectedValue) == -1)
+        {
+            finalLabel.Text = "Please choose a role";
+            return;
+        } 
 
         using (SqlConnection con = new SqlConnection(connectionString))
         {
@@ -176,8 +181,10 @@ public partial class CreateUser : System.Web.UI.Page
             else
             {
                 finalLabel.Text = "Invalid Employee ID";
+                return;
             }
         }
+        return;
     }
 
 
@@ -291,15 +298,16 @@ public partial class CreateUser : System.Web.UI.Page
 
     }
 
-    protected void SqlDataSouce1_DataBound(object sender, EventArgs e)
-    {
-        roleDropDown.Items.Add(new ListItem("None", "0"));
-    }
-
     //for ProjectDropDown{
     protected void projectDropDown_SelectedIndexChanged(object sender, EventArgs e)
     {
 
+    }
+
+    protected void SqlDataSouce1_DataBound(object sender, EventArgs e)
+    {
+        roleDropDown.Items.Insert(0, new ListItem("-Select-", "-1"));
+        roleDropDown.SelectedIndex = 0; ;
     }
 
 }
