@@ -96,26 +96,48 @@ public partial class CreateUser : System.Web.UI.Page
     {
         String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
 
+        int value;
+        if (!int.TryParse(employeeIDField.Text, out value))
+        {
+            finalLabel.Text = "Employee ID is written incorrectly";
+            return;
+        }
+        else if (string.IsNullOrWhiteSpace(employeeIDField.Text))
+        {
+            finalLabel.Text = "Please enter in Employee ID";
+            return;
+        }
+        else if (string.IsNullOrWhiteSpace(passwordField.Text))
+        {
+            finalLabel.Text = "Please enter in a Password";
+            return;
+        }
+        else if (string.IsNullOrWhiteSpace(emailField.Text))
+        {
+            finalLabel.Text = "Please enter in an email";
+            return;
+        }
+        else if (!IsValidEmail(emailField.Text))
+        {
+            finalLabel.Text = "Email is not in the correct format";
+            return;
+        }
+        else if (checkIfEmployeeIDIsTaken())
+        {
+            finalLabel.Text = "Employee ID is already in use";
+            return;
+        }
+        else if (IsEmailTaken())
+        {
+            finalLabel.Text = "Email is taken";
+            return;
+        }
+
         using (SqlConnection con = new SqlConnection(connectionString))
         {
             //DO some function call to make sure the entered employeeID is valid 
-            if (string.IsNullOrWhiteSpace(employeeIDField.Text))
-            {
-                finalLabel.Text = "Please enter in Employee ID";
-            }
-            else if (string.IsNullOrWhiteSpace(passwordField.Text))
-            {
-                finalLabel.Text = "Please enter in a Password";
-            }
-            else if (string.IsNullOrWhiteSpace(emailField.Text))
-            {
-                finalLabel.Text = "Please enter in an email";
-            }
-            else if (!IsValidEmail(emailField.Text))
-             {
-                finalLabel.Text = "Email is not in the correct format";
-            }
-            else if (checkIfValidEmployeeID())
+            
+            if (checkIfValidEmployeeID())
             {
                 String employeeID = Request.Cookies["UserID"].Value.Split('=')[1];
 
@@ -173,6 +195,68 @@ public partial class CreateUser : System.Web.UI.Page
             }
             eidParameter.Value = int.Parse(employeeIDField.Text);
             cmd.Parameters.Add(eidParameter);
+            cmd.Prepare();
+            using (SqlDataReader rdr = cmd.ExecuteReader())
+            {
+                if (rdr.HasRows)
+                {
+                    con.Close();
+                    return true;
+                }
+                else
+                {
+                    con.Close();
+                    return false;
+                }
+            }
+        }
+    }
+
+    protected bool checkIfEmployeeIDIsTaken()
+    {
+        using (SqlConnection con = new SqlConnection(connectionString))
+        {
+            String queryStatement = "SELECT U.EMPLOYEE_ID FROM USERS AS U WHERE EMPLOYEE_ID = @EMPLOYEE_ID";
+            con.Open();
+            SqlCommand cmd = new SqlCommand(queryStatement, con);
+            SqlParameter employeeIDParameter = new SqlParameter("@EMPLOYEE_ID", SqlDbType.Int);
+            if (string.IsNullOrEmpty(employeeIDField.Text))
+            {
+                return false;
+            }
+            employeeIDParameter.Value = int.Parse(employeeIDField.Text);
+            cmd.Parameters.Add(employeeIDParameter);
+            cmd.Prepare();
+            using (SqlDataReader rdr = cmd.ExecuteReader())
+            {
+                if (rdr.HasRows)
+                {
+                    con.Close();
+                    return true;
+                }
+                else
+                {
+                    con.Close();
+                    return false;
+                }
+            }
+        }
+    }
+
+    protected bool IsEmailTaken()
+    {
+        using (SqlConnection con = new SqlConnection(connectionString))
+        {
+            String queryStatement = "SELECT U.EMAIL FROM USERS AS U WHERE EMAIL = @EMAIL";
+            con.Open();
+            SqlCommand cmd = new SqlCommand(queryStatement, con);
+            SqlParameter emailParameter = new SqlParameter("@EMAIL", SqlDbType.VarChar, 250);
+            if (string.IsNullOrEmpty(emailField.Text))
+            {
+                return false;
+            }
+            emailParameter.Value = emailField.Text.ToString();
+            cmd.Parameters.Add(emailParameter);
             cmd.Prepare();
             using (SqlDataReader rdr = cmd.ExecuteReader())
             {
