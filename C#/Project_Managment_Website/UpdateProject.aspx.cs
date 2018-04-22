@@ -1,204 +1,105 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Configuration;
-using System.Data.SqlTypes;
 
-public partial class UpdateProject : System.Web.UI.Page
+public partial class Login : System.Web.UI.Page
 {
-    
-    private static String[] allowedRoles = { "DEPARTMENT_LEAD", "ADMIN" };
-    private static String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        
-        if (!AuthenticateSession())
-        {
-            Response.Redirect("Login.aspx");
-        }
-        else if (!CheckRole())
-        {
-            Response.Redirect("AccessForbidden.aspx");
-        }
-        
+
     }
-    
-    private bool AuthenticateSession()
+
+    /// <summary>
+    /// This method is called whenever the login button is clicked. 
+    /// It validates the user's password and email combination.
+    /// </summary>
+    /// <param name="sender"> Auto generated param</param>
+    /// <param name="e">Auto generated param</param>
+    protected void loginButton_Click(object sender, EventArgs e)
     {
-        if (Request.Cookies["SessionID"] != null)
-        {
-            String sessionID = Request.Cookies["SessionID"].Value.Split('=')[1];
-            String employeeID = Request.Cookies["UserID"].Value.Split('=')[1];
-            return LoginValidator.ValidateSession(employeeID, sessionID);
+        String employeeID = LoginValidator.ValidateUserCredentials(passwordField.Text, emailField.Text.ToLower());
+        if (employeeID.Length > 0)
+        { //Username/Password is valid
+            loginSuccess(employeeID);
         }
         else
-        {
-            return false;
+        {//Username/password NOT valid.
+            errorLabel.Text = "Incorrect Email/Password Combination!";
         }
     }
 
-    private bool CheckRole()
+    /// <summary>
+    /// Is called whenever a user is successfully validated.
+    /// Redirects the user to the SubmiteHours page.
+    /// </summary>
+    /// <param name="employeeID">The employee ID used to create the session tokens.</param>
+    private void loginSuccess(String employeeID)
     {
-        if (Request.Cookies["SessionID"] != null)
-        {
-            String employeeID = Request.Cookies["UserID"].Value.Split('=')[1];
-            ArrayList roles = new ArrayList();
-            roles.AddRange(allowedRoles);
-            return LoginValidator.ValidatorUserRole(employeeID, roles);
-        }
-        else
-        {
-            return false;
-        }
-    }
-    
-    //projectsDropDown
-    protected void projectsDropDown_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        
-        int statusID = autoSelectCurrentProject();
-        if (statusID == 0)
-        {
-            Label3.Text = "Please select a project";
-        }
-        else
-        {
-            Label3.Text = "";
-            //int statusID = int.Parse(projectsDropDown.SelectedValue);
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                String queryStatement = "SELECT STATUS_DESCRIPTION FROM STATUSES WHERE STATUS_ID = @statusID";
-                con.Open();
-                SqlCommand cmd = new SqlCommand(queryStatement, con);
-                SqlParameter ProjectIDParameter = new SqlParameter("@statusID", SqlDbType.Int);
-                ProjectIDParameter.Value = statusID;
-                cmd.Parameters.Add(ProjectIDParameter);
-                cmd.Prepare();
-
-                string roleDesc;
-
-                using (SqlDataReader rdr = cmd.ExecuteReader())
-                {
-                    rdr.Read();
-                    roleDesc = (string)rdr["STATUS_DESCRIPTION"];
-                }
-
-                statusDropDown.SelectedIndex =
-                    statusDropDown.Items.IndexOf(statusDropDown.Items.FindByText(roleDesc));
-            }
-        }
-
+        Guid sessionID = createSessionToken(employeeID);
+        Response.Redirect("UpdateProject.aspx");
     }
 
-    protected int autoSelectCurrentProject()
+    /// <summary>
+    /// Creates the user session Token then rights it to the user's browser and the the Database.
+    /// Generates the token using a GUID.
+    /// </summary>
+    /// <param name="employeeID">The employee ID to use for the session token.</param>
+    /// <returns>The GUID Created for this session.</returns>
+    private Guid createSessionToken(String employeeID)
     {
-        if (int.Parse(projectsDropDown.SelectedValue) == 0)
+        Guid sessionID = Guid.NewGuid();
+        writeSessionID(sessionID, employeeID);
+        writeCookie(sessionID, employeeID);
+        return sessionID;
+    }
+
+    /// <summary>
+    /// This method writes the user's session token to their browser.
+    /// Cookie values:
+    /// Username=employeeID
+    /// SessionID=token
+    /// </summary>
+    /// <param name="sessionID">The GUID that identifies this users session.</param>
+    /// <param name="employeeID">The user this session is for.</param>
+    private void writeCookie(Guid sessionID, string employeeID)
+    {
+        HttpCookie userCookie = new HttpCookie("UserID");
+        userCookie["Username"] = employeeID;
+        HttpCookie sessionCookie = new HttpCookie("SessionID");
+        sessionCookie["SessionID"] = sessionID.ToString();
+        sessionCookie.Expires = DateTime.Now.AddDays(1d);
+        Response.Cookies.Add(sessionCookie);
+        Response.Cookies.Add(userCookie);
+    }
+
+    /// <summary>
+    /// This method writes the supplied session ID to the Database SESSIONS Table
+    /// </summary>
+    /// <param name="sessionID">The identifying session token.</param>
+    /// <param name="employeeID">The employee that the session is for.</param>
+    private void writeSessionID(Guid sessionID, string employeeID)
+    {
+        String connectionString = System.Configuration.ConfigurationManager
+            .ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
+        using (SqlConnection con = new SqlConnection(connectionString))
         {
-            return 0;
-        }
-        else
-        {
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                String queryStatement = "SELECT STATUS_TYPE FROM PROJECTS WHERE PROJECT_ID = @projectID";
-                con.Open();
-                SqlCommand cmd = new SqlCommand(queryStatement, con);
-                SqlParameter projectIDParameter = new SqlParameter("@projectID", SqlDbType.Int);
-                projectIDParameter.Value = int.Parse(projectsDropDown.SelectedValue);
-                cmd.Parameters.Add(projectIDParameter);
-                cmd.Prepare();
+            String queryStatement = "INSERT INTO SESSIONS (EMPLOYEE_ID, SESSION_ID, ENTRY_DATE, EXPIRATION_DATE) " +
+                                    "VALUES(@EID, @SID, CURRENT_TIMESTAMP, DATEADD(minute, 10, SYSDATETIME()))";
+            con.Open();
+            SqlCommand cmd = new SqlCommand(queryStatement, con);
+            SqlParameter eidParameter = new SqlParameter("@EID", SqlDbType.Decimal);
+            eidParameter.Scale = 0;
+            eidParameter.Precision = 10;
+            eidParameter.Value = Decimal.Parse(employeeID);
+            SqlParameter sisParameter = new SqlParameter("@SID", SqlDbType.VarChar, 36);
+            sisParameter.Value = sessionID.ToString();
 
-                int statusID;
-                using (SqlDataReader rdr = cmd.ExecuteReader())
-                {
-                    rdr.Read();
-                    if (!rdr.IsDBNull(rdr.GetOrdinal("STATUS_TYPE")))
-                    {
-                        statusID = (int)rdr["STATUS_TYPE"];
-                    }
-                    else
-                    {
-                        statusID = 0;
-                    }
-                    con.Close();
-                    return statusID;
-                }
-            }
-        }
-
-
-    }
-    protected void SqlDataSouce1_DataBound(object sender, EventArgs e)
-    {
-        projectsDropDown.Items.Insert(0, new ListItem("-Select-", "0"));
-        projectsDropDown.SelectedIndex = 0; ;
-    }
-
-    protected void SqlDataSource1_Selecting(object sender, SqlDataSourceSelectingEventArgs e)
-    {
-
-    }
-
-
-
-
-
-
-    //for Status
-    protected void statusDropDown_SelectedIndexChanged(object sender, EventArgs e)
-    {
-
-    }
-
-    protected void SqlDataSouce2_DataBound(object sender, EventArgs e)
-    {
-        projectsDropDown.Items.Insert(0, new ListItem("-Select-", String.Empty));
-        projectsDropDown.SelectedIndex = 0; ;
-    }
-
-    protected void SqlDataSource2_Selecting(object sender, SqlDataSourceSelectingEventArgs e)
-    {
-
-    }
-
-
-
-
-
-    protected void Button1_Click(object sender, EventArgs e)
-    {
-        if (int.Parse(projectsDropDown.SelectedValue) == 0)
-        {
-            Label3.Text = "Please select a project";
-        }
-        else
-        {
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                String queryStatement = "UPDATE PROJECTS SET STATUS_TYPE = @statusType WHERE PROJECT_ID = @projectID";
-                con.Open();
-                SqlCommand cmd = new SqlCommand(queryStatement, con);
-                SqlParameter ProjectIDParameter = new SqlParameter("@projectID", SqlDbType.Int);
-                SqlParameter statusTypeParameter = new SqlParameter("@statusType", SqlDbType.Int);
-
-
-
-                ProjectIDParameter.Value = int.Parse(projectsDropDown.SelectedValue);
-                statusTypeParameter.Value = int.Parse(statusDropDown.SelectedValue);
-
-                cmd.Parameters.Add(ProjectIDParameter);
-                cmd.Parameters.Add(statusTypeParameter);
-                cmd.Prepare();
-                cmd.ExecuteNonQuery();
-                Label3.Text = "Team Updated!";
-            }
+            cmd.Parameters.Add(eidParameter);
+            cmd.Parameters.Add(sisParameter);
+            cmd.Prepare();
+            cmd.ExecuteNonQuery();
         }
     }
 }
