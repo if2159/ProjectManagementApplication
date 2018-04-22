@@ -20,7 +20,7 @@
         <br />
 
         <asp:Label class="sr-only" ID="Label2" runat="server" Text="Budget:      "></asp:Label>
-        <asp:TextBox ID="budgetField" class="form-control" placeholder="Budget" runat="server" ></asp:TextBox>
+        <asp:TextBox ID="budgetField" class="form-control" placeholder="Budget:" runat="server" ></asp:TextBox>
         <br/>
         
         <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT [DEPARTMENT_ID] FROM [DEPARTMENTS]" OnSelecting="SqlDataSource1_Selecting"></asp:SqlDataSource>
@@ -78,4 +78,3 @@
 </body>
 </html>
       
-    
