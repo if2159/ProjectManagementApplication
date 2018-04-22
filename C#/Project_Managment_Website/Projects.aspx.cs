@@ -16,6 +16,7 @@ public partial class Projects : System.Web.UI.Page
     /// </summary>B
     /// <param name="sender"></param>
     /// <param name="e"></param>
+    String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!AuthenticateSession())
@@ -24,7 +25,7 @@ public partial class Projects : System.Web.UI.Page
         }
         startDateField.Text = DateTime.Now.ToShortDateString();
     }
-    String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
+    
 
     /// <summary>
     /// Retrieves the user's information from the cookies and validates the session.
@@ -64,7 +65,11 @@ public partial class Projects : System.Web.UI.Page
             {
                 finalLabel.Text = "Please select a the status of Project";
             }
-            
+            else if (int.Parse(teamsDropDownField.SelectedValue) == -1)
+            {
+                finalLabel.Text = "Please select a Team";
+            }
+
             else if (checkIfValidEmployeeID())
             {
                 String employeeID = Request.Cookies["UserID"].Value.Split('=')[1];
@@ -128,7 +133,7 @@ public partial class Projects : System.Web.UI.Page
     }
     protected void SqlDataSouce1_DataBound(object sender, EventArgs e)
     {
-        controllingDepartmentField.Items.Insert(0, new ListItem("-Select-", "-1"));
+        controllingDepartmentField.Items.Insert(0, new ListItem("-Controlling Department-", "-1"));
         controllingDepartmentField.SelectedIndex = 0; ;
     }
 
@@ -146,7 +151,7 @@ public partial class Projects : System.Web.UI.Page
     protected void SqlDataSouce2_DataBound(object sender, EventArgs e)
     {
         teamsDropDownField.Items.Add(new ListItem("None", "0"));
-        teamsDropDownField.Items.Insert(0, new ListItem("-Select-", "-1"));
+        teamsDropDownField.Items.Insert(0, new ListItem("-Team-", "-1"));
         teamsDropDownField.SelectedIndex = 0; ;
     }
 
@@ -165,7 +170,7 @@ public partial class Projects : System.Web.UI.Page
     }
     protected void SqlDataSouce4_DataBound(object sender, EventArgs e)
     {
-        statusTypeField.Items.Insert(0, new ListItem("-Select-", "-1"));
+        statusTypeField.Items.Insert(0, new ListItem("-Status-", "-1"));
         statusTypeField.SelectedIndex = 0;
     }
 
