@@ -23,7 +23,7 @@
 
             <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT ROLE_ID, ROLE_DESCRIPTION FROM USER_ROLES" OnSelecting="SqlDataSource1_Selecting"></asp:SqlDataSource>
             <asp:Label ID="Label2" class="sr-only" runat="server" Text="Set role to: "></asp:Label>
-            <asp:DropDownList class="dropdown-item" ID="roleDropDown" runat="server" DataSourceID="SqlDataSource2" DataTextField="ROLE_DESCRIPTION" DataValueField="ROLE_ID" OnSelectedIndexChanged="statusDropDown_SelectedIndexChanged" AutoPostBack="true" OnDataBound ="SqlDataSouce2_DataBound">
+            <asp:DropDownList class="form-control" ID="roleDropDown" runat="server" DataSourceID="SqlDataSource2" DataTextField="ROLE_DESCRIPTION" DataValueField="ROLE_ID" OnSelectedIndexChanged="statusDropDown_SelectedIndexChanged" AutoPostBack="true" OnDataBound ="SqlDataSouce2_DataBound">
             </asp:DropDownList>
             <br />
             
