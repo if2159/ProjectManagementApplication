@@ -78,7 +78,7 @@ public partial class UpdateUser : System.Web.UI.Page
     protected void SqlDataSouce2_DataBound(object sender, EventArgs e)
     {
 
-        roleDropDown.Items.Insert(0, new ListItem("-Select-", "-1"));
+        roleDropDown.Items.Insert(0, new ListItem("-Set role to-", "-1"));
         roleDropDown.SelectedIndex = 0; ;
     }
     protected void SqlDataSource1_Selecting(object sender, SqlDataSourceSelectingEventArgs e)
