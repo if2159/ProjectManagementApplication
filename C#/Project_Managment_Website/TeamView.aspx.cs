@@ -181,9 +181,9 @@ public partial class TeamView : System.Web.UI.Page
     /// </summary>
     /// <param name="teamID"></param>
     /// <returns></returns>
-    protected int hoursWorkedByTeamOnProject(int teamID)
+    protected double hoursWorkedByTeamOnProject(int teamID)
     {
-        int hoursWorkedByTeam = 0;
+        double hoursWorkedByTeam = 0;
         using (SqlConnection con = new SqlConnection(connectionString))
         {
             String queryStatement = "select sum(TIMES.HOURS_LOGGED) AS TOTALHOURS " +
@@ -203,7 +203,8 @@ public partial class TeamView : System.Web.UI.Page
                 {
                     if (!rdr.IsDBNull(rdr.GetOrdinal("TOTALHOURS")))
                     {
-                        hoursWorkedByTeam = Convert.ToInt32(rdr["TOTALHOURS"]);
+                        //hoursWorkedByTeam = Convert.ToInt32(rdr["TOTALHOURS"]);
+                        hoursWorkedByTeam = rdr.GetDouble(0);
                     }
                     else
                     {
