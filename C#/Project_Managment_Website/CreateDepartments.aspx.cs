@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class Departments : System.Web.UI.Page {
+public partial class CreateDepartments : System.Web.UI.Page {
     private static String[] allowedRoles = { "ADMIN", "DEPARTMENT_LEAD"};
     private static String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
 
