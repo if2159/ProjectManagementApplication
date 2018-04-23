@@ -63,35 +63,48 @@
         </div>
 
     </nav>
-    <h1>Create Employee</h1>
+    
+
+
+
     <form method="post" id="form1" runat="server">
-        <div>
-            <asp:Label ID="fnameLabel" runat="server" Text="First Name: "></asp:Label>
-            <asp:TextBox ID="fnameField" runat="server"></asp:TextBox>
+
+
+        <div class="container" >
+            <h1>Create Employee</h1>
+
+            <asp:Label class="sr-only" ID="fnameLabel" runat="server" Text="First Name: "></asp:Label>
+            <asp:TextBox class="form-control" placeholder ="First Name: " ID="fnameField" runat="server"></asp:TextBox>
             <br />
-            <asp:Label ID="mInitLabel" runat="server" Text="Middle Initial: "></asp:Label>
-            <asp:TextBox ID="mInitField" runat="server"></asp:TextBox>
+            <asp:Label class="sr-only" ID="mInitLabel" runat="server" Text="Middle Initial: "></asp:Label>
+            <asp:TextBox class ="form-control" placeholder ="Middle Initial" ID="mInitField" runat="server"></asp:TextBox>
             <br />
-            <asp:Label ID="lnameLabel" runat="server" Text="Last Name: "></asp:Label>
-            <asp:TextBox ID="lnameField" runat="server"></asp:TextBox>
+            <asp:Label class ="sr-only" ID="lnameLabel" runat="server" Text="Last Name: "></asp:Label>
+            <asp:TextBox class ="form-control" placeholder="Last Name:" ID="lnameField" runat="server"></asp:TextBox>
             <br />
-            <asp:Label ID="eidLabel" runat="server" Text="Employee ID: "></asp:Label>
-            <asp:TextBox ID="eidField" runat="server"></asp:TextBox>
+            <asp:Label class="sr-only" ID="eidLabel" runat="server" Text="Employee ID: "></asp:Label>
+            <asp:TextBox class="form-control" placeholder ="Employee ID: " ID="eidField" runat="server"></asp:TextBox>
             <br />
-            <asp:Label ID="wageLabel" runat="server" Text="Hourly Wage: "></asp:Label>
-            <asp:TextBox ID="wageField" runat="server"></asp:TextBox>
+            <asp:Label class ="sr-only" ID="wageLabel" runat="server" Text="Hourly Wage: "></asp:Label>
+            <asp:TextBox class ="form-control" placeholder ="Employee Wage:" ID="wageField" runat="server"></asp:TextBox>
             <br />
             <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT [TEAM_ID] FROM [TEAMS]"></asp:SqlDataSource>
             
 
             <asp:Label ID="teamLabel" runat="server" Text="Team: "></asp:Label>
-            <asp:DropDownList ID="teamDropDown" runat="server" DataSourceID="SqlDataSource1" DataValueField="TEAM_ID" OnDataBound="SqlDataSource1_DataBound"></asp:DropDownList>
+
+            <div class="form-control">
+            <asp:DropDownList class="dropdown-item" ID="teamDropDown" runat="server" DataSourceID="SqlDataSource1" DataValueField="TEAM_ID" OnDataBound="SqlDataSource1_DataBound"></asp:DropDownList>
+            </div>
+            
             <br />
-            <asp:Button ID="Submit" runat="server" Text="Submit" OnClick="Submit_Click" />
+            <asp:Button class ="btn btn-lg btn-primary btn-block" ID="Submit" runat="server" Text="Submit" OnClick="Submit_Click" />
             <br />
             <asp:Label ID="outputLabel" runat="server" Text=""></asp:Label>
             <br />
             <asp:Label ID="Label1" runat="server" Text=""></asp:Label>
+            
+
         </div>
     </form>
 </body>
