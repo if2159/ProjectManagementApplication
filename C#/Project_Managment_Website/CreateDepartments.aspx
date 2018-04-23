@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="CreateDepartments.aspx.cs" Inherits="Departments" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="CreateDepartments.aspx.cs" Inherits="CreateDepartments" %>
 
 <!DOCTYPE html>
 
