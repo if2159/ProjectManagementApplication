@@ -1,4 +1,4 @@
-<%@ Page Language="C#" AutoEventWireup="true" CodeFile="CreateEmployee.aspx.cs" Inherits="Employees" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="CreateEmployee.aspx.cs" Inherits="CreateEmployee" %>
 
 <!DOCTYPE html>
 
