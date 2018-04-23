@@ -9,7 +9,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 
 
-public partial class Employees : System.Web.UI.Page
+public partial class CreateEmployee : System.Web.UI.Page
 {
     private static String[] allowedRoles = { "ADMIN" };
     private static String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
