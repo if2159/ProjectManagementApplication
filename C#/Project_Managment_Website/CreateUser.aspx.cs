@@ -76,6 +76,17 @@ public partial class CreateUser : System.Web.UI.Page
         {
             Response.Redirect("Login.aspx");
         }
+
+        employeeAlert.Visible = false;
+        roleAlert.Visible = false;
+        emailAlert.Visible = false;
+        passwordAlert.Visible = false;
+
+        employeeAlertLabel.Text = "";
+        roleAlertLabel.Text = "";
+        emailAlertLabel.Text = "";
+        passwordAlertLabel.Text = "";
+
     }
 
     private bool AuthenticateSession()
@@ -96,47 +107,71 @@ public partial class CreateUser : System.Web.UI.Page
     {
         String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
 
+        employeeAlert.Visible = false;
+        roleAlert.Visible = false;
+        emailAlert.Visible = false;
+        passwordAlert.Visible = false;
+
+        employeeAlertLabel.Text = "";
+        roleAlertLabel.Text = "";
+        emailAlertLabel.Text = "";
+        passwordAlertLabel.Text = "";
+
+        int alert_count = 0;
         int value;
         if (!int.TryParse(employeeIDField.Text, out value))
         {
-            finalLabel.Text = "Employee ID is written incorrectly";
-            return;
+            employeeAlert.Visible = true;
+            employeeAlertLabel.Text = "An Employee ID only contains numbers";
+            alert_count++;
         }
-        else if (string.IsNullOrWhiteSpace(employeeIDField.Text))
+        if (string.IsNullOrWhiteSpace(employeeIDField.Text))
         {
-            finalLabel.Text = "Please enter in Employee ID";
-            return;
+            employeeAlert.Visible = true;
+            employeeAlertLabel.Text = "Please enter in an Employee ID";
+            alert_count++;
         }
-        else if (string.IsNullOrWhiteSpace(passwordField.Text))
+        if (string.IsNullOrWhiteSpace(passwordField.Text))
         {
-            finalLabel.Text = "Please enter in a Password";
-            return;
+            passwordAlert.Visible = true;
+            passwordAlertLabel.Text = "Please enter in a Password";
+            alert_count++;
         }
-        else if (string.IsNullOrWhiteSpace(emailField.Text))
+        if (string.IsNullOrWhiteSpace(emailField.Text))
         {
-            finalLabel.Text = "Please enter in an email";
-            return;
+            emailAlert.Visible = true;
+            emailAlertLabel.Text = "Please enter in an email";
+            alert_count++;
         }
-        else if (!IsValidEmail(emailField.Text))
+        if (!IsValidEmail(emailField.Text))
         {
-            finalLabel.Text = "Email is not in the correct format";
-            return;
+            emailAlert.Visible = true;
+            emailAlertLabel.Text = "Email is not in the correct format";
+            alert_count++;
         }
-        else if (checkIfEmployeeIDIsTaken())
+        if (checkIfEmployeeIDIsTaken())
         {
-            finalLabel.Text = "Employee ID is already in use";
-            return;
+            employeeAlert.Visible = true;
+            employeeAlertLabel.Text = "Employee ID is already in use";
+            alert_count++;
         }
-        else if (IsEmailTaken())
+        if (IsEmailTaken())
         {
-            finalLabel.Text = "Email is taken";
-            return;
+            emailAlert.Visible = true;
+            emailAlertLabel.Text = "Email is taken";
+            alert_count++;
         }
-        else if(int.Parse(roleDropDown.SelectedValue) == -1)
+        if(int.Parse(roleDropDown.SelectedValue) == -1)
         {
-            finalLabel.Text = "Please choose a role";
-            return;
+            roleAlert.Visible = true;
+            roleAlertLabel.Text = "Please choose a role";
+            alert_count++;
         } 
+
+        if(alert_count > 0)
+        {
+            return;
+        }
 
         using (SqlConnection con = new SqlConnection(connectionString))
         {
@@ -180,7 +215,8 @@ public partial class CreateUser : System.Web.UI.Page
             }
             else
             {
-                finalLabel.Text = "Invalid Employee ID";
+                employeeAlert.Visible = true;
+                employeeAlertLabel.Text = "Invalid Employee ID";
                 return;
             }
         }
