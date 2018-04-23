@@ -96,17 +96,13 @@
             <br />
             <br />
 
+            <asp:Button class ="btn btn-lg btn-primary btn-block" ID="Button1" runat="server" OnClick="Button1_Click" Text="Create Team" />
+            <asp:Label ID="Label4" runat="server" Text=""></asp:Label>
+
             </div>
         
 
-            <asp:Button class ="btn btn-lg btn-primary btn-block" ID="Button1" runat="server" OnClick="Button1_Click" Text="Create Team" />
-
-            <br />
-            <br />
-            <asp:Label class="sr-only" ID="Label4" runat="server" Text=""></asp:Label>
-
-            <br />
-            <br />
+        
 
     </form>
 </body>
