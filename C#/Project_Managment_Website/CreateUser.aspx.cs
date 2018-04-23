@@ -15,7 +15,8 @@ using System.Globalization;
 
 public partial class CreateUser : System.Web.UI.Page
 {
-    private static String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
+    private static readonly string[] allowedRoles = { "ADMIN" };
+    private static readonly String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
 
     //Beginning of Email validation
     bool invalid = false;
@@ -76,11 +77,30 @@ public partial class CreateUser : System.Web.UI.Page
         {
             Response.Redirect("Login.aspx");
         }
+        else if (!CheckRole())
+        {
+            Response.Redirect("AccessForbidden.aspx");
+        }
+    }
+
+    private bool CheckRole()
+    {
+        if (Request.Cookies["SessionID"] != null)
+        {
+            String employeeID = Request.Cookies["UserID"].Value.Split('=')[1];
+            ArrayList roles = new ArrayList();
+            roles.AddRange(allowedRoles);
+            return LoginValidator.ValidatorUserRole(employeeID, roles);
+        }
+        else
+        {
+            return false;
+        }
     }
 
     private bool AuthenticateSession()
     {
-        if (Request.Cookies["SessionID"] != null)
+        if (Request.Cookies["SessionID"] != null && Request.Cookies["UserID"] != null)
         {
             String sessionID = Request.Cookies["SessionID"].Value.Split('=')[1];
             String employeeID = Request.Cookies["UserID"].Value.Split('=')[1];

@@ -50,7 +50,7 @@ public partial class Departments : System.Web.UI.Page {
     /// <returns>True if a valid session. False otherwise.</returns>
     private bool AuthenticateSession()
     {
-        if (Request.Cookies["SessionID"] != null)
+        if (Request.Cookies["SessionID"] != null && Request.Cookies["UserID"] != null)
         {
             String sessionID = Request.Cookies["SessionID"].Value.Split('=')[1];
             String employeeID = Request.Cookies["UserID"].Value.Split('=')[1];

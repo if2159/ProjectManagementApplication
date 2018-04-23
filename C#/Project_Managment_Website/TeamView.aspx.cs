@@ -34,7 +34,7 @@ public partial class TeamView : System.Web.UI.Page
 
     private bool AuthenticateSession()
     {
-        if (Request.Cookies["SessionID"] != null)
+        if (Request.Cookies["SessionID"] != null && Request.Cookies["UserID"] != null)
         {
             String sessionID = Request.Cookies["SessionID"].Value.Split('=')[1];
             String employeeID = Request.Cookies["UserID"].Value.Split('=')[1];
@@ -45,6 +45,7 @@ public partial class TeamView : System.Web.UI.Page
             return false;
         }
     }
+
 
     private bool CheckRole()
     {

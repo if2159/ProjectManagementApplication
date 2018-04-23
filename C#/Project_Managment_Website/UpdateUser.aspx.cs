@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -10,15 +11,33 @@ using System.Web.UI.WebControls;
 
 public partial class UpdateUser : System.Web.UI.Page
 {
-    String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
+    private static readonly string[]allowedRoles = { "ADMIN" };
+    private static readonly string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!AuthenticateSession())
         {
             Response.Redirect("Login.aspx");
         }
+        else if (!CheckRole())
+        {
+            Response.Redirect("AccessForbidden.aspx");
+        }
     }
-
+    private bool CheckRole()
+    {
+        if (Request.Cookies["SessionID"] != null)
+        {
+            String employeeID = Request.Cookies["UserID"].Value.Split('=')[1];
+            ArrayList roles = new ArrayList();
+            roles.AddRange(allowedRoles);
+            return LoginValidator.ValidatorUserRole(employeeID, roles);
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     protected void statusDropDown_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -26,7 +45,7 @@ public partial class UpdateUser : System.Web.UI.Page
     }
     private bool AuthenticateSession()
     {
-        if (Request.Cookies["SessionID"] != null)
+        if (Request.Cookies["SessionID"] != null && Request.Cookies["UserID"] != null)
         {
             String sessionID = Request.Cookies["SessionID"].Value.Split('=')[1];
             String employeeID = Request.Cookies["UserID"].Value.Split('=')[1];
@@ -78,7 +97,7 @@ public partial class UpdateUser : System.Web.UI.Page
     protected void SqlDataSouce2_DataBound(object sender, EventArgs e)
     {
 
-        roleDropDown.Items.Insert(0, new ListItem("-Set role to-", "-1"));
+        roleDropDown.Items.Insert(0, new ListItem("-Select-", "-1"));
         roleDropDown.SelectedIndex = 0; ;
     }
     protected void SqlDataSource1_Selecting(object sender, SqlDataSourceSelectingEventArgs e)
