@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Home.aspx.cs" Inherits="Home" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Home.aspx.cs" Inherits="Home" %>
 
 <!DOCTYPE html>
 
@@ -73,9 +73,9 @@
         </div>
         <!-- /.col-lg-8 -->
         <div class="col-lg-4">
-          <h1>PROJECT MANAGMENT</h1>
-          <p>This is a template that is great for small businesses. It doesn't have too much fancy flare to it, but it makes a great use of the standard Bootstrap core components. Feel free to use this template for any project you want!</p>
-          <a class="btn btn-primary btn-lg" href="#">Call to Action!</a>
+          <h1>Project Managment made easy and fast</h1>
+          <p>We can help you manage anywhere from small businesses to big businesses. Access all your files whenever and whereever you go. On your phone or your computer anywhere. We have live help 24/7.</p>
+          <a class="btn btn-primary btn-lg" href="#">Start Today!</a>
         </div>
         <!-- /.col-md-4 -->
       </div>
