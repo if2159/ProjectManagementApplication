@@ -27,11 +27,9 @@
             <asp:TextBox ID="wageField" runat="server"></asp:TextBox>
             <br />
             <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT [TEAM_ID] FROM [TEAMS]"></asp:SqlDataSource>
-            <asp:Label ID="manageLabel" runat="server" Text="Manages: "></asp:Label>
-            <asp:DropDownList ID="manageDropDown" runat="server" DataSourceID="SqlDataSource1" DataValueField="TEAM_ID" OnDataBound="SqlDataSource1_DataBound"></asp:DropDownList>      
-            <br />
+            
             <asp:Label ID="teamLabel" runat="server" Text="Team: "></asp:Label>
-            <asp:DropDownList ID="teamDropDown" runat="server" DataSourceID="SqlDataSource1" DataValueField="TEAM_ID"></asp:DropDownList>
+            <asp:DropDownList ID="teamDropDown" runat="server" DataSourceID="SqlDataSource1" DataValueField="TEAM_ID" OnDataBound ="SqlDataSource1_DataBound"></asp:DropDownList>
             <br />
             <asp:Button ID="Submit" runat="server" Text="Submit" OnClick="Submit_Click" />
             <br />
