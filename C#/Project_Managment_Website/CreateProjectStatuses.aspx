@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="CreateProjectStatuses.aspx.cs" Inherits="CreateProjectStatuses" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="CreateProjectStatuses.aspx.cs" Inherits="CreateProjectStatuses" %>
 
 <!DOCTYPE html>
 
@@ -62,16 +62,18 @@
         </div>
 
     </nav>
-    <form id="form1" runat="server">
-        <div>
+
+
+    <form class ="createProjectStatuses" id="form1" runat="server">
+        <div class="container">
 
             <h1>Create New Project Status</h1>
             <p>
-                <asp:Label ID="roleNameLabel" runat="server" Text="Status Description: "></asp:Label>
-                <asp:TextBox ID="roleNameField" runat="server"></asp:TextBox>
+                <asp:Label class ="sr-only" ID="roleNameLabel" runat="server" Text="Status Description: "></asp:Label>
+                <asp:TextBox class ="form-control" placeholder ="Status Description: " ID="roleNameField" runat="server"></asp:TextBox>
             </p>
             <p>
-                <asp:Button ID="submitButton" runat="server" Text="Submit" OnClick="submitButton_Click" />
+                <asp:Button class ="btn btn-lg btn-primary btn-block" ID="submitButton" runat="server" Text="Submit" OnClick="submitButton_Click" />
             </p>
             <p>
                 <asp:Label ID="outputLabel" runat="server" Text=""></asp:Label>
