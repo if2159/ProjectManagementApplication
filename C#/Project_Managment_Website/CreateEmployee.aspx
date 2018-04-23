@@ -1,21 +1,19 @@
-<%@ Page Language="C#" AutoEventWireup="true" CodeFile="CreateTeam.aspx.cs" Inherits="CreateTeam" %>
-<%@Import Namespace="System.Data" %>
-<%@Import Namespace="System.Data.Common" %>
-<%@Import Namespace="System.Data.SqlClient" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="CreateEmployee.aspx.cs" Inherits="Employees" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Project Management - Create Teams</title>
+    <title>Project Management - Create Employees</title>
     <link href="CSS/bootstrap.css" rel="stylesheet" />
     <link href="CSS/Master.css" rel="stylesheet" />
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/>
 </head>
+
 <body>
-   <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Navbar</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -65,46 +63,35 @@
         </div>
 
     </nav>
-    <form id="form1" runat="server">
+    <h1>Create Employee</h1>
+    <form method="post" id="form1" runat="server">
         <div>
-            <asp:Label ID="Label1" runat="server" Text="Project ID"></asp:Label>
-
-
-
-        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT [PROJECT_ID], [NAME] FROM [PROJECTS]" OnSelecting="SqlDataSource1_Selecting"></asp:SqlDataSource>
-        <asp:DropDownList ID="projectDropDown" runat="server" DataSourceID="SqlDataSource1" DataTextField="NAME" DataValueField="PROJECT_ID" OnSelectedIndexChanged="projectDropDown_SelectedIndexChanged" ondatabound ="SqlDataSouce1_DataBound">
-        </asp:DropDownList>
+            <asp:Label ID="fnameLabel" runat="server" Text="First Name: "></asp:Label>
+            <asp:TextBox ID="fnameField" runat="server"></asp:TextBox>
+            <br />
+            <asp:Label ID="mInitLabel" runat="server" Text="Middle Initial: "></asp:Label>
+            <asp:TextBox ID="mInitField" runat="server"></asp:TextBox>
+            <br />
+            <asp:Label ID="lnameLabel" runat="server" Text="Last Name: "></asp:Label>
+            <asp:TextBox ID="lnameField" runat="server"></asp:TextBox>
+            <br />
+            <asp:Label ID="eidLabel" runat="server" Text="Employee ID: "></asp:Label>
+            <asp:TextBox ID="eidField" runat="server"></asp:TextBox>
+            <br />
+            <asp:Label ID="wageLabel" runat="server" Text="Hourly Wage: "></asp:Label>
+            <asp:TextBox ID="wageField" runat="server"></asp:TextBox>
+            <br />
+            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT [TEAM_ID] FROM [TEAMS]"></asp:SqlDataSource>
+            <asp:Label ID="manageLabel" runat="server" Text="Manages: "></asp:Label>
+            <asp:DropDownList ID="manageDropDown" runat="server" DataSourceID="SqlDataSource1" DataValueField="TEAM_ID" OnDataBound="SqlDataSource1_DataBound"></asp:DropDownList>
+            <br />
+            <asp:Label ID="teamLabel" runat="server" Text="Team: "></asp:Label>
+            <asp:DropDownList ID="teamDropDown" runat="server" DataSourceID="SqlDataSource1" DataValueField="TEAM_ID"></asp:DropDownList>
+            <br />
+            <asp:Button ID="Submit" runat="server" Text="Submit" OnClick="Submit_Click" />
+            <br />
+            <asp:Label ID="outputLabel" runat="server" Text=""></asp:Label>
         </div>
-
-        <asp:Label ID="Label2" runat="server" Text="Department Name"></asp:Label>
-
-        <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT [DEPARTMENT_ID], [NAME] FROM [DEPARTMENTS]" OnSelecting="SqlDataSource2_Selecting"></asp:SqlDataSource>
-        <asp:DropDownList ID="departmentDropDown" runat="server" DataSourceID="SqlDataSource2" DataTextField="NAME" DataValueField="DEPARTMENT_ID" OnSelectedIndexChanged="departmentDropDown_SelectedIndexChanged" ondatabound ="SqlDataSouce2_DataBound">
-        </asp:DropDownList>
-
-        </div>
-        <br />
-        <asp:Label ID="Label3" runat="server" Text="Team Lead"></asp:Label>        
-        <asp:TextBox ID="teamLeadID" runat="server" OnTextChanged="TextBox1_TextChanged"></asp:TextBox>
-        <asp:RegularExpressionValidator ID="RegularExpressionValidator2" ControlToValidate="teamLeadID" runat="server" ErrorMessage="Only Numbers allowed" ValidationExpression="\d+">
-       </asp:RegularExpressionValidator>
-
-        
-        <br />
-        <br />
-
-        </div>
-        
-
-            <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Create Team" />
-
-        <br />
-        <br />
-        <asp:Label ID="Label4" runat="server" Text=""></asp:Label>
-
-        <br />
-        <br />
-
     </form>
 </body>
 </html>

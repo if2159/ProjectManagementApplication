@@ -1,13 +1,10 @@
-<%@ Page Language="C#" AutoEventWireup="true" CodeFile="CreateTeam.aspx.cs" Inherits="CreateTeam" %>
-<%@Import Namespace="System.Data" %>
-<%@Import Namespace="System.Data.Common" %>
-<%@Import Namespace="System.Data.SqlClient" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="CreateDepartments.aspx.cs" Inherits="Departments" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Project Management - Create Teams</title>
+    <title>Project Management - Create Departments</title>
     <link href="CSS/bootstrap.css" rel="stylesheet" />
     <link href="CSS/Master.css" rel="stylesheet" />
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -15,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/>
 </head>
 <body>
-   <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Navbar</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -66,45 +63,35 @@
 
     </nav>
     <form id="form1" runat="server">
-        <div>
-            <asp:Label ID="Label1" runat="server" Text="Project ID"></asp:Label>
-
-
-
-        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT [PROJECT_ID], [NAME] FROM [PROJECTS]" OnSelecting="SqlDataSource1_Selecting"></asp:SqlDataSource>
-        <asp:DropDownList ID="projectDropDown" runat="server" DataSourceID="SqlDataSource1" DataTextField="NAME" DataValueField="PROJECT_ID" OnSelectedIndexChanged="projectDropDown_SelectedIndexChanged" ondatabound ="SqlDataSouce1_DataBound">
-        </asp:DropDownList>
-        </div>
-
-        <asp:Label ID="Label2" runat="server" Text="Department Name"></asp:Label>
-
-        <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT [DEPARTMENT_ID], [NAME] FROM [DEPARTMENTS]" OnSelecting="SqlDataSource2_Selecting"></asp:SqlDataSource>
-        <asp:DropDownList ID="departmentDropDown" runat="server" DataSourceID="SqlDataSource2" DataTextField="NAME" DataValueField="DEPARTMENT_ID" OnSelectedIndexChanged="departmentDropDown_SelectedIndexChanged" ondatabound ="SqlDataSouce2_DataBound">
-        </asp:DropDownList>
-
-        </div>
+    <div>
+    
+        <asp:Label ID="Label1" runat="server" Text="Department Name: "></asp:Label>
+        <asp:TextBox ID="departmentNameField" runat="server"></asp:TextBox>
         <br />
-        <asp:Label ID="Label3" runat="server" Text="Team Lead"></asp:Label>        
-        <asp:TextBox ID="teamLeadID" runat="server" OnTextChanged="TextBox1_TextChanged"></asp:TextBox>
-        <asp:RegularExpressionValidator ID="RegularExpressionValidator2" ControlToValidate="teamLeadID" runat="server" ErrorMessage="Only Numbers allowed" ValidationExpression="\d+">
-       </asp:RegularExpressionValidator>
-
-        
+        <asp:Label ID="Label2" runat="server" Text="Street Number:      "></asp:Label>
+        <asp:TextBox ID="streetNumberField" runat="server" ></asp:TextBox>
         <br />
+        <asp:Label ID="Label3" runat="server" Text="Street Name: "></asp:Label>
+        <asp:TextBox ID="streetNameField" runat="server"></asp:TextBox>
         <br />
-
-        </div>
-        
-
-            <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Create Team" />
-
+        <asp:Label ID="Label4" runat="server" Text="City: "></asp:Label>
+        <asp:TextBox ID="cityField" runat="server"></asp:TextBox>
         <br />
+        <asp:Label ID="Label5" runat="server" Text="State/Province: "></asp:Label>
+        <asp:TextBox ID="stateProvinceField" runat="server"></asp:TextBox>
         <br />
-        <asp:Label ID="Label4" runat="server" Text=""></asp:Label>
-
+        <asp:Label ID="Label6" runat="server" Text="Zipcode/Postcode: "></asp:Label>
+        <asp:TextBox ID="zipcodeField" runat="server"></asp:TextBox>
         <br />
+        <asp:Label ID="Label7" runat="server" Text="Country: "></asp:Label>
+        <asp:TextBox ID="countryField" runat="server"></asp:TextBox>
         <br />
-
+        <asp:Button ID="submitButton" runat="server" OnClick="submitButton_Click" Text="Submit" />
+    
+        <br />
+        <asp:Label ID="outputLabel" runat="server"></asp:Label>
+    
+    </div>
     </form>
 </body>
 </html>
