@@ -30,6 +30,20 @@ public partial class Employees : System.Web.UI.Page
         {
             Response.Redirect("AccessForbidden.aspx");
         }
+
+        firstAlert.Visible = false;
+        middleAlert.Visible = false;
+        lastAlert.Visible = false;
+        employeeAlert.Visible = false;
+        wageAlert.Visible = false;
+        teamAlert.Visible = false;
+
+        firstAlertLabel.Text = "";
+        middleAlertLabel.Text = "";
+        lastAlertLabel.Text = "";
+        employeeAlertLabel.Text = "";
+        wageAlertLabel.Text = "";
+        teamAlertLabel.Text = "";
     }
 
     /// <summary>
@@ -65,6 +79,37 @@ public partial class Employees : System.Web.UI.Page
         }
     }
 
+    protected bool checkIfEmployeeIDIsTaken()
+    {
+        using (SqlConnection con = new SqlConnection(connectionString))
+        {
+            String queryStatement = "SELECT U.EMPLOYEE_ID FROM USERS AS U WHERE EMPLOYEE_ID = @EMPLOYEE_ID";
+            con.Open();
+            SqlCommand cmd = new SqlCommand(queryStatement, con);
+            SqlParameter employeeIDParameter = new SqlParameter("@EMPLOYEE_ID", SqlDbType.Int);
+            if (string.IsNullOrEmpty(eidField.Text))
+            {
+                return false;
+            }
+            employeeIDParameter.Value = int.Parse(eidField.Text);
+            cmd.Parameters.Add(employeeIDParameter);
+            cmd.Prepare();
+            using (SqlDataReader rdr = cmd.ExecuteReader())
+            {
+                if (rdr.HasRows)
+                {
+                    con.Close();
+                    return true;
+                }
+                else
+                {
+                    con.Close();
+                    return false;
+                }
+            }
+        }
+    }
+
     /// <summary>
     /// Called when the submit button is clicked. Will create a new Employee in the Database with the entered values
     /// </summary>
@@ -72,25 +117,84 @@ public partial class Employees : System.Web.UI.Page
     /// <param name="e"></param>
     protected void Submit_Click(object sender, EventArgs e)
     {
+        firstAlert.Visible = false;
+        middleAlert.Visible = false;
+        lastAlert.Visible = false;
+        employeeAlert.Visible = false;
+        wageAlert.Visible = false;
+        teamAlert.Visible = false;
+
+        firstAlertLabel.Text = "";
+        middleAlertLabel.Text = "";
+        lastAlertLabel.Text = "";
+        employeeAlertLabel.Text = "";
+        wageAlertLabel.Text = "";
+        teamAlertLabel.Text = "";
+
+        int alert_count = 0;
+        double v;
+        int value;
+        if (!double.TryParse(wageField.Text, out v))
+        {
+            wageAlert.Visible = true;
+            wageAlertLabel.Text = "Wage only contains numbers";
+            alert_count++;
+        }
         if (string.IsNullOrEmpty(fnameField.Text))
         {
-            outputLabel.Text = "Please enter a first name";
+            firstAlertLabel.Text = "Please enter a first name";
+            firstAlert.Visible = true;
+            alert_count++;
         }
-        else if (string.IsNullOrEmpty(lnameField.Text))
+        
+        if (string.IsNullOrEmpty(lnameField.Text))
         {
-            outputLabel.Text = "Please enter a last name";
+            lastAlertLabel.Text = "Please enter a last name";
+            lastAlert.Visible = true;
+            alert_count++;
         }
-        else if (string.IsNullOrEmpty(eidField.Text))
+        if (string.IsNullOrEmpty(eidField.Text))
         {
-            outputLabel.Text = "Please enter a employee ID";
+            employeeAlertLabel.Text = "Please enter a employee ID";
+            employeeAlert.Visible = true;
+            alert_count++;
         }
-        else if (string.IsNullOrEmpty(wageField.Text))
+        if (!int.TryParse(eidField.Text, out value))
         {
-            outputLabel.Text = "Please enter a wage";
+            employeeAlert.Visible = true;
+            employeeAlertLabel.Text = "An Employee ID only contains numbers";
+            alert_count++;
         }
-        else if(int.Parse(teamDropDown.SelectedValue) == -1)
+        if (eidField.Text.Length != 10)
         {
-            outputLabel.Text = "Please select a Team";
+            employeeAlertLabel.Text = "Employee ID is 10 integers long";
+            employeeAlert.Visible = true;
+            alert_count++;
+        }
+        if (string.IsNullOrEmpty(wageField.Text))
+        {
+            wageAlertLabel.Text = "Please enter a wage";
+            wageAlert.Visible = true;
+            alert_count++;
+        }
+        if (int.Parse(teamDropDown.SelectedValue) == -1)
+        {
+            teamAlertLabel.Text = "Please select a Team";
+            teamAlert.Visible = true;
+            alert_count++;
+        }
+
+        if (alert_count > 0)
+        {
+            return;
+        }
+
+        if (checkIfEmployeeIDIsTaken())
+        {
+            employeeAlert.Visible = true;
+            employeeAlertLabel.Text = "Employee ID is already in use";
+            alert_count++;
+            return;
         }
 
         else
@@ -124,7 +228,7 @@ public partial class Employees : System.Web.UI.Page
                 //assignValue(int.Parse(manageDropDown.SelectedValue), manageParameter);
                 //teamParameter.Value = int.Parse(teamDropDown.SelectedValue);
                 assignValue(int.Parse(teamDropDown.SelectedValue), teamParameter);
-                
+
 
                 cmd.Parameters.Add(fnameParameter);
                 cmd.Parameters.Add(minitParameter);

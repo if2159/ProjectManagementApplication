@@ -32,6 +32,13 @@ public partial class TeamView : System.Web.UI.Page
         }
 
         teamTable.Visible = false;
+
+        teamLeadAlert.Visible = false;
+        dateAlert.Visible = false;
+       
+        teamLeadAlertLabel.Text = "";
+        dateAlertLabel.Text = "";
+
         Label6.Text = "";
         Label5.Text = "";
         Label3.Text = "";
@@ -74,6 +81,13 @@ public partial class TeamView : System.Web.UI.Page
     protected void displayData()
     {
         teamTable.Visible = false;
+
+        teamLeadAlert.Visible = false;
+        dateAlert.Visible = false;
+
+        teamLeadAlertLabel.Text = "";
+        dateAlertLabel.Text = "";
+
         Label6.Text = "";
         Label5.Text = "";
         Label3.Text = "";
@@ -81,11 +95,13 @@ public partial class TeamView : System.Web.UI.Page
         String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
         if (string.IsNullOrEmpty(teamsLeadingDropDown.SelectedValue))
         {
-            Label3.Text = "Please select a team to view";
+            teamLeadAlertLabel.Text = "Please select a team to view";
+            teamLeadAlert.Visible = true;
         }
         else if (string.IsNullOrEmpty(dateSelectedDropDown.SelectedValue))
         {
-            Label3.Text = "Please select a date for project creation";
+            dateAlertLabel.Text = "Please select a date for project creation";
+            dateAlert.Visible = true;
         }
 
 
@@ -348,6 +364,7 @@ public partial class TeamView : System.Web.UI.Page
 
     protected void Button1_Click(object sender, EventArgs e)
     {
+
         Label5.Text = "";
         Label6.Text = "";
         displayData();

@@ -91,7 +91,7 @@ public partial class CreateUser : System.Web.UI.Page
 
     private bool AuthenticateSession()
     {
-        if (Request.Cookies["SessionID"] != null && Request.Cookies["UserID"] != null)
+        if (Request.Cookies["SessionID"] != null)
         {
             String sessionID = Request.Cookies["SessionID"].Value.Split('=')[1];
             String employeeID = Request.Cookies["UserID"].Value.Split('=')[1];
@@ -119,10 +119,17 @@ public partial class CreateUser : System.Web.UI.Page
 
         int alert_count = 0;
         int value;
-        if (!int.TryParse(employeeIDField.Text, out value))
+        
+        if(!int.TryParse(employeeIDField.Text, out value))
         {
             employeeAlert.Visible = true;
             employeeAlertLabel.Text = "An Employee ID only contains numbers";
+            alert_count++;
+        }
+        if (employeeIDField.Text.Length != 10)
+        {
+            employeeAlertLabel.Text = "Employee ID is 10 integers long";
+            employeeAlert.Visible = true;
             alert_count++;
         }
         if (string.IsNullOrWhiteSpace(employeeIDField.Text))
@@ -149,34 +156,36 @@ public partial class CreateUser : System.Web.UI.Page
             emailAlertLabel.Text = "Email is not in the correct format";
             alert_count++;
         }
-        if (checkIfEmployeeIDIsTaken())
-        {
-            employeeAlert.Visible = true;
-            employeeAlertLabel.Text = "Employee ID is already in use";
-            alert_count++;
-        }
         if (IsEmailTaken())
         {
             emailAlert.Visible = true;
             emailAlertLabel.Text = "Email is taken";
             alert_count++;
         }
-        if(int.Parse(roleDropDown.SelectedValue) == -1)
+        if (int.Parse(roleDropDown.SelectedValue) == -1)
         {
             roleAlert.Visible = true;
             roleAlertLabel.Text = "Please choose a role";
             alert_count++;
-        } 
+        }
 
-        if(alert_count > 0)
+        if (alert_count > 0)
         {
+            return;
+        }
+
+        if (checkIfEmployeeIDIsTaken())
+        {
+            employeeAlert.Visible = true;
+            employeeAlertLabel.Text = "Employee ID is already in use";
+            alert_count++;
             return;
         }
 
         using (SqlConnection con = new SqlConnection(connectionString))
         {
             //DO some function call to make sure the entered employeeID is valid 
-            
+
             if (checkIfValidEmployeeID())
             {
                 String employeeID = Request.Cookies["UserID"].Value.Split('=')[1];

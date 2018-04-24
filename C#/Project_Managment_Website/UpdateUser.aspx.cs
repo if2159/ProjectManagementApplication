@@ -11,7 +11,7 @@ using System.Web.UI.WebControls;
 
 public partial class UpdateUser : System.Web.UI.Page
 {
-    private static readonly string[]allowedRoles = { "ADMIN" };
+    private static readonly string[] allowedRoles = { "ADMIN" };
     private static readonly string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -23,10 +23,16 @@ public partial class UpdateUser : System.Web.UI.Page
         {
             Response.Redirect("AccessForbidden.aspx");
         }
+        employeeAlert.Visible = false;
+        roleAlert.Visible = false;
+
+        employeeAlertLabel.Text = "";
+        roleAlertLabel.Text = "";
+
     }
     private bool CheckRole()
     {
-        if (Request.Cookies["SessionID"] != null && Request.Cookies["UserID"] != null)
+        if (Request.Cookies["SessionID"] != null)
         {
             String employeeID = Request.Cookies["UserID"].Value.Split('=')[1];
             ArrayList roles = new ArrayList();
@@ -58,12 +64,25 @@ public partial class UpdateUser : System.Web.UI.Page
     }
     protected void Button1_Click(object sender, EventArgs e)
     {
-        
-       if (checkIfValidEmployeeID() )
+        employeeAlert.Visible = false;
+        roleAlert.Visible = false;
+
+        employeeAlertLabel.Text = "";
+        roleAlertLabel.Text = "";
+
+        int value;
+        if (!int.TryParse(employeeIDField.Text, out value))
+        {
+            employeeAlert.Visible = true;
+            employeeAlertLabel.Text = "An Employee ID only contains numbers";
+            return;
+        }
+        if (checkIfValidEmployeeID())
         {
             if (int.Parse(roleDropDown.SelectedValue) == -1)
             {
-                FinalLabel.Text = "Please select the new Role";
+                roleAlertLabel.Text = "Please select the new Role";
+                roleAlert.Visible = true;
             }
             else
             {
@@ -87,17 +106,18 @@ public partial class UpdateUser : System.Web.UI.Page
                 }
             }
         }
-       else
-       {
-           FinalLabel.Text = "This Employee ID does not exist";
-       }
+        else
+        {
+            employeeAlertLabel.Text = "This Employee ID does not exist";
+            employeeAlert.Visible = true;
+        }
 
-        
+
     }
     protected void SqlDataSouce2_DataBound(object sender, EventArgs e)
     {
 
-        roleDropDown.Items.Insert(0, new ListItem("-Select-", "-1"));
+        roleDropDown.Items.Insert(0, new ListItem("Roles: ", "-1"));
         roleDropDown.SelectedIndex = 0; ;
     }
     protected void SqlDataSource1_Selecting(object sender, SqlDataSourceSelectingEventArgs e)
