@@ -69,9 +69,9 @@
     </nav>
     <form id="form1" runat="server">
     <div class="container">
-    
+        <center>
         <asp:Label class="alert alert-primary" role="alert" ID="Label1" runat="server" Text="You do not have access to this page."></asp:Label>
-
+            </center>
     
     </div>
     </form>
