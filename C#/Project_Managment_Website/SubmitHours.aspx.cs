@@ -19,6 +19,13 @@ public partial class SubmitHours : System.Web.UI.Page
         if (!AuthenticateSession()) {
             Response.Redirect("Login.aspx");
         }
+
+        hoursAlert.Visible = false;
+        projectAlert.Visible = false;
+
+        hoursAlertLabel.Text = "";
+        projectAlertLabel.Text = "";
+
     }
 
     /// <summary>
@@ -46,14 +53,22 @@ public partial class SubmitHours : System.Web.UI.Page
     /// <param name="e"></param>
     protected void submitHoursButton_Click(object sender, EventArgs e)
     {
+        hoursAlert.Visible = false;
+        projectAlert.Visible = false;
+
+        hoursAlertLabel.Text = "";
+        projectAlertLabel.Text = "";
+
         outputLabel.Text = "";
         if (string.IsNullOrEmpty(hoursField.Text))
         {
-            outputLabel.Text = "Please enter hours worked";
+            hoursAlertLabel.Text = "Please enter hours worked";
+            hoursAlert.Visible = true;
         }
         else if (int.Parse(projectDropDown.SelectedValue) == 0)
         {
-            outputLabel.Text = "Please select a project";
+            projectAlertLabel.Text = "Please select a project";
+            projectAlert.Visible = true;
         }
         else
         {

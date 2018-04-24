@@ -71,6 +71,9 @@
     <div class="container">
         <h1>Submit Hours</h1>
         <asp:TextBox class="form-control" placeholder="Hours:" ID="hoursField" runat="server"></asp:TextBox>
+        <div class="alert alert-primary" placeholder="Employee ID: " runat="server" role="alert" id="hoursAlert">
+                    <asp:Label runat="server" id="hoursAlertLabel"></asp:Label>
+                </div>
        <br />
         <asp:Label ID="projectLabel" runat="server" Text=""></asp:Label>
         <div class="form-control">   
@@ -78,6 +81,9 @@
             <asp:DropDownList class="dropdown-item" ID="projectDropDown" runat="server" DataSourceID="SqlDataSource1" DataTextField="NAME" DataValueField="PROJECT_ID" OnDataBound ="SqlDataSouce1_DataBound" AutoPostBack ="true">       
             </asp:DropDownList>    
         </div>
+        <div class="alert alert-primary" placeholder="Employee ID: " runat="server" role="alert" id="projectAlert">
+                    <asp:Label runat="server" id="projectAlertLabel"></asp:Label>
+                </div>
         <br />
         <asp:Button class="btn btn-lg btn-primary btn-block" ID="submitHoursButton" runat="server" OnClick="submitHoursButton_Click" Text="Submit" />
         <br />
