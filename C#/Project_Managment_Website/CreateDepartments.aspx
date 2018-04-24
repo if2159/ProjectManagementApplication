@@ -68,7 +68,7 @@
     <div class="container">
     <form id="form1" runat="server">
     <div>
-    
+        <h1>Create Department</h1>
         <asp:Label class="sr-only" ID="Label1" runat="server" Text="Department Name: "></asp:Label>
         <asp:TextBox ID="departmentNameField" class="form-control" placeholder="Department Name:" runat="server"></asp:TextBox>
 
@@ -94,7 +94,7 @@
 
         <br />
         <asp:Label class="sr-only" ID="Label7" runat="server" Text="Country: "></asp:Label>
-        <asp:TextBox ID="countryField" class="form-control" placeholder="Country" runat="server" OnTextChanged="countryField_TextChanged"></asp:TextBox>
+        <asp:TextBox ID="countryField" class="form-control" placeholder="Country:" runat="server" OnTextChanged="countryField_TextChanged"></asp:TextBox>
 
         <br />
         <asp:Button ID="submitButton" runat="server" class="btn btn-lg btn-primary btn-block" OnClick="submitButton_Click" Text="Submit" />
