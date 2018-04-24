@@ -76,10 +76,15 @@
 
     <asp:Label class="sr-only" ID="usernameLabel" runat="server" Text="Email: "></asp:Label>
     <asp:TextBox ID="emailField" placeholder="Email: " class="form-control" runat="server"></asp:TextBox>
-       
+    <div class="alert alert-primary" placeholder="Employee ID: " runat="server" role="alert" id="emailAlert">
+                    <asp:Label runat="server" id="emailAlertLabel"></asp:Label>
+                </div>
         
     <asp:Label class="sr-only" ID="passwordLabel"  runat="server" Text="Password: "></asp:Label>
     <asp:TextBox ID="passwordField" runat="server" placeholder="Password: " class="form-control" type="password"></asp:TextBox>
+    <div class="alert alert-primary" placeholder="Employee ID: " runat="server" role="alert" id="passwordAlert">
+                    <asp:Label runat="server" id="passwordAlertLabel"></asp:Label>
+                </div>
     <asp:Label ID="errorLabel" runat="server" Text=""></asp:Label>
         
     <br />
