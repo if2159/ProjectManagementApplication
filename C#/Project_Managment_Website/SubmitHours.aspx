@@ -63,15 +63,17 @@
 
     </nav>
     <form id="form1" runat="server">
-    <div>
+    <div class="container">
     
         <asp:Label ID="hoursLabel" runat="server" Text="Hours: "></asp:Label>
-        <asp:TextBox ID="hoursField" runat="server"></asp:TextBox>
+        <asp:TextBox class="form-control" placeholder="Hours:" ID="hoursField" runat="server"></asp:TextBox>
+        <br />
         <asp:Label ID="projectLabel" runat="server" Text="Project: "></asp:Label>
-        <asp:DropDownList ID="projectDropDown" runat="server" DataSourceID="SqlDataSource1" DataTextField="NAME" DataValueField="PROJECT_ID">
+        <asp:DropDownList class="dropdown-item" ID="projectDropDown" runat="server" DataSourceID="SqlDataSource1" DataTextField="NAME" DataValueField="PROJECT_ID">
         </asp:DropDownList>
         <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT [PROJECT_ID], [NAME] FROM [PROJECTS]"></asp:SqlDataSource>
-        <asp:Button ID="submitHoursButton" runat="server" OnClick="submitHoursButton_Click" Text="Submit" />
+        <br />
+        <asp:Button class="btn btn-lg btn-primary btn-block" ID="submitHoursButton" runat="server" OnClick="submitHoursButton_Click" Text="Submit" />
         <br />
         <asp:Label ID="outputLabel" runat="server" Text=""></asp:Label>
         </div>
