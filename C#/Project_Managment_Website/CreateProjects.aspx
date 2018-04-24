@@ -66,7 +66,7 @@
 <div class="container">
 <form id="form1" runat="server">
     
-        <h2 class="form-signin-heading">New Project</h2>
+        <h2 class="form-signin-heading">Create Project</h2>
     
         <asp:Label class="sr-only" ID="Label1" runat="server" Text="Project Name: "></asp:Label>
         <asp:TextBox class="form-control" ID="projectNameField" placeholder="Project Name: " runat="server"></asp:TextBox>
