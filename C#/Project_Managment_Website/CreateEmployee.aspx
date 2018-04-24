@@ -84,7 +84,7 @@
                 <asp:TextBox ID="eidField" class="form-control" placeholder="Employee ID:" runat="server"></asp:TextBox>
                 <br />
                 <asp:Label class="sr-only" ID="wageLabel" runat="server" Text="Hourly Wage: "></asp:Label>
-                <asp:TextBox ID="wageField" class="form-control" placeholder="Hourly Wage" runat="server"></asp:TextBox>
+                <asp:TextBox ID="wageField" class="form-control" placeholder="Hourly Wage:" runat="server"></asp:TextBox>
                 
 
 
