@@ -119,10 +119,17 @@ public partial class CreateUser : System.Web.UI.Page
 
         int alert_count = 0;
         int value;
-        if (!int.TryParse(employeeIDField.Text, out value))
+        
+        if(!int.TryParse(employeeIDField.Text, out value))
         {
             employeeAlert.Visible = true;
             employeeAlertLabel.Text = "An Employee ID only contains numbers";
+            alert_count++;
+        }
+        if (employeeIDField.Text.Length != 10)
+        {
+            employeeAlertLabel.Text = "Employee ID is 10 integers long";
+            employeeAlert.Visible = true;
             alert_count++;
         }
         if (string.IsNullOrWhiteSpace(employeeIDField.Text))
@@ -149,12 +156,6 @@ public partial class CreateUser : System.Web.UI.Page
             emailAlertLabel.Text = "Email is not in the correct format";
             alert_count++;
         }
-        if (checkIfEmployeeIDIsTaken())
-        {
-            employeeAlert.Visible = true;
-            employeeAlertLabel.Text = "Employee ID is already in use";
-            alert_count++;
-        }
         if (IsEmailTaken())
         {
             emailAlert.Visible = true;
@@ -170,6 +171,14 @@ public partial class CreateUser : System.Web.UI.Page
 
         if (alert_count > 0)
         {
+            return;
+        }
+
+        if (checkIfEmployeeIDIsTaken())
+        {
+            employeeAlert.Visible = true;
+            employeeAlertLabel.Text = "Employee ID is already in use";
+            alert_count++;
             return;
         }
 

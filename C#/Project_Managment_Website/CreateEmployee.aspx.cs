@@ -101,6 +101,7 @@ public partial class Employees : System.Web.UI.Page
         teamAlertLabel.Text = "";
 
         int alert_count = 0;
+        int value;
         if (string.IsNullOrEmpty(fnameField.Text))
         {
             firstAlertLabel.Text = "Please enter a first name";
@@ -116,6 +117,18 @@ public partial class Employees : System.Web.UI.Page
         if (string.IsNullOrEmpty(eidField.Text))
         {
             employeeAlertLabel.Text = "Please enter a employee ID";
+            employeeAlert.Visible = true;
+            alert_count++;
+        }
+        if (!int.TryParse(eidField.Text, out value))
+        {
+            employeeAlert.Visible = true;
+            employeeAlertLabel.Text = "An Employee ID only contains numbers";
+            alert_count++;
+        }
+        if (eidField.Text.Length != 10)
+        {
+            employeeAlertLabel.Text = "Employee ID is 10 integers long";
             employeeAlert.Visible = true;
             alert_count++;
         }
