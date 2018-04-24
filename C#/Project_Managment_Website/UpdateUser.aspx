@@ -101,10 +101,7 @@
             <asp:Label ID="FinalLabel" runat="server" Text=""></asp:Label>
             
             
-            <div>
-                <asp:RegularExpressionValidator ID="RegularExpressionValidator2" ControlToValidate="employeeIDField" runat="server" ErrorMessage="Only Numbers allowed" ValidationExpression="\d+">
-                </asp:RegularExpressionValidator>
-            </div>
+            
 
         </div>
     </form>

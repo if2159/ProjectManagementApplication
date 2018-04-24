@@ -70,6 +70,13 @@ public partial class UpdateUser : System.Web.UI.Page
         employeeAlertLabel.Text = "";
         roleAlertLabel.Text = "";
 
+        int value;
+        if (!int.TryParse(employeeIDField.Text, out value))
+        {
+            employeeAlert.Visible = true;
+            employeeAlertLabel.Text = "An Employee ID only contains numbers";
+            return;
+        }
         if (checkIfValidEmployeeID())
         {
             if (int.Parse(roleDropDown.SelectedValue) == -1)
