@@ -29,6 +29,14 @@ public partial class UpdateTeam : System.Web.UI.Page
             Response.Redirect("AccessForbidden.aspx");
         }
 
+        teamAlert.Visible = false;
+        projectAlert.Visible = false;
+        teamLeadAlert.Visible = false;
+
+        teamAlertLabel.Text = "";
+        projectAlertLabel.Text = "";
+        teamLeadAlertLabel.Text = "";
+
     }
 
     private bool AuthenticateSession()
@@ -190,14 +198,30 @@ public partial class UpdateTeam : System.Web.UI.Page
     /// <param name="e"></param>
     protected void Button1_Click(object sender, EventArgs e)
     {
+        teamAlert.Visible = false;
+        projectAlert.Visible = false;
+        teamLeadAlert.Visible = false;
+
+        teamAlertLabel.Text = "";
+        projectAlertLabel.Text = "";
+        teamLeadAlertLabel.Text = "";
+
         Label4.Text = "";
-        if (string.IsNullOrEmpty(teamsDropDown.SelectedValue))
+        int value;
+        if (!int.TryParse(teamLeadIDTextBox.Text, out value))
         {
-            Label4.Text = "Select a team to update";
+            teamLeadAlert.Visible = true;
+            teamLeadAlertLabel.Text = "An Employee ID only contains numbers";
+        }
+        else if (string.IsNullOrEmpty(teamsDropDown.SelectedValue))
+        {
+            teamAlertLabel.Text = "Select a team to update";
+            teamAlert.Visible = true;
         }
         else if (string.IsNullOrEmpty(projectsDropDown.SelectedValue))
         {
-            Label4.Text = "Select a project";
+            projectAlertLabel.Text = "Select a project";
+            projectAlert.Visible = true;
         }
 
         else if (checkIfValidEmployeeID() && !string.IsNullOrEmpty(teamsDropDown.SelectedValue))
@@ -237,7 +261,8 @@ public partial class UpdateTeam : System.Web.UI.Page
         }
         else
         {
-            Label4.Text = "Invalid employee ID";
+            teamLeadAlertLabel.Text = "Invalid employee ID";
+            teamLeadAlert.Visible = true;
         }
 
 
