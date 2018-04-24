@@ -79,7 +79,7 @@ public partial class UpdateEmployees : System.Web.UI.Page
     protected void SqlDataSouce2_DataBound(object sender, EventArgs e)
     {
 
-        teamsDropDown.Items.Insert(0, new ListItem("-Select-", "-1"));
+        teamsDropDown.Items.Insert(0, new ListItem("Team: ", "-1"));
         teamsDropDown.SelectedIndex = 0; ;
     }
     protected void SqlDataSource1_Selecting(object sender, SqlDataSourceSelectingEventArgs e)
