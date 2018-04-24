@@ -28,7 +28,15 @@ public partial class UpdateTeam : System.Web.UI.Page
         {
             Response.Redirect("AccessForbidden.aspx");
         }
-        
+
+        teamAlert.Visible = false;
+        projectAlert.Visible = false;
+        teamLeadAlert.Visible = false;
+
+        teamAlertLabel.Text = "";
+        projectAlertLabel.Text = "";
+        teamLeadAlertLabel.Text = "";
+
     }
 
     private bool AuthenticateSession()
@@ -137,7 +145,7 @@ public partial class UpdateTeam : System.Web.UI.Page
     //Insert a -Select- item, used to determine if user tries to submit page without proper team selected
     protected void SqlDataSouce1_DataBound(object sender, EventArgs e)
     {
-        teamsDropDown.Items.Insert(0, new ListItem("-Select-", String.Empty));
+        teamsDropDown.Items.Insert(0, new ListItem("Teams: ", String.Empty));
         teamsDropDown.SelectedIndex = 0; ;
     }
 
@@ -169,6 +177,14 @@ public partial class UpdateTeam : System.Web.UI.Page
     /// <param name="e"></param>
     protected void Button1_Click(object sender, EventArgs e)
     {
+        teamAlert.Visible = false;
+        projectAlert.Visible = false;
+        teamLeadAlert.Visible = false;
+
+        teamAlertLabel.Text = "";
+        projectAlertLabel.Text = "";
+        teamLeadAlertLabel.Text = "";
+
         if (checkIfValidEmployeeID() && !string.IsNullOrEmpty(teamsDropDown.SelectedValue))
         {
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -207,11 +223,13 @@ public partial class UpdateTeam : System.Web.UI.Page
 
         else if (string.IsNullOrEmpty(teamsDropDown.SelectedValue))
         {
-            Label4.Text += "Select a team to update";
+            teamAlertLabel.Text += "Select a team to update";
+            teamAlert.Visible = true;
         }
         else
         {
-            Label4.Text += "Invalid Employee ID";
+            teamLeadAlertLabel.Text += "Invalid Employee ID";
+            teamLeadAlert.Visible = true;
         }
     }
 

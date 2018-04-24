@@ -76,6 +76,9 @@
         <asp:DropDownList class="dropdown-item" ID="teamsDropDown" runat="server" DataSourceID="SqlDataSource1" DataTextField="TEAM_ID" DataValueField="TEAM_ID" OnSelectedIndexChanged="teamsDropDown_SelectedIndexChanged" AutoPostBack="true" OnDataBound ="SqlDataSouce1_DataBound">
         </asp:DropDownList>
         </div>
+            <div class="alert alert-primary" runat="server" role="alert" id="teamAlert">
+                    <asp:Label runat="server" id="teamAlertLabel"></asp:Label>
+                </div>
         <br />
         
 
@@ -85,12 +88,18 @@
         <asp:DropDownList class="dropdown-item" ID="projectsDropDown" runat="server" DataSourceID="SqlDataSource2" DataTextField="NAME" DataValueField="PROJECT_ID" OnSelectedIndexChanged="projectsDropDown_SelectedIndexChanged" AutoPostBack="true" OnDataBound ="SqlDataSouce2_DataBound">
         </asp:DropDownList>
         </div>
+            <div class="alert alert-primary" runat="server" role="alert" id="projectAlert">
+                    <asp:Label runat="server" id="projectAlertLabel"></asp:Label>
+                </div>
         <br />
         
         
         <asp:Label class="sr-only" ID="Label3" runat="server" Text= "If updating team lead enter here:"></asp:Label>
         <asp:TextBox class="form-control" placeholder="If updating team lead enter here:" ID="teamLeadIDTextBox" runat="server" OnTextChanged="TextBox1_TextChanged"></asp:TextBox>
-        <br />
+        <div class="alert alert-primary" runat="server" role="alert" id="teamLeadAlert">
+                    <asp:Label runat="server" id="teamLeadAlertLabel"></asp:Label>
+                </div>
+            <br />
       
 
         <asp:Button class="btn btn-lg btn-primary btn-block" ID="Button1" runat="server" OnClick="Button1_Click" Text="Update Team" />

@@ -73,6 +73,9 @@
             <asp:Label class="sr-only" ID="Label1" runat="server" Text="User email:"></asp:Label>
             <asp:TextBox class="form-control" ID="employeeEmailField" placeholder="User email:" runat="server" DataSourceID="SqlDataSource1" DataTextField="EMPLOYEE_ID" DataValueField="EMPLOYEE_ID" OnSelectedIndexChanged="projectsDropDown_SelectedIndexChanged" AutoPostBack="true" OnDataBound ="SqlDataSouce1_DataBound">
             </asp:TextBox>
+            <div class="alert alert-primary" runat="server" role="alert" id="emailAlert">
+                    <asp:Label runat="server" id="emailAlertLabel"></asp:Label>
+                </div>
             <br />
 
 
@@ -80,28 +83,23 @@
             <asp:Label class="sr-only" ID="Label2" runat="server" Text="Old Password: "></asp:Label>
             <asp:TextBox class="form-control" ID="oldPasswordField" placeholder="Old Password:" runat="server" type="password" DataSourceID="SqlDataSource2" DataTextField="ROLE_DESCRIPTION" DataValueField="ROLE_ID" AutoPostBack="true">
             </asp:TextBox>
+            <div class="alert alert-primary" runat="server" role="alert" id="oldAlert">
+                    <asp:Label runat="server" id="oldAlertLabel"></asp:Label>
+                </div>
             <br />
          
             
             <asp:Label class="sr-only" ID="Label3" runat="server" Text="New Password: "></asp:Label>
             <asp:TextBox class="form-control"  ID="newPasswordField" placeholder="New Password:" runat="server" type="password"></asp:TextBox>
+            <div class="alert alert-primary" runat="server" role="alert" id="newAlert">
+                    <asp:Label runat="server" id="newAlertLabel"></asp:Label>
+                </div>
             <br />
             
 
             <asp:Button ID="Button1" class="btn btn-lg btn-primary btn-block" runat="server" OnClick="Button1_Click" Text="Submit" />
             <br />
             
-            <div>
-                <asp:RequiredFieldValidator runat="server" id="RequiredFieldValidator1" controltovalidate="employeeEmailField" errormessage="Please enter email" />
-            </div>
-            
-            <div>
-                <asp:RequiredFieldValidator runat="server" id="RequiredFieldValidator3" controltovalidate="newPasswordField" errormessage="Please enter new Password!" />
-            </div>
-            
-            <div>
-                <asp:RequiredFieldValidator runat="server" id="RequiredFieldValidator2" controltovalidate="oldPasswordField" errormessage="Please enter old Password!!" />
-            </div>
 
             <asp:Label ID="FinalLabel" runat="server" Text=""></asp:Label>
         </div>

@@ -24,6 +24,23 @@ public partial class CreateProjects : System.Web.UI.Page
             Response.Redirect("Login.aspx");
         }
         startDateField.Text = DateTime.Now.ToShortDateString();
+
+        projectAlert.Visible = false;
+        budgetAlert.Visible = false;
+        departmentAlert.Visible = false;
+        employeeAlert.Visible = false;
+        teamAlert.Visible = false;
+        startAlert.Visible = false;
+        statusAlert.Visible = false;
+
+        projectAlertLabel.Text = "";
+        budgetAlertLabel.Text = "";
+        departmentAlertLabel.Text = "";
+        employeeAlertLabel.Text = "";
+        teamAlertLabel.Text = "";
+        startAlertLabel.Text = "";
+        statusAlertLabel.Text = "";
+
     }
     
 
@@ -33,7 +50,7 @@ public partial class CreateProjects : System.Web.UI.Page
     /// <returns>True if a valid session. False otherwise.</returns>
     private bool AuthenticateSession()
     {
-        if (Request.Cookies["SessionID"] != null)
+        if (Request.Cookies["SessionID"] != null && Request.Cookies["UserID"] != null)
         {
             String sessionID = Request.Cookies["SessionID"].Value.Split('=')[1];
             String employeeID = Request.Cookies["UserID"].Value.Split('=')[1];
@@ -54,23 +71,50 @@ public partial class CreateProjects : System.Web.UI.Page
 
     protected void submitButton_Click(object sender, EventArgs e)
     {
+        projectAlert.Visible = false;
+        budgetAlert.Visible = false;
+        departmentAlert.Visible = false;
+        employeeAlert.Visible = false;
+        teamAlert.Visible = false;
+        startAlert.Visible = false;
+        statusAlert.Visible = false;
 
+        projectAlertLabel.Text = "";
+        budgetAlertLabel.Text = "";
+        departmentAlertLabel.Text = "";
+        employeeAlertLabel.Text = "";
+        teamAlertLabel.Text = "";
+        startAlertLabel.Text = "";
+        statusAlertLabel.Text = "";
+
+        int alert_count = 0;
         using (SqlConnection con = new SqlConnection(connectionString))
         {
             if (int.Parse(controllingDepartmentField.SelectedValue) == -1)
             {
-                finalLabel.Text = "Please select a Department";
+                departmentAlertLabel.Text = "Please select a Department";
+                departmentAlert.Visible = true;
+                alert_count++;
             }
-            else if (int.Parse(statusTypeField.SelectedValue) == -1)
+            if (int.Parse(statusTypeField.SelectedValue) == -1)
             {
-                finalLabel.Text = "Please select a the status of Project";
+                statusAlertLabel.Text = "Please select a the status of Project";
+                statusAlert.Visible = true;
+                alert_count++;
             }
-            else if (int.Parse(teamsDropDownField.SelectedValue) == -1)
+            if (int.Parse(teamsDropDownField.SelectedValue) == -1)
             {
-                finalLabel.Text = "Please select a Team";
+                teamAlertLabel.Text = "Please select a Team";
+                teamAlert.Visible = true;
+                alert_count++;
             }
 
-            else if (checkIfValidEmployeeID())
+            if(alert_count > 0)
+            {
+                return;
+            }
+
+            if (checkIfValidEmployeeID())
             {
                 String employeeID = Request.Cookies["UserID"].Value.Split('=')[1];
 
@@ -116,7 +160,9 @@ public partial class CreateProjects : System.Web.UI.Page
             }
             else
             {
-                finalLabel.Text = "The Employee Id does not exist";
+                employeeAlertLabel.Text = "The Employee Id does not exist";
+                employeeAlert.Visible = true;
+                alert_count++;
             }
         }
     }

@@ -17,6 +17,15 @@ public partial class UpdatePassword : System.Web.UI.Page
         {
             Response.Redirect("Login.aspx");
         }
+
+        newAlert.Visible = false;
+        emailAlert.Visible = false;
+        oldAlert.Visible = false;
+
+        newAlertLabel.Text = "";
+        oldAlertLabel.Text = "";
+        emailAlertLabel.Text = "";
+
     }
 
 
@@ -39,7 +48,44 @@ public partial class UpdatePassword : System.Web.UI.Page
     }
     protected void Button1_Click(object sender, EventArgs e)
     {
+        newAlert.Visible = false;
+        emailAlert.Visible = false;
+        oldAlert.Visible = false;
+
+        newAlertLabel.Text = "";
+        oldAlertLabel.Text = "";
+        emailAlertLabel.Text = "";
+
+        int alert_count = 0;
+
+        if (string.IsNullOrWhiteSpace(employeeEmailField.Text))
+        {
+            emailAlert.Visible = true;
+            emailAlertLabel.Text = "Please enter in an Employee ID";
+            alert_count++;
+        }
+
+        if (string.IsNullOrWhiteSpace(oldPasswordField.Text))
+        {
+            oldAlert.Visible = true;
+            oldAlertLabel.Text = "Please enter in an Employee ID";
+            alert_count++;
+        }
+
+        if (string.IsNullOrWhiteSpace(newPasswordField.Text))
+        { 
+            newAlert.Visible = true;
+            newAlertLabel.Text = "Please enter in an Employee ID";
+            alert_count++;
+        }
+
+        if (alert_count > 0)
+        {
+            return;
+        }
+
         String employeeID = LoginValidator.ValidateUserCredentials(oldPasswordField.Text, employeeEmailField.Text.ToLower());
+
         if (employeeID.Length > 0)
         { //Username/Password is valid
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -64,7 +110,8 @@ public partial class UpdatePassword : System.Web.UI.Page
         }
         else
         {//Username/password NOT valid.
-            FinalLabel.Text = "Incorrect Email/Password Combination!";
+            newAlertLabel.Text = "Incorrect Email/Password Combination!";
+            newAlert.Visible = true;
         }
 
 

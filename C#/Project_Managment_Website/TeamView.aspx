@@ -60,17 +60,18 @@
                 </li>
             </ul>
         </div>
-
+       <div class="form-inline my-2 my-lg-0 ">
+            <a class="form-control mr-sm-2 " href="SignOut.aspx">Signout</a>
+ 
+        </div>
     </nav>
 <form id="form1" runat="server">
     <div class="container">
 
+    
+        <h1>View Productivity of Each Team Member</h1>
         <br />
-        <asp:Label ID="Label4" runat="server" Text="View Productivity of Each Team Member" BorderStyle="None" Font-Bold="True" Font-Size="20pt" ForeColor="Black" Height="41px" Width="826px"></asp:Label>
-        <br />
-        <br />
-        <br />
-        <br />
+  
 
         <asp:Label class="sr-only" ID="Label1" runat="server" Text="Team to view"></asp:Label>
         <div class="form-control">
@@ -78,8 +79,8 @@
         </asp:DropDownList>
         </div>
         <br />
-        <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  
+        
            
     
         <asp:Label class="sr-only" ID="Label2" runat="server" Text="Projects created in the last:"></asp:Label>
@@ -88,8 +89,7 @@
         </asp:DropDownList>
         </div>
         <br />
-        <br />
-        <br />
+   
 
         <asp:Button class="btn btn-lg btn-primary btn-block" ID="Button1" runat="server" OnClick="Button1_Click" Text="Submit" />
         <br />

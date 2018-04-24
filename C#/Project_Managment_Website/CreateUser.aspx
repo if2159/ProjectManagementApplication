@@ -63,11 +63,18 @@
                 </li>
             </ul>
         </div>
+       <div class="form-inline my-2 my-lg-0 ">
+            <a class="form-control mr-sm-2 " href="SignOut.aspx">Signout</a>
+ 
+        </div>
     </nav>
 
     <div class="container">
         <form id="form1"  runat="server">
-            <h2 class="form-heading2">Create New User</h2>
+            <h1>Create New User</h1>
+
+          
+
             <div>
                 <!--<asp:Label ID="employeeIDLabel" runat="server" Text="Employee ID: "></asp:Label>-->
                 <asp:TextBox ID="employeeIDField" placeholder="Employee ID: " class="form-control" runat="server"></asp:TextBox>
@@ -75,10 +82,8 @@
                     <asp:Label runat="server" id="employeeAlertLabel"></asp:Label>
                 </div>
             </div>
-
-         
-
             
+            <br />
 
             <div>
                 <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT [ROLE_DESCRIPTION], [ROLE_ID] FROM [USER_ROLES]" OnSelecting="SqlDataSource1_Selecting"></asp:SqlDataSource>
@@ -90,6 +95,7 @@
                 </div>
             </div>
                 
+            <br />
 
             <div>
                 <!--<asp:Label ID="emailLabel" runat="server" Text="Email: "></asp:Label>-->
@@ -99,6 +105,8 @@
                 </div>
             </div>
 
+            <br />
+
             <div>
                 <!--<asp:Label ID="passwordLabel" runat="server" Text="Password: "></asp:Label>-->
                 <asp:TextBox ID="passwordField" class="form-control" placeholder="Password: " runat="server" type="password"></asp:TextBox>
@@ -107,7 +115,8 @@
                 </div>
             </div>
 
-            <p></p>
+            <br />
+
             <div>
                 <asp:Button ID="submitButton" class="btn btn-lg btn-primary btn-block" runat="server" Text="Submit" OnClick="submitButton_Click" />
             </div>

@@ -61,20 +61,29 @@
                 </li>
             </ul>
         </div>
-
+        <div class="form-inline my-2 my-lg-0 ">
+            <a class="form-control mr-sm-2 " href="SignOut.aspx">Signout</a>
+ 
+        </div>
     </nav>
 <div class="container">
 <form id="form1" runat="server">
     
-        <h2 class="form-signin-heading">Create Project</h2>
+        <h1>Create Project</h1>
     
         <asp:Label class="sr-only" ID="Label1" runat="server" Text="Project Name: "></asp:Label>
         <asp:TextBox class="form-control" ID="projectNameField" placeholder="Project Name: " runat="server"></asp:TextBox>
-        <asp:RequiredFieldValidator runat="server" id="RequiredFieldValidator1" controltovalidate="projectNameField" errormessage="Please enter name!" />
+    <div class="alert alert-primary" runat="server" role="alert" id="projectAlert">
+                    <asp:Label runat="server" id="projectAlertLabel"></asp:Label>
+                </div>
+       <!-- <asp:RequiredFieldValidator runat="server" id="RequiredFieldValidator1" controltovalidate="projectNameField" errormessage="Please enter name!" />-->
         <br />
 
         <asp:Label class="sr-only" ID="Label2" runat="server" Text="Budget:      "></asp:Label>
         <asp:TextBox ID="budgetField" class="form-control" placeholder="Budget:" runat="server" ></asp:TextBox>
+    <div class="alert alert-primary" runat="server" role="alert" id="budgetAlert">
+                    <asp:Label runat="server" id="budgetAlertLabel"></asp:Label>
+                </div>
         <br/>
         
         <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT [DEPARTMENT_ID] FROM [DEPARTMENTS]" OnSelecting="SqlDataSource1_Selecting"></asp:SqlDataSource>
@@ -83,24 +92,37 @@
         <asp:DropDownList class="dropdown-item" ID="controllingDepartmentField" runat="server" DataSourceID="SqlDataSource1" DataTextField="DEPARTMENT_ID" DataValueField="DEPARTMENT_ID" OnSelectedIndexChanged="deparmentsDropDown_SelectedIndexChanged" AutoPostBack="True" OnDataBound ="SqlDataSouce1_DataBound">
         </asp:DropDownList>
         </div>
+    <div class="alert alert-primary" runat="server" role="alert" id="departmentAlert">
+                    <asp:Label runat="server" id="departmentAlertLabel"></asp:Label>
+                </div>
         <br />
 
         
         <asp:SqlDataSource ID="SqlDataSource3" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT [EMPLOYEE_ID] FROM [EMPLOYEES]" OnSelecting="SqlDataSource1_Selecting"></asp:SqlDataSource>
         <asp:Label class="sr-only" ID="Label4" runat="server" Text="Employee ID: "></asp:Label>
         <asp:TextBox ID="employeeIDField" class="form-control" placeholder="Employee ID:" runat="server" DataSourceID="SqlDataSource3" DataTextField="EMPLOYEE_ID" DataValueField="EMPLOYEE_ID" OnSelectedIndexChanged="employeeIDField_SelectedIndexChanged" AutoPostBack="true" OnDataBound ="SqlDataSouce3_DataBound" OnTextChanged="employeeIDField_TextChanged1"></asp:TextBox>
-        <br/>
+        <div class="alert alert-primary" runat="server" role="alert" id="employeeAlert">
+                    <asp:Label runat="server" id="employeeAlertLabel"></asp:Label>
+                </div>    
+    <br/>
 
         <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT [TEAM_ID] FROM [TEAMS]" OnSelecting="SqlDataSource1_Selecting"></asp:SqlDataSource>
         <asp:Label class="sr-only" ID="Label5" runat="server" Text="Controlling Team: "></asp:Label>
         <div class="form-control">
         <asp:DropDownList class="dropdown-item"  ID="teamsDropDownField" runat="server" DataSourceID="SqlDataSource2" DataTextField="TEAM_ID" DataValueField="TEAM_ID" OnSelectedIndexChanged="teamsDropDown_SelectedIndexChanged" AutoPostBack="true" OnDataBound ="SqlDataSouce2_DataBound">
         </asp:DropDownList>
+            
         </div>
+    <div class="alert alert-primary" runat="server" role="alert" id="teamAlert">
+                    <asp:Label runat="server" id="teamAlertLabel"></asp:Label>
+                </div>
         <br />
 
         <asp:Label class="sr-only" ID="Label6" runat="server" Text="Start Date:  "></asp:Label>
         <asp:TextBox class="form-control" placeholder="Start Date:" ID="startDateField" runat="server" ReadOnly="True"></asp:TextBox>
+    <div class="alert alert-primary" runat="server" role="alert" id="startAlert">
+                    <asp:Label runat="server" id="startAlertLabel"></asp:Label>
+                </div>
         <br />
 
         <asp:SqlDataSource ID="SqlDataSource4" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT [STATUS_ID],[STATUS_DESCRIPTION] FROM [STATUSES]" OnSelecting="SqlDataSource1_Selecting"></asp:SqlDataSource>
@@ -108,7 +130,11 @@
         <div class="form-control">
         <asp:DropDownList class="dropdown-item" ID="statusTypeField" placeholder="HJHJDHJSDFGHGFDSGH" runat="server" DataSourceID="SqlDataSource4" DataTextField="STATUS_DESCRIPTION" DataValueField="STATUS_ID" OnSelectedIndexChanged="statusTypeField_SelectedIndexChanged" AutoPostBack="true" OnDataBound ="SqlDataSouce4_DataBound">
         </asp:DropDownList>
-        <div></div>
+            
+        </div>
+            <div class="alert alert-primary" runat="server" role="alert" id="statusAlert">
+                    <asp:Label runat="server" id="statusAlertLabel"></asp:Label>
+                </div>
         <br />
         
 

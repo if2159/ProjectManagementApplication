@@ -17,6 +17,14 @@ public partial class UpdateEmployees : System.Web.UI.Page
         {
             Response.Redirect("Login.aspx");
         }
+
+        employeeAlert.Visible = false;
+        teamAlert.Visible = false;
+
+        employeeAlertLabel.Text = "";
+        teamAlertLabel.Text = "";
+
+
     }
 
 
@@ -39,12 +47,18 @@ public partial class UpdateEmployees : System.Web.UI.Page
     }
     protected void Button1_Click(object sender, EventArgs e)
     {
+        employeeAlert.Visible = false;
+        teamAlert.Visible = false;
+
+        employeeAlertLabel.Text = "";
+        teamAlertLabel.Text = "";
 
         if (checkIfValidEmployeeID())
         {
             if (int.Parse(teamsDropDown.SelectedValue) == -1)
             {
-                FinalLabel.Text = "Please select a Team";
+                teamAlertLabel.Text = "Please select a Team";
+                teamAlert.Visible = true;
             }
             else
             {
@@ -71,7 +85,8 @@ public partial class UpdateEmployees : System.Web.UI.Page
         }
         else
         {
-            FinalLabel.Text = "This Employee ID does not exist";
+            employeeAlertLabel.Text = "This Employee ID does not exist";
+            employeeAlert.Visible = true;
         }
 
 
@@ -79,7 +94,7 @@ public partial class UpdateEmployees : System.Web.UI.Page
     protected void SqlDataSouce2_DataBound(object sender, EventArgs e)
     {
 
-        teamsDropDown.Items.Insert(0, new ListItem("-Select-", "-1"));
+        teamsDropDown.Items.Insert(0, new ListItem("Teams: ", "-1"));
         teamsDropDown.SelectedIndex = 0; ;
     }
     protected void SqlDataSource1_Selecting(object sender, SqlDataSourceSelectingEventArgs e)

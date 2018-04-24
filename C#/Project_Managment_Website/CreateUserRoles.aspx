@@ -63,7 +63,10 @@
                 </li>
             </ul>
         </div>
-
+       <div class="form-inline my-2 my-lg-0 ">
+            <a class="form-control mr-sm-2 " href="SignOut.aspx">Signout</a>
+ 
+        </div>
     </nav>
     <div class="container">
     <form id="form1" runat="server">
@@ -76,8 +79,7 @@
             <div class="alert alert-primary" runat="server" role="alert" id="roleDescriptionAlert">
                     <asp:Label runat="server" id="roleDescriptionAlertLabel"></asp:Label>
                 </div>
-        </p>
-        <p>
+        <br />
             <asp:Button ID="submitButton" class="btn btn-lg btn-primary btn-block" runat="server" Text="Submit" OnClick="submitButton_Click" />
         </p>
         <p>

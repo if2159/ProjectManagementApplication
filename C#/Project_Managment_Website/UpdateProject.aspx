@@ -75,6 +75,9 @@
         <asp:DropDownList class="dropdown-item" ID="projectsDropDown" runat="server" DataSourceID="SqlDataSource1" DataTextField="NAME" DataValueField="PROJECT_ID" OnSelectedIndexChanged="projectsDropDown_SelectedIndexChanged" AutoPostBack="true" OnDataBound ="SqlDataSouce1_DataBound">
         </asp:DropDownList>
         </div>
+        <div class="alert alert-primary" runat="server" role="alert" id="projectAlert">
+                    <asp:Label runat="server" id="projectAlertLabel"></asp:Label>
+                </div>
         <br />
         
 
@@ -84,6 +87,9 @@
         <asp:DropDownList class="dropdown-item" ID="statusDropDown" runat="server" DataSourceID="SqlDataSource2" DataTextField="STATUS_DESCRIPTION" DataValueField="STATUS_ID" OnSelectedIndexChanged="statusDropDown_SelectedIndexChanged" AutoPostBack="true" ondatabound ="SqlDataSouce2_DataBound">
         </asp:DropDownList>
         </div>
+        <div class="alert alert-primary" runat="server" role="alert" id="statusAlert">
+                    <asp:Label runat="server" id="statusAlertLabel"></asp:Label>
+                </div>
         <br />
         
 

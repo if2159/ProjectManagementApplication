@@ -27,7 +27,13 @@ public partial class UpdateProject : System.Web.UI.Page
         {
             Response.Redirect("AccessForbidden.aspx");
         }
-        
+
+        projectAlert.Visible = false;
+        statusAlert.Visible = false;
+
+        projectAlertLabel.Text = "";
+        statusAlertLabel.Text = "";
+
     }
 
     private bool AuthenticateSession()
@@ -140,7 +146,7 @@ public partial class UpdateProject : System.Web.UI.Page
     }
     protected void SqlDataSouce1_DataBound(object sender, EventArgs e)
     {
-        projectsDropDown.Items.Insert(0, new ListItem("-Select-", "0"));
+        projectsDropDown.Items.Insert(0, new ListItem("Projects: ", "0"));
         projectsDropDown.SelectedIndex = 0; ;
     }
 
@@ -162,7 +168,7 @@ public partial class UpdateProject : System.Web.UI.Page
 
     protected void SqlDataSouce2_DataBound(object sender, EventArgs e)
     {
-        statusDropDown.Items.Insert(0, new ListItem("-Select-", "0"));
+        statusDropDown.Items.Insert(0, new ListItem("Status: ", "0"));
         statusDropDown.SelectedIndex = 0; ;
     }
 
@@ -177,13 +183,21 @@ public partial class UpdateProject : System.Web.UI.Page
 
     protected void Button1_Click(object sender, EventArgs e)
     {
+        projectAlert.Visible = false;
+        statusAlert.Visible = false;
+
+        projectAlertLabel.Text = "";
+        statusAlertLabel.Text = "";
+
         if (int.Parse(projectsDropDown.SelectedValue) == 0)
         {
-            Label3.Text = "Please select a project";
+            projectAlertLabel.Text = "Please select a project";
+            projectAlert.Visible = true;
         }
         else if(int.Parse(statusDropDown.SelectedValue) == 0)
         {
-            Label3.Text = "Please select a status";
+            statusAlertLabel.Text = "Please select a status";
+            statusAlert.Visible = true;
         }
         else
         {

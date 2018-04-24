@@ -30,6 +30,21 @@ public partial class Departments : System.Web.UI.Page
             Response.Redirect("AccessForbidden.aspx");
         }
 
+        departmentAlert.Visible = false;
+        streetNumberAlert.Visible = false;
+        streetNameAlert.Visible = false;
+        cityAlert.Visible = false;
+        stateProvinceAlert.Visible = false;
+        zipcodePostcodeAlert.Visible = false;
+        countryAlert.Visible = false;
+
+        departmentAlertLabel.Text = "";
+        streetNumberAlertLabel.Text = "";
+        streetNameAlertLabel.Text = "";
+        cityAlertLabel.Text = "";
+        stateProvinceAlertLabel.Text = "";
+        zipcodePostcodeAlertLabel.Text = "";
+        countryAlertLabel.Text = "";
     }
 
     private bool CheckRole()
@@ -69,35 +84,70 @@ public partial class Departments : System.Web.UI.Page
 
     protected void submitButton_Click(object sender, EventArgs e)
     {
+        departmentAlert.Visible = false;
+        streetNumberAlert.Visible = false;
+        streetNameAlert.Visible = false;
+        cityAlert.Visible = false;
+        stateProvinceAlert.Visible = false;
+        zipcodePostcodeAlert.Visible = false;
+        countryAlert.Visible = false;
+
+        departmentAlertLabel.Text = "";
+        streetNumberAlertLabel.Text = "";
+        streetNameAlertLabel.Text = "";
+        cityAlertLabel.Text = "";
+        stateProvinceAlertLabel.Text = "";
+        zipcodePostcodeAlertLabel.Text = "";
+        countryAlertLabel.Text = "";
+
+        int alert_count = 0;
         if (string.IsNullOrEmpty(departmentNameField.Text))
         {
-            outputLabel.Text = "Please enter a department";
+            departmentAlertLabel.Text = "Please enter a department";
+            departmentAlert.Visible = true;
+            alert_count++;
         }
-        else if (string.IsNullOrEmpty(streetNumberField.Text))
+        if (string.IsNullOrEmpty(streetNumberField.Text))
         {
-            outputLabel.Text = "Please enter a street number";
+            streetNumberAlertLabel.Text = "Please enter a street number";
+            streetNumberAlert.Visible = true;
+            alert_count++;
         }
-        else if (string.IsNullOrEmpty(streetNameField.Text))
+        if (string.IsNullOrEmpty(streetNameField.Text))
         {
-            outputLabel.Text = "Please enter a street";
+            streetNameAlertLabel.Text = "Please enter a street";
+            streetNameAlert.Visible = true;
+            alert_count++;
         }
-        else if (string.IsNullOrEmpty(cityField.Text))
+        if (string.IsNullOrEmpty(cityField.Text))
         {
-            outputLabel.Text = "Please enter a city";
+            cityAlertLabel.Text = "Please enter a city";
+            cityAlert.Visible = true;
+            alert_count++;
         }
-        else if (string.IsNullOrEmpty(stateProvinceField.Text))
+        if (string.IsNullOrEmpty(stateProvinceField.Text))
         {
-            outputLabel.Text = "Please enter a State or Province";
+             stateProvinceAlertLabel.Text = "Please enter a State or Province";
+            stateProvinceAlert.Visible = true;
+            alert_count++;
         }
-        else if (string.IsNullOrEmpty(zipcodeField.Text))
+        if (string.IsNullOrEmpty(zipcodeField.Text))
         {
-            outputLabel.Text = "Please enter a zipcode";
+            zipcodePostcodeAlertLabel.Text = "Please enter a zipcode";
+            zipcodePostcodeAlert.Visible = true;
+            alert_count++;
         }
-        else if (string.IsNullOrEmpty(countryField.Text))
+        if (string.IsNullOrEmpty(countryField.Text))
         {
-            outputLabel.Text = "Please enter a country";
+            countryAlertLabel.Text = "Please enter a country";
+            countryAlert.Visible = true;
+            alert_count++;
         }
 
+        if(alert_count >0)
+        {
+            return;
+        }
         else
         {
             outputLabel.Text = "";
