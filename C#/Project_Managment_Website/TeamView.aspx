@@ -72,7 +72,7 @@
         <br />
         <br />
 
-        <asp:Label ID="Label1" runat="server" Text="Team to view"></asp:Label>
+        <asp:Label class="sr-only" ID="Label1" runat="server" Text="Team to view"></asp:Label>
         <div class="form-control">
         <asp:DropDownList class="dropdown-item" ID="teamsLeadingDropDown" runat="server" DataTextField="TEAM_ID" DataValueField="TEAM_ID" OnSelectedIndexChanged="teamsDropDown_SelectedIndexChanged" OnLoad ="onload_teamsLeadingDropDown" ondatabound ="SqlDataSouce1_DataBound" AutoPostBack ="true">
         </asp:DropDownList>
@@ -82,7 +82,7 @@
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
            
     
-        <asp:Label ID="Label2" runat="server" Text="Projects created in the last:"></asp:Label>
+        <asp:Label class="sr-only" ID="Label2" runat="server" Text="Projects created in the last:"></asp:Label>
         <div class="form-control">
         <asp:DropDownList class="dropdown-item" ID="dateSelectedDropDown" runat="server" OnSelectedIndexChanged="dateSelectedDropDown_SelectedIndexChanged">
         </asp:DropDownList>
