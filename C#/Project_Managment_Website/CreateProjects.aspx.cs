@@ -109,6 +109,50 @@ public partial class CreateProjects : System.Web.UI.Page
                 alert_count++;
             }
 
+
+            int value;
+            if (string.IsNullOrWhiteSpace(projectNameField.Text))
+            {
+                projectAlert.Visible = true;
+                projectAlertLabel.Text = "Please enter a project name";
+                alert_count++;
+            }
+            if (!int.TryParse(budgetField.Text, out value))
+            {
+                budgetAlert.Visible = true;
+                budgetAlertLabel.Text = "Budget only contains integers";
+                alert_count++;
+            }
+            if (!int.TryParse(employeeIDField.Text, out value))
+            {
+                employeeAlert.Visible = true;
+                employeeAlertLabel.Text = "An Employee ID only contains numbers";
+                alert_count++;
+            }
+            if (employeeIDField.Text.Length != 10)
+            {
+                employeeAlertLabel.Text = "Employee ID is 10 integers long";
+                employeeAlert.Visible = true;
+                alert_count++;
+            }
+            if (string.IsNullOrWhiteSpace(budgetField.Text))
+            {
+                budgetAlert.Visible = true;
+                budgetAlertLabel.Text = "Please enter in a Budget";
+                alert_count++;
+            }
+            if (string.IsNullOrWhiteSpace(employeeIDField.Text))
+            {
+                employeeAlert.Visible = true;
+                employeeAlertLabel.Text = "Please enter in a Employee ID";
+                alert_count++;
+            }
+            
+
+
+
+
+
             if (alert_count > 0)
             {
                 return;

@@ -145,22 +145,8 @@
         
         <asp:Label class="alert" ID="finalLabel" runat="server" Text=""></asp:Label>
         
-        <div>
-            <asp:RequiredFieldValidator runat="server" id="RequiredFieldValidator2" controltovalidate="budgetField" errormessage="Please enter Budget!" />
-        </div>
-        
-        <div>
-            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="budgetField" runat="server" ErrorMessage="Only Numbers allowed" ValidationExpression="\d+"></asp:RegularExpressionValidator>
-        </div>
 
-        <div>
-            <asp:RequiredFieldValidator runat="server" id="RequiredFieldValidator3" controltovalidate="employeeIDField" errormessage="Please enter Employee ID!" />
-        </div>
-
-        <div>
-            <asp:RegularExpressionValidator ID="RegularExpressionValidator2" ControlToValidate="employeeIDField" runat="server" ErrorMessage="Only Numbers allowed" ValidationExpression="\d+">
-            </asp:RegularExpressionValidator>
-        </div>
+       
 </form>
 </div>
 </body>
