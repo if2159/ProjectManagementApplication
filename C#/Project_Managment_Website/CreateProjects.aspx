@@ -14,7 +14,9 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #4169e1;">
-        <a class="navbar-brand" id="color1" href="#">PM</a>
+        <a class="navbar-brand"  href="#">
+            <img class="hello" src="Images/LogoMakr_4taEgE.png" />
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
