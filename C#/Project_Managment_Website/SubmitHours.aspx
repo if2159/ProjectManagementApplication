@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="SubmitHours.aspx.cs" Inherits="SubmitHours" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="SubmitHours.aspx.cs" Inherits="SubmitHours" %>
 
 <!DOCTYPE html>
 
@@ -67,11 +67,11 @@
         <h1>Submit Hours</h1>
         <asp:TextBox class="form-control" placeholder="Hours:" ID="hoursField" runat="server"></asp:TextBox>
        <br />
-        <asp:Label ID="projectLabel" runat="server" Text="Project: "></asp:Label>
-        <div class="form-control">
-            <asp:DropDownList class="dropdown-item" ID="projectDropDown" runat="server" DataSourceID="SqlDataSource1" DataTextField="NAME" DataValueField="PROJECT_ID">       
-            </asp:DropDownList>        
+        <asp:Label ID="projectLabel" runat="server" Text=""></asp:Label>
+        <div class="form-control">   
             <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT [PROJECT_ID], [NAME] FROM [PROJECTS]"></asp:SqlDataSource>
+            <asp:DropDownList class="dropdown-item" ID="projectDropDown" runat="server" DataSourceID="SqlDataSource1" DataTextField="NAME" DataValueField="PROJECT_ID" OnDataBound ="SqlDataSouce1_DataBound" AutoPostBack ="true">       
+            </asp:DropDownList>    
         </div>
         <br />
         <asp:Button class="btn btn-lg btn-primary btn-block" ID="submitHoursButton" runat="server" OnClick="submitHoursButton_Click" Text="Submit" />
