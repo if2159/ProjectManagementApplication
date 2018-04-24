@@ -342,7 +342,7 @@ public partial class CreateUser : System.Web.UI.Page
 
     protected void SqlDataSouce1_DataBound(object sender, EventArgs e)
     {
-        roleDropDown.Items.Insert(0, new ListItem("-Select-", "-1"));
+        roleDropDown.Items.Insert(0, new ListItem("Role: ", "-1"));
         roleDropDown.SelectedIndex = 0; ;
     }
 

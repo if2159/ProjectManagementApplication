@@ -236,7 +236,7 @@ public partial class CreateTeam : System.Web.UI.Page
 
     protected void SqlDataSouce1_DataBound(object sender, EventArgs e) {
         projectDropDown.Items.Add(new ListItem("None", "0"));
-        projectDropDown.Items.Insert(0, new ListItem("-Select-", "-1"));
+        projectDropDown.Items.Insert(0, new ListItem("Project: ", "-1"));
         projectDropDown.SelectedIndex = 0; ;
         
     }
@@ -244,7 +244,7 @@ public partial class CreateTeam : System.Web.UI.Page
     protected void SqlDataSouce2_DataBound(object sender, EventArgs e)
     {
         //projectDropDown.Items.Add(new ListItem("-Select-", "0"));
-        departmentDropDown.Items.Insert(0, new ListItem("-Select-", "-1"));
+        departmentDropDown.Items.Insert(0, new ListItem("Department: ", "-1"));
         departmentDropDown.SelectedIndex = 0; ;
     }
 

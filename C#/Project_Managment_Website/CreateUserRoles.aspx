@@ -71,8 +71,8 @@
     
         <h1>Create New User Role</h1>
         <p>
-            <asp:Label ID="roleNameLabel" runat="server" Text="Role Description: "></asp:Label>
-            <asp:TextBox ID="roleNameField" class="form-control" runat="server"></asp:TextBox>
+            
+            <asp:TextBox ID="roleNameField" placeholder="Role Description: " class="form-control" runat="server"></asp:TextBox>
             <div class="alert alert-primary" runat="server" role="alert" id="roleDescriptionAlert">
                     <asp:Label runat="server" id="roleDescriptionAlertLabel"></asp:Label>
                 </div>

@@ -72,12 +72,13 @@
     
             <h1>Create New Project Status</h1>
             <div>
-                <asp:Label ID="roleNameLabel" runat="server" Text="Status Description: "></asp:Label>
-                <asp:TextBox ID="roleNameField" class="form-control" runat="server"></asp:TextBox>
+                
+                <asp:TextBox ID="roleNameField" placeholder="Status Description: " class="form-control" runat="server"></asp:TextBox>
                 <div class="alert alert-primary" runat="server" role="alert" id="createStatusAlert">
                         <asp:Label runat="server" id="createStatusAlertLabel"></asp:Label>
                   </div>
             </div>
+            <p></p>
             <p>
                 <asp:Button ID="submitButton" class="btn btn-lg btn-primary btn-block" runat="server" Text="Submit" OnClick="submitButton_Click" />
             </p>

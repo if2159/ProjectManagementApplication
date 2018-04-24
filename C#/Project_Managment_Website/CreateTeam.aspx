@@ -68,8 +68,11 @@
 
     <div class="container">
     <form id="form1" runat="server">
+
+        <h2 class="form-heading2">Create New Team</h2>
+
         <div>
-            <asp:Label ID="Label1" runat="server" Text="Project ID"></asp:Label>
+            
         <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT [PROJECT_ID], [NAME] FROM [PROJECTS]" OnSelecting="SqlDataSource1_Selecting"></asp:SqlDataSource>
         <div class="form-control">
             <asp:DropDownList class="dropdown-item" ID="projectDropDown" runat="server" DataSourceID="SqlDataSource1" DataTextField="NAME" DataValueField="PROJECT_ID" OnSelectedIndexChanged="projectDropDown_SelectedIndexChanged" ondatabound ="SqlDataSouce1_DataBound">
@@ -82,7 +85,7 @@
         </div>
 
         <div>
-        <asp:Label ID="Label2" runat="server" Text="Department Name"></asp:Label>
+        
         <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT [DEPARTMENT_ID], [NAME] FROM [DEPARTMENTS]" OnSelecting="SqlDataSource2_Selecting"></asp:SqlDataSource>
         <div class="form-control">
             <asp:DropDownList class="dropdown-item" ID="departmentDropDown" runat="server" DataSourceID="SqlDataSource2" DataTextField="NAME" DataValueField="DEPARTMENT_ID" OnSelectedIndexChanged="departmentDropDown_SelectedIndexChanged" ondatabound ="SqlDataSouce2_DataBound">
@@ -94,8 +97,8 @@
         </div>
 
         <div>
-        <asp:Label ID="Label3" runat="server" Text="Team Lead"></asp:Label>        
-        <asp:TextBox class="form-control" ID="teamLeadID" runat="server" OnTextChanged="TextBox1_TextChanged"></asp:TextBox>
+       
+        <asp:TextBox class="form-control" ID="teamLeadID" placeholder="Team Lead (Employee ID): " runat="server" OnTextChanged="TextBox1_TextChanged"></asp:TextBox>
         <asp:RegularExpressionValidator ID="RegularExpressionValidator2" ControlToValidate="teamLeadID" runat="server" ErrorMessage="Only Numbers allowed" ValidationExpression="\d+">
        </asp:RegularExpressionValidator>
             <div class="alert alert-primary" runat="server" role="alert" id="teamLeadAlert">

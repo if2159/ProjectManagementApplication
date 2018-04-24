@@ -64,23 +64,21 @@
             </ul>
         </div>
     </nav>
+
     <div class="container">
         <form id="form1"  runat="server">
+            <h2 class="form-heading2">Create New User</h2>
             <div>
-                <asp:Label ID="employeeIDLabel" runat="server" Text="Employee ID: "></asp:Label>
-                <asp:TextBox ID="employeeIDField" class="form-control" runat="server"></asp:TextBox>
+                <!--<asp:Label ID="employeeIDLabel" runat="server" Text="Employee ID: "></asp:Label>-->
+                <asp:TextBox ID="employeeIDField" placeholder="Employee ID: " class="form-control" runat="server"></asp:TextBox>
                 <div class="alert alert-primary" runat="server" role="alert" id="employeeAlert">
                     <asp:Label runat="server" id="employeeAlertLabel"></asp:Label>
                 </div>
             </div>
 
-            <div>
-                <asp:Label ID="roleLabel" runat="server" Text="Role"></asp:Label>
-            </div>
+         
 
-            <div class="dropdown-menu">
-                
-            </div>
+            
 
             <div>
                 <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT [ROLE_DESCRIPTION], [ROLE_ID] FROM [USER_ROLES]" OnSelecting="SqlDataSource1_Selecting"></asp:SqlDataSource>
@@ -94,24 +92,25 @@
                 
 
             <div>
-                <asp:Label ID="emailLabel" runat="server" Text="Email: "></asp:Label>
-                <asp:TextBox ID="emailField" class="form-control" runat="server" ></asp:TextBox>
-                <div class="alert alert-primary" runat="server" role="alert" id="emailAlert">
+                <!--<asp:Label ID="emailLabel" runat="server" Text="Email: "></asp:Label>-->
+                <asp:TextBox ID="emailField" placeholder="Email: " class="form-control" runat="server" ></asp:TextBox>
+                <div class="alert alert-primary"  runat="server" role="alert" id="emailAlert">
                     <asp:Label runat="server" id="emailAlertLabel"></asp:Label>
                 </div>
             </div>
 
             <div>
-                <asp:Label ID="passwordLabel" runat="server" Text="Password: "></asp:Label>
-                <asp:TextBox ID="passwordField" class="form-control" runat="server" type="password"></asp:TextBox>
-                <div class="alert alert-primary" runat="server" role="alert" id="passwordAlert">
+                <!--<asp:Label ID="passwordLabel" runat="server" Text="Password: "></asp:Label>-->
+                <asp:TextBox ID="passwordField" class="form-control" placeholder="Password: " runat="server" type="password"></asp:TextBox>
+                <div class="alert alert-primary" placeholder="Employee ID: " runat="server" role="alert" id="passwordAlert">
                     <asp:Label runat="server" id="passwordAlertLabel"></asp:Label>
                 </div>
             </div>
 
-            <p>
+            <p></p>
+            <div>
                 <asp:Button ID="submitButton" class="btn btn-lg btn-primary btn-block" runat="server" Text="Submit" OnClick="submitButton_Click" />
-            </p>
+            </div>
 
             <p>
                 <asp:Label ID="finalLabel" runat="server" Text=""></asp:Label>
