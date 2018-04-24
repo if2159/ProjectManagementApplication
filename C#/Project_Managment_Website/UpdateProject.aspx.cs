@@ -140,7 +140,7 @@ public partial class UpdateProject : System.Web.UI.Page
     }
     protected void SqlDataSouce1_DataBound(object sender, EventArgs e)
     {
-        projectsDropDown.Items.Insert(0, new ListItem("-Select-", "0"));
+        projectsDropDown.Items.Insert(0, new ListItem("Project:", "0"));
         projectsDropDown.SelectedIndex = 0; ;
     }
 
@@ -162,7 +162,7 @@ public partial class UpdateProject : System.Web.UI.Page
 
     protected void SqlDataSouce2_DataBound(object sender, EventArgs e)
     {
-        statusDropDown.Items.Insert(0, new ListItem("-Select-", "0"));
+        statusDropDown.Items.Insert(0, new ListItem("Status:", "0"));
         statusDropDown.SelectedIndex = 0; ;
     }
 
