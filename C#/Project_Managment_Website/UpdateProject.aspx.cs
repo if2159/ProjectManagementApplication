@@ -62,14 +62,15 @@ public partial class UpdateProject : System.Web.UI.Page
     //projectsDropDown
     protected void projectsDropDown_SelectedIndexChanged(object sender, EventArgs e)
     {
-        
+        Label3.Text = "";
         int statusID = autoSelectCurrentProject();
-        if (statusID == 0)
+        if (int.Parse(projectsDropDown.SelectedValue) == 0)
         {
             Label3.Text = "Please select a project";
         }
         else
         {
+
             Label3.Text = "";
             //int statusID = int.Parse(projectsDropDown.SelectedValue);
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -94,6 +95,7 @@ public partial class UpdateProject : System.Web.UI.Page
                     statusDropDown.Items.IndexOf(statusDropDown.Items.FindByText(roleDesc));
             }
         }
+        
 
     }
 
@@ -103,6 +105,7 @@ public partial class UpdateProject : System.Web.UI.Page
         {
             return 0;
         }
+  
         else
         {
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -159,8 +162,8 @@ public partial class UpdateProject : System.Web.UI.Page
 
     protected void SqlDataSouce2_DataBound(object sender, EventArgs e)
     {
-        projectsDropDown.Items.Insert(0, new ListItem("-Select-", String.Empty));
-        projectsDropDown.SelectedIndex = 0; ;
+        statusDropDown.Items.Insert(0, new ListItem("-Select-", "0"));
+        statusDropDown.SelectedIndex = 0; ;
     }
 
     protected void SqlDataSource2_Selecting(object sender, SqlDataSourceSelectingEventArgs e)
@@ -177,6 +180,10 @@ public partial class UpdateProject : System.Web.UI.Page
         if (int.Parse(projectsDropDown.SelectedValue) == 0)
         {
             Label3.Text = "Please select a project";
+        }
+        else if(int.Parse(statusDropDown.SelectedValue) == 0)
+        {
+            Label3.Text = "Please select a status";
         }
         else
         {
