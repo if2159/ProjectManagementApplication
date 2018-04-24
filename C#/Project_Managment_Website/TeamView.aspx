@@ -98,10 +98,22 @@
         <asp:Label class="text-info" ID="Label5" runat="server" Text=""></asp:Label>
         <br />
 
-        <asp:GridView ID="GridView1" runat="server" OnSelectedIndexChanged="GridView1_SelectedIndexChanged">
-        </asp:GridView>
         <br />
         <asp:Label class="text-info" ID="Label3" runat="server" Text=""></asp:Label>
+
+        <table class="table">
+          <thead class="thead-light" id="teamTable" runat="server">
+            <tr>
+              <th scope="col">Hours Worked</th>
+              <th scope="col">First</th>
+              <th scope="col">Last</th>
+            </tr>
+          </thead>
+          <tbody>  
+            <div id="divOnPage" runat="server"></div>
+          </tbody>
+        </table>
+
     </div>
 </form>
 </body>

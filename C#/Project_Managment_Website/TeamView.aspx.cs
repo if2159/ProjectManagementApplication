@@ -30,6 +30,11 @@ public partial class TeamView : System.Web.UI.Page
         {
             Response.Redirect("AccessForbidden.aspx");
         }
+
+        teamTable.Visible = false;
+        Label6.Text = "";
+        Label5.Text = "";
+        Label3.Text = "";
     }
 
     private bool AuthenticateSession()
@@ -67,7 +72,12 @@ public partial class TeamView : System.Web.UI.Page
     /// Data is displayed through a select statement whose contents are loaded into a datatable
     /// </summary>
     protected void displayData()
-    {        
+    {
+        teamTable.Visible = false;
+        Label6.Text = "";
+        Label5.Text = "";
+        Label3.Text = "";
+
         String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
         if (string.IsNullOrEmpty(teamsLeadingDropDown.SelectedValue))
         {
@@ -130,9 +140,51 @@ public partial class TeamView : System.Web.UI.Page
                 DataTable viewTable = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(viewTable);
-                GridView1.DataSource = viewTable;
-                GridView1.DataBind();
 
+                LiteralControl imageGallery = new LiteralControl();
+                
+                foreach (DataRow row in viewTable.Rows)
+                {
+                    teamTable.Visible = true;
+
+                    string divStart = @"<tr>";
+                    imageGallery.Text += divStart;
+
+                    //First Name
+                    string itemStart = "<td>";
+                    imageGallery.Text += itemStart;
+
+                    string value = row[0].ToString();
+                    imageGallery.Text += value;
+
+                    string itemEnd = "</td>";
+                    imageGallery.Text += itemEnd;
+
+                    //Last Name
+                    itemStart = "<td>";
+                    imageGallery.Text += itemStart;
+
+                    value = row[1].ToString();
+                    imageGallery.Text += value;
+
+                    itemEnd = "</td>";
+                    imageGallery.Text += itemEnd;
+
+                    //Hours Worked
+                    itemStart = "<td>";
+                    imageGallery.Text += itemStart;
+
+                    value = row[2].ToString();
+                    imageGallery.Text += value;
+
+                    itemEnd = "</td>";
+                    imageGallery.Text += itemEnd;
+
+                    string divEnd = @"</ tr >";
+                    imageGallery.Text += divEnd;
+
+                    divOnPage.Controls.Add(imageGallery);
+                }
             }
         }
 
