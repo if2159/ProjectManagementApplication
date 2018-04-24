@@ -21,7 +21,7 @@ using System.Data.SqlTypes;
 public partial class CreateTeam : System.Web.UI.Page
 {
 
-    private static String[] allowedRoles = {"ADMIN", "DEPARTMENT_LEAD" };
+    private static String[] allowedRoles = { "ADMIN", "DEPARTMENT_LEAD" };
     private static String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
 
     protected void Page_Load(object sender, EventArgs e)
@@ -94,19 +94,19 @@ public partial class CreateTeam : System.Web.UI.Page
                 projectIDAlertLabel.Text = "Please select a project if there is one";
                 alert_counter++;
             }
-            if(int.Parse(departmentDropDown.SelectedValue) == -1)
+            if (int.Parse(departmentDropDown.SelectedValue) == -1)
             {
                 departmentNameAlertLabel.Text = "Please select a department";
                 departmentNameAlert.Visible = true;
                 alert_counter++;
             }
 
-            if(alert_counter > 0)
+            if (alert_counter > 0)
             {
                 return;
             }
             //DO some function call to make sure the entered employeeID is valid
-            if(checkIfValidEmployeeID())
+            if (checkIfValidEmployeeID())
             {
                 assignTeamLead();
                 con.Open();
@@ -163,7 +163,7 @@ public partial class CreateTeam : System.Web.UI.Page
             SqlParameter eidParameter = new SqlParameter("@eid", SqlDbType.Int);
             if (string.IsNullOrEmpty(teamLeadID.Text))
             {
-                    return false;
+                return false;
             }
             eidParameter.Value = int.Parse(teamLeadID.Text);
             cmd.Parameters.Add(eidParameter);
@@ -174,7 +174,7 @@ public partial class CreateTeam : System.Web.UI.Page
                 {
                     con.Close();
                     return true;
-                    
+
                 }
                 else
                 {
@@ -234,11 +234,12 @@ public partial class CreateTeam : System.Web.UI.Page
 
     }
 
-    protected void SqlDataSouce1_DataBound(object sender, EventArgs e) {
+    protected void SqlDataSouce1_DataBound(object sender, EventArgs e)
+    {
         projectDropDown.Items.Add(new ListItem("None", "0"));
         projectDropDown.Items.Insert(0, new ListItem("Project: ", "-1"));
         projectDropDown.SelectedIndex = 0; ;
-        
+
     }
 
     protected void SqlDataSouce2_DataBound(object sender, EventArgs e)

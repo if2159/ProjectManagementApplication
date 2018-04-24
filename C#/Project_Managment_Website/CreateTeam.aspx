@@ -71,10 +71,10 @@
         </div>
     </nav>
 
-    <div class="container">
+   <div class="container">
     <form id="form1" runat="server">
 
-        <h2 class="form-heading2">Create New Team</h2>
+        <h1>Create New Team</h1>
 
         <div>
             
@@ -89,6 +89,8 @@
                 </div>
         </div>
 
+        <br />
+
         <div>
         
         <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT [DEPARTMENT_ID], [NAME] FROM [DEPARTMENTS]" OnSelecting="SqlDataSource2_Selecting"></asp:SqlDataSource>
@@ -101,15 +103,17 @@
                 </div>
         </div>
 
+        <br />
+
         <div>
        
         <asp:TextBox class="form-control" ID="teamLeadID" placeholder="Team Lead (Employee ID): " runat="server" OnTextChanged="TextBox1_TextChanged"></asp:TextBox>
-        <asp:RegularExpressionValidator ID="RegularExpressionValidator2" ControlToValidate="teamLeadID" runat="server" ErrorMessage="Only Numbers allowed" ValidationExpression="\d+">
-       </asp:RegularExpressionValidator>
             <div class="alert alert-primary" runat="server" role="alert" id="teamLeadAlert">
                     <asp:Label runat="server" id="teamLeadAlertLabel"></asp:Label>
                 </div>
         </div>
+
+        <br />
 
          <asp:Button class="btn btn-lg btn-primary btn-block" ID="Button1" runat="server" OnClick="Button1_Click" Text="Create Team" />
         <asp:Label ID="Label4" runat="server" Text=""></asp:Label>

@@ -83,7 +83,9 @@
                         <asp:Label runat="server" id="createStatusAlertLabel"></asp:Label>
                   </div>
             </div>
-            <p></p>
+            
+            <br />
+
             <p>
                 <asp:Button ID="submitButton" class="btn btn-lg btn-primary btn-block" runat="server" Text="Submit" OnClick="submitButton_Click" />
             </p>

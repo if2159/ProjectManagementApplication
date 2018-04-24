@@ -76,6 +76,9 @@
         <asp:Label class="sr-only" ID="Label1" runat="server" Text="Users Employee ID:"></asp:Label>
         <asp:TextBox class="form-control" placeholder="Users Employee ID:" ID="employeeIDField" runat="server" DataSourceID="SqlDataSource1" DataTextField="EMPLOYEE_ID" DataValueField="EMPLOYEE_ID" OnSelectedIndexChanged="projectsDropDown_SelectedIndexChanged" AutoPostBack="true" OnDataBound ="SqlDataSouce1_DataBound">
         </asp:TextBox>
+        <div class="alert alert-primary" runat="server" role="alert" id="employeeAlert">
+                    <asp:Label runat="server" id="employeeAlertLabel"></asp:Label>
+                </div>
         <br />
         
 
@@ -85,6 +88,9 @@
             <asp:DropDownList class="dropdown-item" ID="teamsDropDown" runat="server" DataSourceID="SqlDataSource2" DataTextField="TEAM_ID" DataValueField="TEAM_ID" OnDataBound="SqlDataSouce2_DataBound" AutoPostBack="true">
             </asp:DropDownList>
         </div>
+        <div class="alert alert-primary" runat="server" role="alert" id="teamAlert">
+                    <asp:Label runat="server" id="teamAlertLabel"></asp:Label>
+                </div>
         <br />
 
        
@@ -93,12 +99,8 @@
         
 
         <asp:Label ID="FinalLabel" runat="server" Text=""></asp:Label>
-        <div>
-            <asp:RegularExpressionValidator ID="RegularExpressionValidator2" ControlToValidate="employeeIDField" runat="server" ErrorMessage="Only Numbers allowed" ValidationExpression="\d+"></asp:RegularExpressionValidator>
-        </div>
-        <div>
-            <asp:RequiredFieldValidator runat="server" id="RequiredFieldValidator1" controltovalidate="employeeIDField" errormessage="Please enter Employee ID!" />
-        </div>
+        
+        
 
     </div>
 </form>

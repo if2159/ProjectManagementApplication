@@ -70,7 +70,7 @@
 
         </div>
     </nav>
-    <div class="container">
+     <div class="container">
     <form id="form1" runat="server">
     <div>
     
@@ -81,8 +81,7 @@
             <div class="alert alert-primary" runat="server" role="alert" id="roleDescriptionAlert">
                     <asp:Label runat="server" id="roleDescriptionAlertLabel"></asp:Label>
                 </div>
-        </p>
-        <p>
+        <br />
             <asp:Button ID="submitButton" class="btn btn-lg btn-primary btn-block" runat="server" Text="Submit" OnClick="submitButton_Click" />
         </p>
         <p>

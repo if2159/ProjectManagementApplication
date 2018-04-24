@@ -19,7 +19,7 @@ public partial class UpdateTeam : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        
+
         if (!AuthenticateSession())
         {
             Response.Redirect("Login.aspx");
@@ -28,7 +28,15 @@ public partial class UpdateTeam : System.Web.UI.Page
         {
             Response.Redirect("AccessForbidden.aspx");
         }
-        
+
+        teamAlert.Visible = false;
+        projectAlert.Visible = false;
+        teamLeadAlert.Visible = false;
+
+        teamAlertLabel.Text = "";
+        projectAlertLabel.Text = "";
+        teamLeadAlertLabel.Text = "";
+
     }
 
     private bool AuthenticateSession()
@@ -59,95 +67,76 @@ public partial class UpdateTeam : System.Web.UI.Page
             return false;
         }
     }
-    
+
 
     //for TeamsDropDown, when they select the team, auto select the current values
     //of that record into the other dropdown as default, if no change is made, the update will use the
     //original value for that attribute
     protected void teamsDropDown_SelectedIndexChanged(object sender, EventArgs e)
     {
-        /*
-        Label4.Text = "";
-        if (autoSelectCurrentProject() == -1)
+        int projectID = autoSelectCurrentProject();
+
+        using (SqlConnection con = new SqlConnection(connectionString))
         {
-            //Label4.Text = "Please select a team";
-        }
+            String queryStatement = "SELECT NAME FROM PROJECTS WHERE PROJECT_ID = @projectID";
+            con.Open();
+            SqlCommand cmd = new SqlCommand(queryStatement, con);
+            SqlParameter ProjectIDParameter = new SqlParameter("@projectID", SqlDbType.Int);
+            ProjectIDParameter.Value = projectID;
+            cmd.Parameters.Add(ProjectIDParameter);
+            cmd.Prepare();
 
-
-        else
-        {
-            int projectID = autoSelectCurrentProject();
-
-            using (SqlConnection con = new SqlConnection(connectionString))
+            string projectName;
+            if (projectID != 0)
             {
-                String queryStatement = "SELECT NAME FROM PROJECTS WHERE PROJECT_ID = @projectID";
-                con.Open();
-                SqlCommand cmd = new SqlCommand(queryStatement, con);
-                SqlParameter ProjectIDParameter = new SqlParameter("@projectID", SqlDbType.Int);
-                ProjectIDParameter.Value = projectID;
-                cmd.Parameters.Add(ProjectIDParameter);
-                cmd.Prepare();
-
-                string projectName;
-                if (projectID != 0)
-                {
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
-                    {
-                        rdr.Read();
-                        projectName = (string)rdr["NAME"];
-                    }
-                }
-                else
-                {
-                    projectName = "None";
-                }
-                projectsDropDown.SelectedIndex =
-                    projectsDropDown.Items.IndexOf(projectsDropDown.Items.FindByText(projectName));
-            }
-        }
-        */
-    }
-    /*Find the project number that team is working on
-    protected int autoSelectCurrentProject()
-    {
-        int projectID;
-        if (string.IsNullOrEmpty(teamsDropDown.SelectedValue))
-        {            
-            projectID = -1;
-            return projectID;
-        }
-        else
-        {
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                String queryStatement = "SELECT PROJECT_ID FROM TEAMS WHERE TEAM_ID = @TEAMID";
-                con.Open();
-                SqlCommand cmd = new SqlCommand(queryStatement, con);
-                SqlParameter teamIDParameter = new SqlParameter("@TEAMID", SqlDbType.Int);
-                teamIDParameter.Value = int.Parse(teamsDropDown.SelectedValue);
-                cmd.Parameters.Add(teamIDParameter);
-                cmd.Prepare();
-
-
-                
                 using (SqlDataReader rdr = cmd.ExecuteReader())
                 {
                     rdr.Read();
-                    if (!rdr.IsDBNull(rdr.GetOrdinal("PROJECT_ID")))
-                    {
-                        projectID = (int)rdr["PROJECT_ID"];
-                    }
-                    else
-                    {
-                        projectID = 0;
-                    }
-                    con.Close();
-                    return projectID;
+                    projectName = (string)rdr["NAME"];
                 }
+            }
+            else
+            {
+                projectName = "None";
+            }
+
+
+
+            projectsDropDown.SelectedIndex =
+                projectsDropDown.Items.IndexOf(projectsDropDown.Items.FindByText(projectName));
+        }
+    }
+    //Find the project number that team is working on
+    protected int autoSelectCurrentProject()
+    {
+        using (SqlConnection con = new SqlConnection(connectionString))
+        {
+            String queryStatement = "SELECT PROJECT_ID FROM TEAMS WHERE TEAM_ID = @TEAMID";
+            con.Open();
+            SqlCommand cmd = new SqlCommand(queryStatement, con);
+            SqlParameter teamIDParameter = new SqlParameter("@TEAMID", SqlDbType.Int);
+            teamIDParameter.Value = int.Parse(teamsDropDown.SelectedValue);
+            cmd.Parameters.Add(teamIDParameter);
+            cmd.Prepare();
+
+
+            int projectID;
+            using (SqlDataReader rdr = cmd.ExecuteReader())
+            {
+                rdr.Read();
+                if (!rdr.IsDBNull(rdr.GetOrdinal("PROJECT_ID")))
+                {
+                    projectID = (int)rdr["PROJECT_ID"];
+                }
+                else
+                {
+                    projectID = 0;
+                }
+                con.Close();
+                return projectID;
             }
         }
     }
-    */
 
     protected void SqlDataSource1_Selecting(object sender, SqlDataSourceSelectingEventArgs e)
     {
@@ -156,7 +145,7 @@ public partial class UpdateTeam : System.Web.UI.Page
     //Insert a -Select- item, used to determine if user tries to submit page without proper team selected
     protected void SqlDataSouce1_DataBound(object sender, EventArgs e)
     {
-        teamsDropDown.Items.Insert(0, new ListItem("Team: ", String.Empty));
+        teamsDropDown.Items.Insert(0, new ListItem("Teams: ", String.Empty));
         teamsDropDown.SelectedIndex = 0; ;
     }
 
@@ -176,7 +165,7 @@ public partial class UpdateTeam : System.Web.UI.Page
         projectsDropDown.Items.Insert(0, new ListItem("None", "0"));
         projectsDropDown.SelectedIndex = 0;
         projectsDropDown.Items.Insert(0, new ListItem("Project:", String.Empty));
-        projectsDropDown.SelectedIndex = 0;        
+        projectsDropDown.SelectedIndex = 0; ;
     }
 
 
@@ -190,17 +179,15 @@ public partial class UpdateTeam : System.Web.UI.Page
     /// <param name="e"></param>
     protected void Button1_Click(object sender, EventArgs e)
     {
-        Label4.Text = "";
-        if (string.IsNullOrEmpty(teamsDropDown.SelectedValue))
-        {
-            Label4.Text = "Select a team to update";
-        }
-        else if(string.IsNullOrEmpty(projectsDropDown.SelectedValue))
-        {
-            Label4.Text = "Select a project";
-        }
+        teamAlert.Visible = false;
+        projectAlert.Visible = false;
+        teamLeadAlert.Visible = false;
 
-        else if (checkIfValidEmployeeID() && !string.IsNullOrEmpty(teamsDropDown.SelectedValue))
+        teamAlertLabel.Text = "";
+        projectAlertLabel.Text = "";
+        teamLeadAlertLabel.Text = "";
+
+        if (checkIfValidEmployeeID() && !string.IsNullOrEmpty(teamsDropDown.SelectedValue))
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
@@ -225,7 +212,7 @@ public partial class UpdateTeam : System.Web.UI.Page
                     assignTeamLead();
                 }
                 TeamIDParameter.Value = int.Parse(teamsDropDown.SelectedValue);
-                assignValue(int.Parse(projectsDropDown.SelectedValue), ProjectIDParameter);                
+                assignValue(int.Parse(projectsDropDown.SelectedValue), ProjectIDParameter);
 
                 cmd.Parameters.Add(TeamLeadIDParameter);
                 cmd.Parameters.Add(TeamIDParameter);
@@ -235,12 +222,17 @@ public partial class UpdateTeam : System.Web.UI.Page
                 Label4.Text = "Team Updated!";
             }
         }
+
+        else if (string.IsNullOrEmpty(teamsDropDown.SelectedValue))
+        {
+            teamAlertLabel.Text += "Select a team to update";
+            teamAlert.Visible = true;
+        }
         else
         {
-            Label4.Text = "Invalid employee ID";
+            teamLeadAlertLabel.Text += "Invalid Employee ID";
+            teamLeadAlert.Visible = true;
         }
-
-
     }
 
     protected void TextBox1_TextChanged(object sender, EventArgs e)
@@ -297,25 +289,25 @@ public partial class UpdateTeam : System.Web.UI.Page
     /// <returns value of TEAMLEAD_ID></returns>
     protected void initialValue(SqlParameter parameter)
     {
-            using (SqlConnection con = new SqlConnection(connectionString))
+        using (SqlConnection con = new SqlConnection(connectionString))
+        {
+            String queryStatement = "SELECT TEAMLEAD_ID FROM TEAMS WHERE TEAM_ID = @TEAMID";
+            con.Open();
+            SqlCommand cmd = new SqlCommand(queryStatement, con);
+            SqlParameter teamIDParameter = new SqlParameter("@TEAMID", SqlDbType.Int);
+            teamIDParameter.Value = int.Parse(teamsDropDown.SelectedValue);
+            cmd.Parameters.Add(teamIDParameter);
+            cmd.Prepare();
+            int TeamLeadIDInitial;
+            using (SqlDataReader rdr = cmd.ExecuteReader())
             {
-                String queryStatement = "SELECT TEAMLEAD_ID FROM TEAMS WHERE TEAM_ID = @TEAMID";
-                con.Open();
-                SqlCommand cmd = new SqlCommand(queryStatement, con);
-                SqlParameter teamIDParameter = new SqlParameter("@TEAMID", SqlDbType.Int);
-                teamIDParameter.Value = int.Parse(teamsDropDown.SelectedValue);
-                cmd.Parameters.Add(teamIDParameter);
-                cmd.Prepare();
-                int TeamLeadIDInitial;
-                using (SqlDataReader rdr = cmd.ExecuteReader())
-                {
-                    rdr.Read();
-                    TeamLeadIDInitial = (int)rdr["TEAMLEAD_ID"];
-                    parameter.Value = TeamLeadIDInitial;
-                    
-                }
+                rdr.Read();
+                TeamLeadIDInitial = (int)rdr["TEAMLEAD_ID"];
+                parameter.Value = TeamLeadIDInitial;
+
             }
-        
+        }
+
     }
 
     protected void assignTeamLead()

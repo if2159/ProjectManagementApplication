@@ -161,14 +161,14 @@ public partial class CreateUser : System.Web.UI.Page
             emailAlertLabel.Text = "Email is taken";
             alert_count++;
         }
-        if(int.Parse(roleDropDown.SelectedValue) == -1)
+        if (int.Parse(roleDropDown.SelectedValue) == -1)
         {
             roleAlert.Visible = true;
             roleAlertLabel.Text = "Please choose a role";
             alert_count++;
-        } 
+        }
 
-        if(alert_count > 0)
+        if (alert_count > 0)
         {
             return;
         }
@@ -176,7 +176,7 @@ public partial class CreateUser : System.Web.UI.Page
         using (SqlConnection con = new SqlConnection(connectionString))
         {
             //DO some function call to make sure the entered employeeID is valid 
-            
+
             if (checkIfValidEmployeeID())
             {
                 String employeeID = Request.Cookies["UserID"].Value.Split('=')[1];

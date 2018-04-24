@@ -30,6 +30,20 @@ public partial class Employees : System.Web.UI.Page
         {
             Response.Redirect("AccessForbidden.aspx");
         }
+
+        firstAlert.Visible = false;
+        middleAlert.Visible = false;
+        lastAlert.Visible = false;
+        employeeAlert.Visible = false;
+        wageAlert.Visible = false;
+        teamAlert.Visible = false;
+
+        firstAlertLabel.Text = "";
+        middleAlertLabel.Text = "";
+        lastAlertLabel.Text = "";
+        employeeAlertLabel.Text = "";
+        wageAlertLabel.Text = "";
+        teamAlertLabel.Text = "";
     }
 
     /// <summary>
@@ -72,27 +86,56 @@ public partial class Employees : System.Web.UI.Page
     /// <param name="e"></param>
     protected void Submit_Click(object sender, EventArgs e)
     {
+        firstAlert.Visible = false;
+        middleAlert.Visible = false;
+        lastAlert.Visible = false;
+        employeeAlert.Visible = false;
+        wageAlert.Visible = false;
+        teamAlert.Visible = false;
+
+        firstAlertLabel.Text = "";
+        middleAlertLabel.Text = "";
+        lastAlertLabel.Text = "";
+        employeeAlertLabel.Text = "";
+        wageAlertLabel.Text = "";
+        teamAlertLabel.Text = "";
+
+        int alert_count = 0;
         if (string.IsNullOrEmpty(fnameField.Text))
         {
-            outputLabel.Text = "Please enter a first name";
+            firstAlertLabel.Text = "Please enter a first name";
+            firstAlert.Visible = true;
+            alert_count++;
         }
-        else if (string.IsNullOrEmpty(lnameField.Text))
+        if (string.IsNullOrEmpty(lnameField.Text))
         {
-            outputLabel.Text = "Please enter a last name";
+            lastAlertLabel.Text = "Please enter a last name";
+            lastAlert.Visible = true;
+            alert_count++;
         }
-        else if (string.IsNullOrEmpty(eidField.Text))
+        if (string.IsNullOrEmpty(eidField.Text))
         {
-            outputLabel.Text = "Please enter a employee ID";
+            employeeAlertLabel.Text = "Please enter a employee ID";
+            employeeAlert.Visible = true;
+            alert_count++;
         }
-        else if (string.IsNullOrEmpty(wageField.Text))
+        if (string.IsNullOrEmpty(wageField.Text))
         {
-            outputLabel.Text = "Please enter a wage";
+            wageAlertLabel.Text = "Please enter a wage";
+            wageAlert.Visible = true;
+            alert_count++;
         }
-        else if(int.Parse(teamDropDown.SelectedValue) == -1)
+        if (int.Parse(teamDropDown.SelectedValue) == -1)
         {
-            outputLabel.Text = "Please select a Team";
+            teamAlertLabel.Text = "Please select a Team";
+            teamAlert.Visible = true;
+            alert_count++;
         }
 
+        if (alert_count > 0)
+        {
+            return;
+        }
         else
         {
             String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
@@ -124,7 +167,7 @@ public partial class Employees : System.Web.UI.Page
                 //assignValue(int.Parse(manageDropDown.SelectedValue), manageParameter);
                 //teamParameter.Value = int.Parse(teamDropDown.SelectedValue);
                 assignValue(int.Parse(teamDropDown.SelectedValue), teamParameter);
-                
+
 
                 cmd.Parameters.Add(fnameParameter);
                 cmd.Parameters.Add(minitParameter);
