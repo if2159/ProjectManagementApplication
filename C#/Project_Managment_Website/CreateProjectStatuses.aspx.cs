@@ -38,7 +38,7 @@ public partial class CreateProjectStatuses : System.Web.UI.Page
     {
         // ArrayList myArrayList = new ArrayList();
         // myArrayList.AddRange(myStringArray);
-        if (Request.Cookies["SessionID"] != null)
+        if (Request.Cookies["SessionID"] != null && Request.Cookies["UserID"] != null)
         {
             String employeeID = Request.Cookies["UserID"].Value.Split('=')[1];
             ArrayList roles = new ArrayList();
