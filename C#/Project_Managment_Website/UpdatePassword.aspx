@@ -73,8 +73,7 @@
 
             <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT [EMAIL] FROM [USERS]"></asp:SqlDataSource>
             <asp:Label class="sr-only" ID="Label1" runat="server" Text="User email:"></asp:Label>
-            <asp:TextBox class="form-control" ID="employeeEmailField" placeholder="User email:" runat="server" DataSourceID="SqlDataSource1" DataTextField="EMPLOYEE_ID" DataValueField="EMPLOYEE_ID" OnSelectedIndexChanged="projectsDropDown_SelectedIndexChanged" AutoPostBack="true" OnDataBound ="SqlDataSouce1_DataBound">
-            </asp:TextBox>
+            <asp:TextBox class="form-control" ID="employeeEmailField" runat="server" ReadOnly="True"></asp:TextBox>
             <div class="alert alert-primary" runat="server" role="alert" id="emailAlert">
                     <asp:Label runat="server" id="emailAlertLabel"></asp:Label>
                 </div>
