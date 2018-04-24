@@ -163,6 +163,8 @@ public partial class UpdateTeam : System.Web.UI.Page
     protected void SqlDataSouce2_DataBound(object sender, EventArgs e)
     {
         projectsDropDown.Items.Insert(0, new ListItem("None", "0"));
+        projectsDropDown.SelectedIndex = 0;
+        projectsDropDown.Items.Insert(0, new ListItem("Project:", String.Empty));
         projectsDropDown.SelectedIndex = 0; ;
     }
 
