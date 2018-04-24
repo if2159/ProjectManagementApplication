@@ -110,6 +110,9 @@
     
     <asp:Label ID="tableLabel" runat="server" Text=""></asp:Label>
     </div>
+    <div class="alert alert-primary" runat="server" role="alert" id="errorAlert">
+                    <asp:Label runat="server" id="errorAlertLabel"></asp:Label>
+                </div>
 </form>
 </body>
 </html>
