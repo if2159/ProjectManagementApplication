@@ -1,83 +1,15 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Configuration;
-using System.Data.SqlTypes;
-using System.Security.Cryptography;
-using System.Text.RegularExpressions;
-using System.Globalization;
 
 public partial class Login : System.Web.UI.Page
 {
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        
-        emailAlert.Visible = false;
-        passwordAlert.Visible = false;
 
-        emailAlertLabel.Text = "";
-        passwordAlertLabel.Text = "";
     }
-
-    //Beginning of Email validation
-    bool invalid = false;
-    public bool IsValidEmail(string strIn)
-    {
-        invalid = false;
-        if (String.IsNullOrEmpty(strIn))
-            return false;
-
-        // Use IdnMapping class to convert Unicode domain names.
-        try
-        {
-            strIn = Regex.Replace(strIn, @"(@)(.+)$", this.DomainMapper,
-                                  RegexOptions.None, TimeSpan.FromMilliseconds(200));
-        }
-        catch (RegexMatchTimeoutException)
-        {
-            return false;
-        }
-
-        if (invalid)
-            return false;
-
-        // Return true if strIn is in valid email format.
-        try
-        {
-            return Regex.IsMatch(strIn,
-                  @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
-                  @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-0-9a-z]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$",
-                  RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
-        }
-        catch (RegexMatchTimeoutException)
-        {
-            return false;
-        }
-    }
-    private string DomainMapper(Match match)
-    {
-        // IdnMapping class with default property values.
-        IdnMapping idn = new IdnMapping();
-
-        string domainName = match.Groups[2].Value;
-        try
-        {
-            domainName = idn.GetAscii(domainName);
-        }
-        catch (ArgumentException)
-        {
-            invalid = true;
-        }
-        return match.Groups[1].Value + domainName;
-    }
-    //End of Email validation
 
     /// <summary>
     /// This method is called whenever the login button is clicked. 
@@ -87,43 +19,11 @@ public partial class Login : System.Web.UI.Page
     /// <param name="e">Auto generated param</param>
     protected void loginButton_Click(object sender, EventArgs e) {
         String employeeID = LoginValidator.ValidateUserCredentials(passwordField.Text, emailField.Text.ToLower());
-        emailAlert.Visible = false;
-        passwordAlert.Visible = false;
-
-        emailAlertLabel.Text = "";
-        passwordAlertLabel.Text = "";
-
-        int alert_count = 0;
-        if (string.IsNullOrWhiteSpace(passwordField.Text))
-        {
-            passwordAlert.Visible = true;
-            passwordAlertLabel.Text = "Please enter in a Password";
-            alert_count++;
-        }
-        if (string.IsNullOrWhiteSpace(emailField.Text))
-        {
-            emailAlert.Visible = true;
-            emailAlertLabel.Text = "Please enter in an email";
-            alert_count++;
-        }
-        if (!IsValidEmail(emailField.Text))
-        {
-            emailAlert.Visible = true;
-            emailAlertLabel.Text = "Email is not in the correct format";
-            alert_count++;
-        }
-        
-        if(alert_count >0)
-        {
-            return;
-        }
-
         if (employeeID.Length > 0) { //Username/Password is valid
             loginSuccess(employeeID);
         }
         else {//Username/password NOT valid.
-            passwordAlertLabel.Text = "Incorrect Email/Password Combination!";
-            passwordAlert.Visible = true;
+            errorLabel.Text = "Incorrect Email/Password Combination!";
         }
     }
 

@@ -24,25 +24,8 @@ public partial class CreateProjects : System.Web.UI.Page
             Response.Redirect("Login.aspx");
         }
         startDateField.Text = DateTime.Now.ToShortDateString();
-
-        projectAlert.Visible = false;
-        budgetAlert.Visible = false;
-        departmentAlert.Visible = false;
-        employeeAlert.Visible = false;
-        teamAlert.Visible = false;
-        startAlert.Visible = false;
-        statusAlert.Visible = false;
-
-        projectAlertLabel.Text = "";
-        budgetAlertLabel.Text = "";
-        departmentAlertLabel.Text = "";
-        employeeAlertLabel.Text = "";
-        teamAlertLabel.Text = "";
-        startAlertLabel.Text = "";
-        statusAlertLabel.Text = "";
-
     }
-
+    
 
     /// <summary>
     /// Retrieves the user's information from the cookies and validates the session.
@@ -71,50 +54,23 @@ public partial class CreateProjects : System.Web.UI.Page
 
     protected void submitButton_Click(object sender, EventArgs e)
     {
-        projectAlert.Visible = false;
-        budgetAlert.Visible = false;
-        departmentAlert.Visible = false;
-        employeeAlert.Visible = false;
-        teamAlert.Visible = false;
-        startAlert.Visible = false;
-        statusAlert.Visible = false;
 
-        projectAlertLabel.Text = "";
-        budgetAlertLabel.Text = "";
-        departmentAlertLabel.Text = "";
-        employeeAlertLabel.Text = "";
-        teamAlertLabel.Text = "";
-        startAlertLabel.Text = "";
-        statusAlertLabel.Text = "";
-
-        int alert_count = 0;
         using (SqlConnection con = new SqlConnection(connectionString))
         {
             if (int.Parse(controllingDepartmentField.SelectedValue) == -1)
             {
-                departmentAlertLabel.Text = "Please select a Department";
-                departmentAlert.Visible = true;
-                alert_count++;
+                finalLabel.Text = "Please select a Department";
             }
-            if (int.Parse(statusTypeField.SelectedValue) == -1)
+            else if (int.Parse(statusTypeField.SelectedValue) == -1)
             {
-                statusAlertLabel.Text = "Please select a the status of Project";
-                statusAlert.Visible = true;
-                alert_count++;
+                finalLabel.Text = "Please select a the status of Project";
             }
-            if (int.Parse(teamsDropDownField.SelectedValue) == -1)
+            else if (int.Parse(teamsDropDownField.SelectedValue) == -1)
             {
-                teamAlertLabel.Text = "Please select a Team";
-                teamAlert.Visible = true;
-                alert_count++;
+                finalLabel.Text = "Please select a Team";
             }
 
-            if (alert_count > 0)
-            {
-                return;
-            }
-
-            if (checkIfValidEmployeeID())
+            else if (checkIfValidEmployeeID())
             {
                 String employeeID = Request.Cookies["UserID"].Value.Split('=')[1];
 
@@ -160,9 +116,7 @@ public partial class CreateProjects : System.Web.UI.Page
             }
             else
             {
-                employeeAlertLabel.Text = "The Employee Id does not exist";
-                employeeAlert.Visible = true;
-                alert_count++;
+                finalLabel.Text = "The Employee Id does not exist";
             }
         }
     }
@@ -185,14 +139,14 @@ public partial class CreateProjects : System.Web.UI.Page
 
     protected void deparmentsDropDown_SelectedIndexChanged(object sender, EventArgs e)
     {
-
+       
     }
     protected void SqlDataSource2_Selecting(object sender, SqlDataSourceSelectingEventArgs e)
     {
 
     }
-
-
+    
+    
     //Insert a -Select- item, used to determine if user tries to submit page without proper team selected
     protected void SqlDataSouce2_DataBound(object sender, EventArgs e)
     {
@@ -212,7 +166,7 @@ public partial class CreateProjects : System.Web.UI.Page
     }
     protected void SqlDataSource4_Selecting(object sender, SqlDataSourceSelectingEventArgs e)
     {
-
+        
     }
     protected void SqlDataSouce4_DataBound(object sender, EventArgs e)
     {
@@ -228,7 +182,7 @@ public partial class CreateProjects : System.Web.UI.Page
 
     protected void employeeIDField_TextChanged1(object sender, EventArgs e)
     {
-
+        
     }
     protected bool checkIfValidEmployeeID()
     {

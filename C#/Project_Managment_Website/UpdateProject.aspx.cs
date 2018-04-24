@@ -12,13 +12,13 @@ using System.Data.SqlTypes;
 
 public partial class UpdateProject : System.Web.UI.Page
 {
-
+    
     private static String[] allowedRoles = { "DEPARTMENT_LEAD", "ADMIN" };
     private static String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
 
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        
         if (!AuthenticateSession())
         {
             Response.Redirect("Login.aspx");
@@ -27,13 +27,7 @@ public partial class UpdateProject : System.Web.UI.Page
         {
             Response.Redirect("AccessForbidden.aspx");
         }
-
-        projectAlert.Visible = false;
-        statusAlert.Visible = false;
-
-        projectAlertLabel.Text = "";
-        statusAlertLabel.Text = "";
-
+        
     }
 
     private bool AuthenticateSession()
@@ -64,7 +58,7 @@ public partial class UpdateProject : System.Web.UI.Page
             return false;
         }
     }
-
+    
     //projectsDropDown
     protected void projectsDropDown_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -101,7 +95,7 @@ public partial class UpdateProject : System.Web.UI.Page
                     statusDropDown.Items.IndexOf(statusDropDown.Items.FindByText(roleDesc));
             }
         }
-
+        
 
     }
 
@@ -111,7 +105,7 @@ public partial class UpdateProject : System.Web.UI.Page
         {
             return 0;
         }
-
+  
         else
         {
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -146,7 +140,7 @@ public partial class UpdateProject : System.Web.UI.Page
     }
     protected void SqlDataSouce1_DataBound(object sender, EventArgs e)
     {
-        projectsDropDown.Items.Insert(0, new ListItem("Projects: ", "0"));
+        projectsDropDown.Items.Insert(0, new ListItem("-Select-", "0"));
         projectsDropDown.SelectedIndex = 0; ;
     }
 
@@ -168,7 +162,7 @@ public partial class UpdateProject : System.Web.UI.Page
 
     protected void SqlDataSouce2_DataBound(object sender, EventArgs e)
     {
-        statusDropDown.Items.Insert(0, new ListItem("Status: ", "0"));
+        statusDropDown.Items.Insert(0, new ListItem("-Select-", "0"));
         statusDropDown.SelectedIndex = 0; ;
     }
 
@@ -183,21 +177,13 @@ public partial class UpdateProject : System.Web.UI.Page
 
     protected void Button1_Click(object sender, EventArgs e)
     {
-        projectAlert.Visible = false;
-        statusAlert.Visible = false;
-
-        projectAlertLabel.Text = "";
-        statusAlertLabel.Text = "";
-
         if (int.Parse(projectsDropDown.SelectedValue) == 0)
         {
-            projectAlertLabel.Text = "Please select a project";
-            projectAlert.Visible = true;
+            Label3.Text = "Please select a project";
         }
-        else if (int.Parse(statusDropDown.SelectedValue) == 0)
+        else if(int.Parse(statusDropDown.SelectedValue) == 0)
         {
-            statusAlertLabel.Text = "Please select a status";
-            statusAlert.Visible = true;
+            Label3.Text = "Please select a status";
         }
         else
         {

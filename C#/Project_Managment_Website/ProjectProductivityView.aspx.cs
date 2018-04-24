@@ -37,8 +37,6 @@ public partial class ProjectProductivityView : System.Web.UI.Page
 
             // 
         }
-        errorAlertLabel.Text = "";
-        errorAlert.Visible = false;
     }
 
     private bool CheckRole()
@@ -147,9 +145,6 @@ public partial class ProjectProductivityView : System.Web.UI.Page
     }
 
     private string getCombinedCost() {
-        errorAlertLabel.Text = "";
-        errorAlert.Visible = false;
-
         var totalCost = 0.0;
         if (verifyDates()) {
 
@@ -202,9 +197,7 @@ public partial class ProjectProductivityView : System.Web.UI.Page
             }
         }
         else {
-            
-            errorAlertLabel.Text = "Incorrect Date Format.";
-            errorAlert.Visible = true;
+            tableLabel.Text = "Incorrect Date Format.";
         }
 
 
@@ -213,9 +206,7 @@ public partial class ProjectProductivityView : System.Web.UI.Page
     }
 
     private string getHoursWorked() {
-        // tableLabel.Text = projectDropDown.SelectedItem.Value;
-        errorAlertLabel.Text = "";
-        errorAlert.Visible = false;
+       // tableLabel.Text = projectDropDown.SelectedItem.Value;
         string projectID = projectDropDown.SelectedItem.Value;
         string startDateText = startDateField.Text;
         string endDateText = endDateField.Text;
@@ -264,8 +255,7 @@ public partial class ProjectProductivityView : System.Web.UI.Page
 
         }
         else {
-            errorAlertLabel.Text = "Incorrect Date Format.";
-            errorAlert.Visible = true;
+            tableLabel.Text = "Incorrect Date Format.";
         }
 
         return String.Format("{0:0.0#}", sumHours);
