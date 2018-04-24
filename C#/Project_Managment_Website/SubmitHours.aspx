@@ -62,10 +62,8 @@
         </div>
 
     </nav>
-    <form id="form1" runat="server">
+<form id="form1" runat="server">
     <div class="container">
-    
-        <asp:Label ID="hoursLabel" runat="server" Text="Hours: "></asp:Label>
         <asp:TextBox class="form-control" placeholder="Hours:" ID="hoursField" runat="server"></asp:TextBox>
         <br />
         <asp:Label ID="projectLabel" runat="server" Text="Project: "></asp:Label>
