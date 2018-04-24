@@ -70,11 +70,8 @@
 <form id="form1" runat="server">
     <div class="container">
 
-        <br />
-        <asp:Label ID="Label4" runat="server" Text="View Productivity of Each Team Member" BorderStyle="None" Font-Bold="True" Font-Size="20pt" ForeColor="Black" Height="41px" Width="826px"></asp:Label>
-        <br />
-        <br />
-        <br />
+    
+        <h1>View Productivity of Each Team Member</h1>
         <br />
 
         <asp:Label class="sr-only" ID="Label1" runat="server" Text="Team to view"></asp:Label>
@@ -82,9 +79,11 @@
         <asp:DropDownList class="dropdown-item" ID="teamsLeadingDropDown" runat="server" DataTextField="TEAM_ID" DataValueField="TEAM_ID" OnSelectedIndexChanged="teamsDropDown_SelectedIndexChanged" OnLoad ="onload_teamsLeadingDropDown" ondatabound ="SqlDataSouce1_DataBound" AutoPostBack ="true">
         </asp:DropDownList>
         </div>
+        <div class="alert alert-primary" placeholder="Employee ID: " runat="server" role="alert" id="teamLeadAlert">
+                    <asp:Label runat="server" id="teamLeadAlertLabel"></asp:Label>
+                </div>
         <br />
-        <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      
            
     
         <asp:Label class="sr-only" ID="Label2" runat="server" Text="Projects created in the last:"></asp:Label>
@@ -92,8 +91,9 @@
         <asp:DropDownList class="dropdown-item" ID="dateSelectedDropDown" runat="server" OnSelectedIndexChanged="dateSelectedDropDown_SelectedIndexChanged">
         </asp:DropDownList>
         </div>
-        <br />
-        <br />
+        <div class="alert alert-primary" placeholder="Employee ID: " runat="server" role="alert" id="dateAlert">
+            <asp:Label runat="server" id="dateAlertLabel"></asp:Label>
+        </div>
         <br />
 
         <asp:Button class="btn btn-lg btn-primary btn-block" ID="Button1" runat="server" OnClick="Button1_Click" Text="Submit" />
