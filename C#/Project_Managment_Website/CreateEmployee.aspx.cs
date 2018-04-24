@@ -88,6 +88,10 @@ public partial class Employees : System.Web.UI.Page
         {
             outputLabel.Text = "Please enter a wage";
         }
+        else if(int.Parse(teamDropDown.SelectedValue) == -1)
+        {
+            outputLabel.Text = "Please select a Team";
+        }
 
         else
         {
@@ -156,8 +160,9 @@ public partial class Employees : System.Web.UI.Page
 
     protected void SqlDataSource1_DataBound(object sender, EventArgs e)
     {
-        teamDropDown.Items.Insert(0,new ListItem("None", "0"));
-        teamDropDown.SelectedIndex = 0; ;
+        teamDropDown.Items.Add(new ListItem("None", "0"));
+        teamDropDown.Items.Insert(0, new ListItem("Team:", "-1"));
+        teamDropDown.SelectedIndex = 0;
 
     }
 }
