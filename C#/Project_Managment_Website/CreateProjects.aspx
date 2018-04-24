@@ -102,7 +102,7 @@
         
         <asp:SqlDataSource ID="SqlDataSource3" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT [EMPLOYEE_ID] FROM [EMPLOYEES]" OnSelecting="SqlDataSource1_Selecting"></asp:SqlDataSource>
         <asp:Label class="sr-only" ID="Label4" runat="server" Text="Employee ID: "></asp:Label>
-        <asp:TextBox ID="employeeIDField" class="form-control" placeholder="Employee ID:" runat="server" DataSourceID="SqlDataSource3" DataTextField="EMPLOYEE_ID" DataValueField="EMPLOYEE_ID" OnSelectedIndexChanged="employeeIDField_SelectedIndexChanged" AutoPostBack="true" OnDataBound ="SqlDataSouce3_DataBound" OnTextChanged="employeeIDField_TextChanged1"></asp:TextBox>
+        <asp:TextBox ID="employeeIDField" class="form-control" placeholder="Project Lead Employee ID:" runat="server" DataSourceID="SqlDataSource3" DataTextField="EMPLOYEE_ID" DataValueField="EMPLOYEE_ID" OnSelectedIndexChanged="employeeIDField_SelectedIndexChanged" AutoPostBack="true" OnDataBound ="SqlDataSouce3_DataBound" OnTextChanged="employeeIDField_TextChanged1"></asp:TextBox>
         <div class="alert alert-primary" runat="server" role="alert" id="employeeAlert">
                     <asp:Label runat="server" id="employeeAlertLabel"></asp:Label>
                 </div>    
