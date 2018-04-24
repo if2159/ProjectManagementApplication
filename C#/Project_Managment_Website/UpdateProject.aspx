@@ -78,7 +78,7 @@
         <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT STATUS_DESCRIPTION, STATUS_ID FROM STATUSES" OnSelecting="SqlDataSource1_Selecting"></asp:SqlDataSource>
         <asp:Label class="sr-only" ID="Label2" runat="server" Text="Set status update to: "></asp:Label>
         <div class="form-control">
-        <asp:DropDownList class="dropdown-item" ID="statusDropDown" runat="server" DataSourceID="SqlDataSource2" DataTextField="STATUS_DESCRIPTION" DataValueField="STATUS_ID" OnSelectedIndexChanged="statusDropDown_SelectedIndexChanged" AutoPostBack="true" >
+        <asp:DropDownList class="dropdown-item" ID="statusDropDown" runat="server" DataSourceID="SqlDataSource2" DataTextField="STATUS_DESCRIPTION" DataValueField="STATUS_ID" OnSelectedIndexChanged="statusDropDown_SelectedIndexChanged" AutoPostBack="true" ondatabound ="SqlDataSouce2_DataBound">
         </asp:DropDownList>
         </div>
         <br />
