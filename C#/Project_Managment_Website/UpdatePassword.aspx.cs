@@ -10,6 +10,9 @@ using System.Web.UI.WebControls;
 
 public partial class UpdatePassword : System.Web.UI.Page
 {
+    String eid;
+    String temp;
+
     String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -17,6 +20,7 @@ public partial class UpdatePassword : System.Web.UI.Page
         {
             Response.Redirect("Login.aspx");
         }
+        employeeEmailField.Text = getEmail();
 
         newAlert.Visible = false;
         emailAlert.Visible = false;
@@ -39,6 +43,7 @@ public partial class UpdatePassword : System.Web.UI.Page
         {
             String sessionID = Request.Cookies["SessionID"].Value.Split('=')[1];
             String employeeID = Request.Cookies["UserID"].Value.Split('=')[1];
+            eid = employeeID;
             return LoginValidator.ValidateSession(employeeID, sessionID);
         }
         else
@@ -46,7 +51,40 @@ public partial class UpdatePassword : System.Web.UI.Page
             return false;
         }
     }
-    protected void Button1_Click(object sender, EventArgs e)
+
+    protected string getEmail()
+    {
+        using (SqlConnection con = new SqlConnection(connectionString))
+        {
+
+
+
+            con.Open();
+
+            String query = "SELECT EMAIL FROM USERS WHERE EMPLOYEE_ID = " + eid + ";";
+
+            SqlCommand cmd = new SqlCommand(query, con);
+
+            cmd.Prepare();
+            using (SqlDataReader rdr = cmd.ExecuteReader()) //get the employee's ID
+            {
+
+                while (rdr.Read())
+                {
+
+
+                    temp = rdr["EMAIL"].ToString();
+
+
+                }
+
+            }
+            return temp;
+        }
+    }
+
+
+protected void Button1_Click(object sender, EventArgs e)
     {
         newAlert.Visible = false;
         emailAlert.Visible = false;
@@ -93,10 +131,10 @@ public partial class UpdatePassword : System.Web.UI.Page
                 String queryStatement = "UPDATE USERS SET HASHED_PASSWORD = @HASHED_PASSWORD WHERE EMAIL = @EMAIL";
                 con.Open();
                 SqlCommand cmd = new SqlCommand(queryStatement, con);
-                SqlParameter EmployeeEmailParameter = new SqlParameter("@EMPLOYEE_ID", SqlDbType.VarChar, 70);
+                SqlParameter EmployeeEmailParameter = new SqlParameter("@EMAIL", SqlDbType.VarChar, 70);
                 SqlParameter NewPasswordParameter = new SqlParameter("@HASHED_PASSWORD", SqlDbType.VarChar, 66);
 
-                EmployeeEmailParameter.Value = employeeEmailField.Text;
+                EmployeeEmailParameter.Value = getEmail();
                 NewPasswordParameter.Value = LoginValidator.HashPassword(newPasswordField.Text);
 
 
