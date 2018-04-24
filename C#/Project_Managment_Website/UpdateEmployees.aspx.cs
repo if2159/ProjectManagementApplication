@@ -10,6 +10,7 @@ using System.Web.UI.WebControls;
 
 public partial class UpdateEmployees : System.Web.UI.Page
 {
+    private static String[] allowedRoles = { "DEPARTMENT_LEAD", "ADMIN" };
     String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
     protected void Page_Load(object sender, EventArgs e)
     {
