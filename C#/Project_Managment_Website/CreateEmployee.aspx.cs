@@ -79,6 +79,37 @@ public partial class Employees : System.Web.UI.Page
         }
     }
 
+    protected bool checkIfEmployeeIDIsTaken()
+    {
+        using (SqlConnection con = new SqlConnection(connectionString))
+        {
+            String queryStatement = "SELECT U.EMPLOYEE_ID FROM USERS AS U WHERE EMPLOYEE_ID = @EMPLOYEE_ID";
+            con.Open();
+            SqlCommand cmd = new SqlCommand(queryStatement, con);
+            SqlParameter employeeIDParameter = new SqlParameter("@EMPLOYEE_ID", SqlDbType.Int);
+            if (string.IsNullOrEmpty(eidField.Text))
+            {
+                return false;
+            }
+            employeeIDParameter.Value = int.Parse(eidField.Text);
+            cmd.Parameters.Add(employeeIDParameter);
+            cmd.Prepare();
+            using (SqlDataReader rdr = cmd.ExecuteReader())
+            {
+                if (rdr.HasRows)
+                {
+                    con.Close();
+                    return true;
+                }
+                else
+                {
+                    con.Close();
+                    return false;
+                }
+            }
+        }
+    }
+
     /// <summary>
     /// Called when the submit button is clicked. Will create a new Employee in the Database with the entered values
     /// </summary>
@@ -101,13 +132,21 @@ public partial class Employees : System.Web.UI.Page
         teamAlertLabel.Text = "";
 
         int alert_count = 0;
+        double v;
         int value;
+        if (!double.TryParse(wageField.Text, out v))
+        {
+            wageAlert.Visible = true;
+            wageAlertLabel.Text = "Wage only contains numbers";
+            alert_count++;
+        }
         if (string.IsNullOrEmpty(fnameField.Text))
         {
             firstAlertLabel.Text = "Please enter a first name";
             firstAlert.Visible = true;
             alert_count++;
         }
+        
         if (string.IsNullOrEmpty(lnameField.Text))
         {
             lastAlertLabel.Text = "Please enter a last name";
@@ -149,6 +188,15 @@ public partial class Employees : System.Web.UI.Page
         {
             return;
         }
+
+        if (checkIfEmployeeIDIsTaken())
+        {
+            employeeAlert.Visible = true;
+            employeeAlertLabel.Text = "Employee ID is already in use";
+            alert_count++;
+            return;
+        }
+
         else
         {
             String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
