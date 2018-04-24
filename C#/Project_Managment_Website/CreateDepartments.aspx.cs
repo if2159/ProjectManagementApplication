@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -8,8 +8,9 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class Departments : System.Web.UI.Page {
-    private static String[] allowedRoles = { "ADMIN", "DEPARTMENT_LEAD"};
+public partial class Departments : System.Web.UI.Page
+{
+    private static String[] allowedRoles = { "ADMIN", "DEPARTMENT_LEAD" };
     private static String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
 
     /// <summary>
@@ -23,27 +24,16 @@ public partial class Departments : System.Web.UI.Page {
         if (!AuthenticateSession())
         {
             Response.Redirect("Login.aspx");
-        } else if (!CheckRole()) {
+        }
+        else if (!CheckRole())
+        {
             Response.Redirect("AccessForbidden.aspx");
         }
-        departmentNameAlert.Visible = false;
-        streetNumberAlert.Visible = false;
-        streetNameAlert.Visible = false;
-        cityAlert.Visible = false;
-        stateProvinceAlert.Visible = false;
-        zipcodePostcodeAlert.Visible = false;
-        countryAlert.Visible = false;
 
-        departmentNameAlertLabel.Text = "";
-        streetNumberAlertLabel.Text = "";
-        streetNameAlertLabel.Text = "";
-        cityAlertLabel.Text = "";
-        stateProvinceAlertLabel.Text = "";
-        zipcodePostcodeAlertLabel.Text = "";
-        countryAlertLabel.Text = "";
     }
 
-    private bool CheckRole() {
+    private bool CheckRole()
+    {
         // ArrayList myArrayList = new ArrayList();
         // myArrayList.AddRange(myStringArray);
         if (Request.Cookies["SessionID"] != null)
@@ -79,64 +69,84 @@ public partial class Departments : System.Web.UI.Page {
 
     protected void submitButton_Click(object sender, EventArgs e)
     {
-
-        departmentNameAlert.Visible = false;
-        streetNumberAlert.Visible = false;
-        streetNameAlert.Visible = false;
-        cityAlert.Visible = false;
-        stateProvinceAlert.Visible = false;
-        zipcodePostcodeAlert.Visible = false;
-        countryAlert.Visible = false;
-
-        departmentNameAlertLabel.Text = "";
-        streetNumberAlertLabel.Text = "";
-        streetNameAlertLabel.Text = "";
-        cityAlertLabel.Text = "";
-        stateProvinceAlertLabel.Text = "";
-        zipcodePostcodeAlertLabel.Text = "";
-        countryAlertLabel.Text = "";
-
-
-        using (SqlConnection con = new SqlConnection(connectionString))
+        if (string.IsNullOrEmpty(departmentNameField.Text))
         {
-            String employeeID = Request.Cookies["UserID"].Value.Split('=')[1];
-
-            con.Open();
-            //Submit the hours for the employee
-            String submitStatement =
-                "INSERT INTO DEPARTMENTS (NAME, STREET_NUMBER, STREET_NAME, CITY, STATE_PROVINCE_REGION, ZIPCODE, COUNTRY) " +
-                "VALUES (@NAME, @STREET_NUMBER, @STREET_NAME, @CITY, @STATE_PROVINCE_REGION, @ZIPCODE, @COUNTRY)";
-            SqlCommand cmd = new SqlCommand(submitStatement, con);
-            SqlParameter nameParameter = new SqlParameter("@NAME", SqlDbType.VarChar, 70);
-            SqlParameter streetNumberParameter = new SqlParameter("@STREET_NUMBER", SqlDbType.VarChar, 20);
-            SqlParameter streetNameParameter = new SqlParameter("@STREET_NAME", SqlDbType.VarChar, 50);
-            SqlParameter cityParameter = new SqlParameter("@CITY", SqlDbType.VarChar, 60);
-            SqlParameter stateParameter = new SqlParameter("@STATE_PROVINCE_REGION", SqlDbType.VarChar, 50);
-            SqlParameter zipcodeParameter = new SqlParameter("@ZIPCODE", SqlDbType.VarChar, 16);
-            SqlParameter countryParameter = new SqlParameter("@COUNTRY", SqlDbType.VarChar, 90);
-
-            nameParameter.Value = departmentNameField.Text;
-            streetNumberParameter.Value = streetNumberField.Text;
-            streetNameParameter.Value = streetNameField.Text;
-            cityParameter.Value = cityField.Text;
-            stateParameter.Value = stateProvinceField.Text;
-            zipcodeParameter.Value = zipcodeField.Text;
-            countryParameter.Value = countryField.Text;
-
-
-            cmd.Parameters.Add(nameParameter);
-            cmd.Parameters.Add(streetNumberParameter);
-            cmd.Parameters.Add(streetNameParameter);
-            cmd.Parameters.Add(cityParameter);
-            cmd.Parameters.Add(stateParameter);
-            cmd.Parameters.Add(zipcodeParameter);
-            cmd.Parameters.Add(countryParameter);
-
-            cmd.Prepare();
-            cmd.ExecuteNonQuery();
-            outputLabel.Text += "Entry has been recorded.";
-
-
+            outputLabel.Text = "Please enter a department";
         }
+        else if (string.IsNullOrEmpty(streetNumberField.Text))
+        {
+            outputLabel.Text = "Please enter a street number";
+        }
+        else if (string.IsNullOrEmpty(streetNameField.Text))
+        {
+            outputLabel.Text = "Please enter a street";
+        }
+        else if (string.IsNullOrEmpty(cityField.Text))
+        {
+            outputLabel.Text = "Please enter a city";
+        }
+        else if (string.IsNullOrEmpty(stateProvinceField.Text))
+        {
+            outputLabel.Text = "Please enter a State or Province";
+        }
+        else if (string.IsNullOrEmpty(zipcodeField.Text))
+        {
+            outputLabel.Text = "Please enter a zipcode";
+        }
+        else if (string.IsNullOrEmpty(countryField.Text))
+        {
+            outputLabel.Text = "Please enter a country";
+        }
+
+        else
+        {
+            outputLabel.Text = "";
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                String employeeID = Request.Cookies["UserID"].Value.Split('=')[1];
+
+                con.Open();
+                //Submit the hours for the employee
+                String submitStatement =
+                    "INSERT INTO DEPARTMENTS (NAME, STREET_NUMBER, STREET_NAME, CITY, STATE_PROVINCE_REGION, ZIPCODE, COUNTRY) " +
+                    "VALUES (@NAME, @STREET_NUMBER, @STREET_NAME, @CITY, @STATE_PROVINCE_REGION, @ZIPCODE, @COUNTRY)";
+                SqlCommand cmd = new SqlCommand(submitStatement, con);
+                SqlParameter nameParameter = new SqlParameter("@NAME", SqlDbType.VarChar, 70);
+                SqlParameter streetNumberParameter = new SqlParameter("@STREET_NUMBER", SqlDbType.VarChar, 20);
+                SqlParameter streetNameParameter = new SqlParameter("@STREET_NAME", SqlDbType.VarChar, 50);
+                SqlParameter cityParameter = new SqlParameter("@CITY", SqlDbType.VarChar, 60);
+                SqlParameter stateParameter = new SqlParameter("@STATE_PROVINCE_REGION", SqlDbType.VarChar, 50);
+                SqlParameter zipcodeParameter = new SqlParameter("@ZIPCODE", SqlDbType.VarChar, 16);
+                SqlParameter countryParameter = new SqlParameter("@COUNTRY", SqlDbType.VarChar, 90);
+
+                nameParameter.Value = departmentNameField.Text;
+                streetNumberParameter.Value = streetNumberField.Text;
+                streetNameParameter.Value = streetNameField.Text;
+                cityParameter.Value = cityField.Text;
+                stateParameter.Value = stateProvinceField.Text;
+                zipcodeParameter.Value = zipcodeField.Text;
+                countryParameter.Value = countryField.Text;
+
+
+                cmd.Parameters.Add(nameParameter);
+                cmd.Parameters.Add(streetNumberParameter);
+                cmd.Parameters.Add(streetNameParameter);
+                cmd.Parameters.Add(cityParameter);
+                cmd.Parameters.Add(stateParameter);
+                cmd.Parameters.Add(zipcodeParameter);
+                cmd.Parameters.Add(countryParameter);
+
+                cmd.Prepare();
+                cmd.ExecuteNonQuery();
+                outputLabel.Text += "Entry has been recorded.";
+
+
+            }
+        }
+    }
+
+    protected void countryField_TextChanged(object sender, EventArgs e)
+    {
+
     }
 }
