@@ -1,10 +1,13 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="CreateUserRoles.aspx.cs" Inherits="CreateUserRoles" %>
+<%@Import Namespace="System.Data" %>
+<%@Import Namespace="System.Data.Common" %>
+<%@Import Namespace="System.Data.SqlClient" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Project Management - User Roles</title>
+    <title>Project Management - Create Teams</title>
     <link href="CSS/bootstrap.css" rel="stylesheet" />
     <link href="CSS/Master.css" rel="stylesheet" />
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -12,7 +15,7 @@
     <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+   <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Navbar</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -62,16 +65,20 @@
         </div>
 
     </nav>
+    <div class="container">
     <form id="form1" runat="server">
     <div>
     
         <h1>Create New User Role</h1>
         <p>
             <asp:Label ID="roleNameLabel" runat="server" Text="Role Description: "></asp:Label>
-            <asp:TextBox ID="roleNameField" runat="server"></asp:TextBox>
+            <asp:TextBox ID="roleNameField" class="form-control" runat="server"></asp:TextBox>
+            <div class="alert alert-primary" runat="server" role="alert" id="roleDescriptionAlert">
+                    <asp:Label runat="server" id="roleDescriptionAlertLabel"></asp:Label>
+                </div>
         </p>
         <p>
-            <asp:Button ID="submitButton" runat="server" Text="Submit" OnClick="submitButton_Click" />
+            <asp:Button ID="submitButton" class="btn btn-lg btn-primary btn-block" runat="server" Text="Submit" OnClick="submitButton_Click" />
         </p>
         <p>
             <asp:Label ID="outputLabel" runat="server" Text=""></asp:Label>
@@ -79,5 +86,6 @@
     
     </div>
     </form>
+    </div>
 </body>
 </html>

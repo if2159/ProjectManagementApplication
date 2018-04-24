@@ -34,11 +34,19 @@ public partial class CreateTeam : System.Web.UI.Page
         {
             Response.Redirect("AccessForbidden.aspx");
         }
+
+        projectIDAlert.Visible = false;
+        departmentNameAlert.Visible = false;
+        teamLeadAlert.Visible = false;
+
+        projectIDAlertLabel.Text = "";
+        departmentNameAlertLabel.Text = "";
+        teamLeadAlertLabel.Text = "";
     }
 
     private bool AuthenticateSession()
     {
-        if (Request.Cookies["SessionID"] != null && Request.Cookies["UserID"] != null)
+        if (Request.Cookies["SessionID"] != null)
         {
             String sessionID = Request.Cookies["SessionID"].Value.Split('=')[1];
             String employeeID = Request.Cookies["UserID"].Value.Split('=')[1];
@@ -69,20 +77,36 @@ public partial class CreateTeam : System.Web.UI.Page
     protected void Button1_Click(object sender, EventArgs e)
     {
         String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
+        int alert_counter = 0;
+        projectIDAlert.Visible = false;
+        departmentNameAlert.Visible = false;
+        teamLeadAlert.Visible = false;
+
+        projectIDAlertLabel.Text = "";
+        departmentNameAlertLabel.Text = "";
+        teamLeadAlertLabel.Text = "";
 
         using (SqlConnection con = new SqlConnection(connectionString))
         {
             if (int.Parse(projectDropDown.SelectedValue) == -1)
             {
-                Label4.Text = "Please select a project if there is one";
+                projectIDAlert.Visible = true;
+                projectIDAlertLabel.Text = "Please select a project if there is one";
+                alert_counter++;
             }
-            else if(int.Parse(departmentDropDown.SelectedValue) == -1)
+            if(int.Parse(departmentDropDown.SelectedValue) == -1)
             {
-                Label4.Text = "Please select a department";
+                departmentNameAlertLabel.Text = "Please select a department";
+                departmentNameAlert.Visible = true;
+                alert_counter++;
             }
 
+            if(alert_counter > 0)
+            {
+                return;
+            }
             //DO some function call to make sure the entered employeeID is valid
-            else if(checkIfValidEmployeeID())
+            if(checkIfValidEmployeeID())
             {
                 assignTeamLead();
                 con.Open();
@@ -111,10 +135,10 @@ public partial class CreateTeam : System.Web.UI.Page
 
 
             }
-
             else
             {
-                Label4.Text = "Invalid employee ID";
+                teamLeadAlertLabel.Text = "Invalid employee ID";
+                teamLeadAlert.Visible = true;
             }
 
         }

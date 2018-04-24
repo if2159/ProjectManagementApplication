@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class CreateDepartments : System.Web.UI.Page {
+public partial class Departments : System.Web.UI.Page {
     private static String[] allowedRoles = { "ADMIN", "DEPARTMENT_LEAD"};
     private static String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
 
@@ -26,6 +26,21 @@ public partial class CreateDepartments : System.Web.UI.Page {
         } else if (!CheckRole()) {
             Response.Redirect("AccessForbidden.aspx");
         }
+        departmentNameAlert.Visible = false;
+        streetNumberAlert.Visible = false;
+        streetNameAlert.Visible = false;
+        cityAlert.Visible = false;
+        stateProvinceAlert.Visible = false;
+        zipcodePostcodeAlert.Visible = false;
+        countryAlert.Visible = false;
+
+        departmentNameAlertLabel.Text = "";
+        streetNumberAlertLabel.Text = "";
+        streetNameAlertLabel.Text = "";
+        cityAlertLabel.Text = "";
+        stateProvinceAlertLabel.Text = "";
+        zipcodePostcodeAlertLabel.Text = "";
+        countryAlertLabel.Text = "";
     }
 
     private bool CheckRole() {
@@ -64,6 +79,23 @@ public partial class CreateDepartments : System.Web.UI.Page {
 
     protected void submitButton_Click(object sender, EventArgs e)
     {
+
+        departmentNameAlert.Visible = false;
+        streetNumberAlert.Visible = false;
+        streetNameAlert.Visible = false;
+        cityAlert.Visible = false;
+        stateProvinceAlert.Visible = false;
+        zipcodePostcodeAlert.Visible = false;
+        countryAlert.Visible = false;
+
+        departmentNameAlertLabel.Text = "";
+        streetNumberAlertLabel.Text = "";
+        streetNameAlertLabel.Text = "";
+        cityAlertLabel.Text = "";
+        stateProvinceAlertLabel.Text = "";
+        zipcodePostcodeAlertLabel.Text = "";
+        countryAlertLabel.Text = "";
+
 
         using (SqlConnection con = new SqlConnection(connectionString))
         {

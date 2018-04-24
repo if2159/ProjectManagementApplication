@@ -1,10 +1,13 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="CreateDepartments.aspx.cs" Inherits="CreateDepartments" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="CreateDepartments.aspx.cs" Inherits="Departments" %>
+<%@Import Namespace="System.Data" %>
+<%@Import Namespace="System.Data.Common" %>
+<%@Import Namespace="System.Data.SqlClient" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Project Management - Create Departments</title>
+    <title>Project Management - Create Teams</title>
     <link href="CSS/bootstrap.css" rel="stylesheet" />
     <link href="CSS/Master.css" rel="stylesheet" />
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -12,7 +15,7 @@
     <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+   <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Navbar</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -62,36 +65,59 @@
         </div>
 
     </nav>
+    <div class="container">
     <form id="form1" runat="server">
     <div>
     
         <asp:Label ID="Label1" runat="server" Text="Department Name: "></asp:Label>
-        <asp:TextBox ID="departmentNameField" runat="server"></asp:TextBox>
+        <asp:TextBox ID="departmentNameField" class="form-control" runat="server"></asp:TextBox>
+        <div class="alert alert-primary" runat="server" role="alert" id="departmentNameAlert">
+              <asp:Label runat="server" id="departmentNameAlertLabel"></asp:Label>
+        </div>
         <br />
         <asp:Label ID="Label2" runat="server" Text="Street Number:      "></asp:Label>
-        <asp:TextBox ID="streetNumberField" runat="server" ></asp:TextBox>
+        <asp:TextBox ID="streetNumberField" class="form-control" runat="server" ></asp:TextBox>
+        <div class="alert alert-primary" runat="server" role="alert" id="streetNumberAlert">
+              <asp:Label runat="server" id="streetNumberAlertLabel"></asp:Label>
+        </div>
         <br />
         <asp:Label ID="Label3" runat="server" Text="Street Name: "></asp:Label>
-        <asp:TextBox ID="streetNameField" runat="server"></asp:TextBox>
+        <asp:TextBox ID="streetNameField" class="form-control" runat="server"></asp:TextBox>
+        <div class="alert alert-primary" runat="server" role="alert" id="streetNameAlert">
+              <asp:Label runat="server" id="streetNameAlertLabel"></asp:Label>
+        </div>
         <br />
         <asp:Label ID="Label4" runat="server" Text="City: "></asp:Label>
-        <asp:TextBox ID="cityField" runat="server"></asp:TextBox>
+        <asp:TextBox ID="cityField"  class="form-control" runat="server"></asp:TextBox>
+        <div class="alert alert-primary" runat="server" role="alert" id="cityAlert">
+                        <asp:Label runat="server" id="cityAlertLabel"></asp:Label>
+                  </div>
         <br />
         <asp:Label ID="Label5" runat="server" Text="State/Province: "></asp:Label>
-        <asp:TextBox ID="stateProvinceField" runat="server"></asp:TextBox>
+        <asp:TextBox ID="stateProvinceField" class="form-control" runat="server"></asp:TextBox>
+        <div class="alert alert-primary" runat="server" role="alert" id="stateProvinceAlert">
+                        <asp:Label runat="server" id="stateProvinceAlertLabel"></asp:Label>
+                  </div>
         <br />
         <asp:Label ID="Label6" runat="server" Text="Zipcode/Postcode: "></asp:Label>
-        <asp:TextBox ID="zipcodeField" runat="server"></asp:TextBox>
+        <asp:TextBox ID="zipcodeField" class="form-control" runat="server"></asp:TextBox>
+        <div class="alert alert-primary" runat="server" role="alert" id="zipcodePostcodeAlert">
+                        <asp:Label runat="server" id="zipcodePostcodeAlertLabel"></asp:Label>
+                  </div>
         <br />
         <asp:Label ID="Label7" runat="server" Text="Country: "></asp:Label>
-        <asp:TextBox ID="countryField" runat="server"></asp:TextBox>
+        <asp:TextBox ID="countryField" class="form-control" runat="server"></asp:TextBox>
+        <div class="alert alert-primary" runat="server" role="alert" id="countryAlert">
+                        <asp:Label runat="server" id="countryAlertLabel"></asp:Label>
+                  </div>
         <br />
-        <asp:Button ID="submitButton" runat="server" OnClick="submitButton_Click" Text="Submit" />
+        <asp:Button ID="submitButton" runat="server" class="btn btn-lg btn-primary btn-block" OnClick="submitButton_Click" Text="Submit" />
     
         <br />
         <asp:Label ID="outputLabel" runat="server"></asp:Label>
     
     </div>
     </form>
+    </div>
 </body>
 </html>

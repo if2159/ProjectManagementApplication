@@ -7,12 +7,12 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Project Management - Create Users</title>
+    <title>Project Management - Create Teams</title>
     <link href="CSS/bootstrap.css" rel="stylesheet" />
     <link href="CSS/Master.css" rel="stylesheet" />
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/>
 </head>
 <body>
    <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -63,32 +63,50 @@
                 </li>
             </ul>
         </div>
-
     </nav>
     <div class="container">
-        <form id="form1" class="form-signin" runat="server">
+        <form id="form1"  runat="server">
             <div>
                 <asp:Label ID="employeeIDLabel" runat="server" Text="Employee ID: "></asp:Label>
                 <asp:TextBox ID="employeeIDField" class="form-control" runat="server"></asp:TextBox>
+                <div class="alert alert-primary" runat="server" role="alert" id="employeeAlert">
+                    <asp:Label runat="server" id="employeeAlertLabel"></asp:Label>
+                </div>
             </div>
 
             <div>
                 <asp:Label ID="roleLabel" runat="server" Text="Role"></asp:Label>
             </div>
 
+            <div class="dropdown-menu">
+                
+            </div>
+
             <div>
                 <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT [ROLE_DESCRIPTION], [ROLE_ID] FROM [USER_ROLES]" OnSelecting="SqlDataSource1_Selecting"></asp:SqlDataSource>
-                <asp:DropDownList ID="roleDropDown" runat="server" DataSourceID="SqlDataSource1" DataTextField="ROLE_DESCRIPTION" DataValueField="ROLE_ID" OnSelectedIndexChanged="projectDropDown_SelectedIndexChanged" ondatabound ="SqlDataSouce1_DataBound"></asp:DropDownList>
+                <div class="form-control">
+                <asp:DropDownList class="dropdown-item" ID="roleDropDown" runat="server" DataSourceID="SqlDataSource1" DataTextField="ROLE_DESCRIPTION" DataValueField="ROLE_ID" OnSelectedIndexChanged="projectDropDown_SelectedIndexChanged" AutoPostBack="true" OnDataBound ="SqlDataSouce1_DataBound"></asp:DropDownList>
+                </div>
+                    <div class="alert alert-primary" runat="server" role="alert" id="roleAlert">
+                    <asp:Label runat="server" id="roleAlertLabel"></asp:Label>
+                </div>
             </div>
+                
 
             <div>
                 <asp:Label ID="emailLabel" runat="server" Text="Email: "></asp:Label>
                 <asp:TextBox ID="emailField" class="form-control" runat="server" ></asp:TextBox>
+                <div class="alert alert-primary" runat="server" role="alert" id="emailAlert">
+                    <asp:Label runat="server" id="emailAlertLabel"></asp:Label>
+                </div>
             </div>
 
             <div>
                 <asp:Label ID="passwordLabel" runat="server" Text="Password: "></asp:Label>
                 <asp:TextBox ID="passwordField" class="form-control" runat="server" type="password"></asp:TextBox>
+                <div class="alert alert-primary" runat="server" role="alert" id="passwordAlert">
+                    <asp:Label runat="server" id="passwordAlertLabel"></asp:Label>
+                </div>
             </div>
 
             <p>

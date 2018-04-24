@@ -29,6 +29,9 @@ public partial class CreateProjectStatuses : System.Web.UI.Page
         {
             Response.Redirect("AccessForbidden.aspx");
         }
+
+        createStatusAlert.Visible = false;
+        createStatusAlertLabel.Text = "";
     }
 
     private bool CheckRole()
@@ -54,7 +57,7 @@ public partial class CreateProjectStatuses : System.Web.UI.Page
     /// <returns>True if a valid session. False otherwise.</returns>
     private bool AuthenticateSession()
     {
-        if (Request.Cookies["SessionID"] != null && Request.Cookies["UserID"] != null)
+        if (Request.Cookies["SessionID"] != null)
         {
             String sessionID = Request.Cookies["SessionID"].Value.Split('=')[1];
             String employeeID = Request.Cookies["UserID"].Value.Split('=')[1];
@@ -68,29 +71,39 @@ public partial class CreateProjectStatuses : System.Web.UI.Page
 
     protected void submitButton_Click(object sender, EventArgs e)
     {
+        createStatusAlert.Visible = false;
 
-        using (SqlConnection con = new SqlConnection(connectionString))
+        if (string.IsNullOrWhiteSpace(roleNameField.Text))
         {
-            String employeeID = Request.Cookies["UserID"].Value.Split('=')[1];
+            createStatusAlert.Visible = true;
+            createStatusAlertLabel.Text = "You did not enter a status";
+            return;
+        }
+        else
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                String employeeID = Request.Cookies["UserID"].Value.Split('=')[1];
 
-            con.Open();
-            //Submit the hours for the employee
-            String submitStatement =
-                "INSERT INTO STATUSES (STATUS_DESCRIPTION) " +
-                "VALUES (@DESCRIPTION)";
-            SqlCommand cmd = new SqlCommand(submitStatement, con);
-            SqlParameter descriptionParameter = new SqlParameter("@DESCRIPTION", SqlDbType.VarChar, 20);
+                con.Open();
+                //Submit the hours for the employee
+                String submitStatement =
+                    "INSERT INTO STATUSES (STATUS_DESCRIPTION) " +
+                    "VALUES (@DESCRIPTION)";
+                SqlCommand cmd = new SqlCommand(submitStatement, con);
+                SqlParameter descriptionParameter = new SqlParameter("@DESCRIPTION", SqlDbType.VarChar, 20);
 
-            descriptionParameter.Value = roleNameField.Text.ToUpper();
+                descriptionParameter.Value = roleNameField.Text.ToUpper();
 
-            cmd.Parameters.Add(descriptionParameter);
-
-
-            cmd.Prepare();
-            cmd.ExecuteNonQuery();
-            outputLabel.Text += "Entry has been recorded.";
+                cmd.Parameters.Add(descriptionParameter);
 
 
+                cmd.Prepare();
+                cmd.ExecuteNonQuery();
+                outputLabel.Text += "Entry has been recorded.";
+
+
+            }
         }
     }
 }

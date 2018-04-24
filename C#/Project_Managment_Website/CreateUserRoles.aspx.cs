@@ -29,6 +29,9 @@ public partial class CreateUserRoles : System.Web.UI.Page
         {
             Response.Redirect("AccessForbidden.aspx");
         }
+
+        roleDescriptionAlert.Visible = false;
+        roleDescriptionAlertLabel.Text = "";
     }
 
     private bool CheckRole()
@@ -54,7 +57,7 @@ public partial class CreateUserRoles : System.Web.UI.Page
     /// <returns>True if a valid session. False otherwise.</returns>
     private bool AuthenticateSession()
     {
-        if (Request.Cookies["SessionID"] != null && Request.Cookies["UserID"] != null)
+        if (Request.Cookies["SessionID"] != null)
         {
             String sessionID = Request.Cookies["SessionID"].Value.Split('=')[1];
             String employeeID = Request.Cookies["UserID"].Value.Split('=')[1];
@@ -68,6 +71,16 @@ public partial class CreateUserRoles : System.Web.UI.Page
 
     protected void submitButton_Click(object sender, EventArgs e)
     {
+
+        roleDescriptionAlert.Visible = false;
+        roleDescriptionAlertLabel.Text = "";
+
+        if (string.IsNullOrWhiteSpace(roleNameField.Text))
+        {
+            roleDescriptionAlert.Visible = true;
+            roleDescriptionAlertLabel.Text = "You did not enter in a role";
+            return;
+        }
 
         using (SqlConnection con = new SqlConnection(connectionString))
         {

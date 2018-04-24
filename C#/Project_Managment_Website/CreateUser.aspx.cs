@@ -15,8 +15,7 @@ using System.Globalization;
 
 public partial class CreateUser : System.Web.UI.Page
 {
-    private static readonly string[] allowedRoles = { "ADMIN" };
-    private static readonly String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
+    private static String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
 
     //Beginning of Email validation
     bool invalid = false;
@@ -77,30 +76,22 @@ public partial class CreateUser : System.Web.UI.Page
         {
             Response.Redirect("Login.aspx");
         }
-        else if (!CheckRole())
-        {
-            Response.Redirect("AccessForbidden.aspx");
-        }
-    }
 
-    private bool CheckRole()
-    {
-        if (Request.Cookies["SessionID"] != null)
-        {
-            String employeeID = Request.Cookies["UserID"].Value.Split('=')[1];
-            ArrayList roles = new ArrayList();
-            roles.AddRange(allowedRoles);
-            return LoginValidator.ValidatorUserRole(employeeID, roles);
-        }
-        else
-        {
-            return false;
-        }
+        employeeAlert.Visible = false;
+        roleAlert.Visible = false;
+        emailAlert.Visible = false;
+        passwordAlert.Visible = false;
+
+        employeeAlertLabel.Text = "";
+        roleAlertLabel.Text = "";
+        emailAlertLabel.Text = "";
+        passwordAlertLabel.Text = "";
+
     }
 
     private bool AuthenticateSession()
     {
-        if (Request.Cookies["SessionID"] != null && Request.Cookies["UserID"] != null)
+        if (Request.Cookies["SessionID"] != null)
         {
             String sessionID = Request.Cookies["SessionID"].Value.Split('=')[1];
             String employeeID = Request.Cookies["UserID"].Value.Split('=')[1];
@@ -116,40 +107,69 @@ public partial class CreateUser : System.Web.UI.Page
     {
         String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
 
+        employeeAlert.Visible = false;
+        roleAlert.Visible = false;
+        emailAlert.Visible = false;
+        passwordAlert.Visible = false;
+
+        employeeAlertLabel.Text = "";
+        roleAlertLabel.Text = "";
+        emailAlertLabel.Text = "";
+        passwordAlertLabel.Text = "";
+
+        int alert_count = 0;
         int value;
         if (!int.TryParse(employeeIDField.Text, out value))
         {
-            finalLabel.Text = "Employee ID is written incorrectly";
-            return;
+            employeeAlert.Visible = true;
+            employeeAlertLabel.Text = "An Employee ID only contains numbers";
+            alert_count++;
         }
-        else if (string.IsNullOrWhiteSpace(employeeIDField.Text))
+        if (string.IsNullOrWhiteSpace(employeeIDField.Text))
         {
-            finalLabel.Text = "Please enter in Employee ID";
-            return;
+            employeeAlert.Visible = true;
+            employeeAlertLabel.Text = "Please enter in an Employee ID";
+            alert_count++;
         }
-        else if (string.IsNullOrWhiteSpace(passwordField.Text))
+        if (string.IsNullOrWhiteSpace(passwordField.Text))
         {
-            finalLabel.Text = "Please enter in a Password";
-            return;
+            passwordAlert.Visible = true;
+            passwordAlertLabel.Text = "Please enter in a Password";
+            alert_count++;
         }
-        else if (string.IsNullOrWhiteSpace(emailField.Text))
+        if (string.IsNullOrWhiteSpace(emailField.Text))
         {
-            finalLabel.Text = "Please enter in an email";
-            return;
+            emailAlert.Visible = true;
+            emailAlertLabel.Text = "Please enter in an email";
+            alert_count++;
         }
-        else if (!IsValidEmail(emailField.Text))
+        if (!IsValidEmail(emailField.Text))
         {
-            finalLabel.Text = "Email is not in the correct format";
-            return;
+            emailAlert.Visible = true;
+            emailAlertLabel.Text = "Email is not in the correct format";
+            alert_count++;
         }
-        else if (checkIfEmployeeIDIsTaken())
+        if (checkIfEmployeeIDIsTaken())
         {
-            finalLabel.Text = "Employee ID is already in use";
-            return;
+            employeeAlert.Visible = true;
+            employeeAlertLabel.Text = "Employee ID is already in use";
+            alert_count++;
         }
-        else if (IsEmailTaken())
+        if (IsEmailTaken())
         {
-            finalLabel.Text = "Email is taken";
+            emailAlert.Visible = true;
+            emailAlertLabel.Text = "Email is taken";
+            alert_count++;
+        }
+        if(int.Parse(roleDropDown.SelectedValue) == -1)
+        {
+            roleAlert.Visible = true;
+            roleAlertLabel.Text = "Please choose a role";
+            alert_count++;
+        } 
+
+        if(alert_count > 0)
+        {
             return;
         }
 
@@ -195,9 +215,12 @@ public partial class CreateUser : System.Web.UI.Page
             }
             else
             {
-                finalLabel.Text = "Invalid Employee ID";
+                employeeAlert.Visible = true;
+                employeeAlertLabel.Text = "Invalid Employee ID";
+                return;
             }
         }
+        return;
     }
 
 
@@ -311,15 +334,16 @@ public partial class CreateUser : System.Web.UI.Page
 
     }
 
-    protected void SqlDataSouce1_DataBound(object sender, EventArgs e)
-    {
-        roleDropDown.Items.Add(new ListItem("None", "0"));
-    }
-
     //for ProjectDropDown{
     protected void projectDropDown_SelectedIndexChanged(object sender, EventArgs e)
     {
 
+    }
+
+    protected void SqlDataSouce1_DataBound(object sender, EventArgs e)
+    {
+        roleDropDown.Items.Insert(0, new ListItem("-Select-", "-1"));
+        roleDropDown.SelectedIndex = 0; ;
     }
 
 }
