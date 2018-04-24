@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Net;
 using System.Net.Mail;
-
+using System.Web.UI.WebControls;
 
 public partial class SubmitHours : System.Web.UI.Page
 {
@@ -19,6 +19,13 @@ public partial class SubmitHours : System.Web.UI.Page
         if (!AuthenticateSession()) {
             Response.Redirect("Login.aspx");
         }
+
+        hoursAlert.Visible = false;
+        projectAlert.Visible = false;
+
+        hoursAlertLabel.Text = "";
+        projectAlertLabel.Text = "";
+
     }
 
     /// <summary>
@@ -46,11 +53,31 @@ public partial class SubmitHours : System.Web.UI.Page
     /// <param name="e"></param>
     protected void submitHoursButton_Click(object sender, EventArgs e)
     {
-        String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
+        hoursAlert.Visible = false;
+        projectAlert.Visible = false;
 
-        using (SqlConnection con = new SqlConnection(connectionString)) {
-            String employeeID = Request.Cookies["UserID"].Value.Split('=')[1];
-            
+        hoursAlertLabel.Text = "";
+        projectAlertLabel.Text = "";
+
+        outputLabel.Text = "";
+        if (string.IsNullOrEmpty(hoursField.Text))
+        {
+            hoursAlertLabel.Text = "Please enter hours worked";
+            hoursAlert.Visible = true;
+        }
+        else if (int.Parse(projectDropDown.SelectedValue) == 0)
+        {
+            projectAlertLabel.Text = "Please select a project";
+            projectAlert.Visible = true;
+        }
+        else
+        {
+            String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PROJECT_MANAGMENTConnectionString"].ConnectionString;
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                String employeeID = Request.Cookies["UserID"].Value.Split('=')[1];
+
                 con.Open();
                 //Submit the hours for the employee
                 String submitStatement =
@@ -71,10 +98,11 @@ public partial class SubmitHours : System.Web.UI.Page
                 cmd.Prepare();
                 cmd.ExecuteNonQuery();
                 outputLabel.Text = "Entry has been recorded.";
-            
-            
+
+
+            }
+            checkForAlerts();
         }
-        checkForAlerts();
     }
 
     private void checkForAlerts() {
@@ -203,5 +231,12 @@ public partial class SubmitHours : System.Web.UI.Page
             Console.WriteLine("The email was not sent.");
             Console.WriteLine("Error message: " + ex.Message);
         }
+    }
+
+    protected void SqlDataSouce1_DataBound(object sender, EventArgs e)
+    {
+
+        projectDropDown.Items.Insert(0, new ListItem("Project: ", "0"));
+        projectDropDown.SelectedIndex = 0; ;
     }
 }
