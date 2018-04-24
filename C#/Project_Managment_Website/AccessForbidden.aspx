@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="AccessForbidden.aspx.cs" Inherits="AccessForbidden" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="AccessForbidden.aspx.cs" Inherits="AccessForbidden" %>
 
 <!DOCTYPE html>
 
@@ -68,9 +68,10 @@
         </div>
     </nav>
     <form id="form1" runat="server">
-    <div>
+    <div class="container">
     
-        <asp:Label ID="Label1" runat="server" Text="You do not have access to this page."></asp:Label>
+        <asp:Label class="alert alert-primary" role="alert" ID="Label1" runat="server" Text="You do not have access to this page."></asp:Label>
+
     
     </div>
     </form>
