@@ -100,6 +100,19 @@ public partial class CreateTeam : System.Web.UI.Page
                 departmentNameAlert.Visible = true;
                 alert_counter++;
             }
+            int value;
+            if (!int.TryParse(teamLeadID.Text, out value))
+            {
+                teamLeadAlert.Visible = true;
+                teamLeadAlertLabel.Text = "An Employee ID only contains numbers";
+                alert_counter++;
+            }
+            if (teamLeadID.Text.Length != 10)
+            {
+                teamLeadAlertLabel.Text = "Employee ID is 10 integers long";
+                teamLeadAlert.Visible = true;
+                alert_counter++;
+            }
 
             if (alert_counter > 0)
             {
