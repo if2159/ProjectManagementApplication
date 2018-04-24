@@ -64,6 +64,7 @@
     </nav>
 <form id="form1" runat="server">
     <div class="container">
+        <h1>Submit Hours</h1>
         <asp:TextBox class="form-control" placeholder="Hours:" ID="hoursField" runat="server"></asp:TextBox>
         <br />
         <asp:Label ID="projectLabel" runat="server" Text="Project: "></asp:Label>
