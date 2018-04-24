@@ -1,4 +1,4 @@
-﻿.form-signin {
+.form-signin {
     max-width: 330px;
     padding: 15px;
     margin: 0 auto;
@@ -9,4 +9,13 @@ body {
     line-height: 1.42857143;
     color: #333;
     background-color: #fff;
+}
+.navbar .navbar-brand img {
+    height: 100px;
+} 
+.hello {
+    size: 50px;
+}
+#color1 {
+    color: lightblue
 }
