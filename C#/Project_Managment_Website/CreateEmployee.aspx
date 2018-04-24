@@ -66,10 +66,11 @@
 
     </nav>
 
-    <h1>Create Employee</h1>
+    
     <div class="container">
         <form method="post" id="form1" runat="server">
             <div>
+                <h1>Create Employee</h1>
                 <asp:Label ID="fnameLabel" runat="server" Text="First Name: "></asp:Label>
                 <asp:TextBox ID="fnameField" class="form-control" runat="server"></asp:TextBox>
                 <br />
@@ -84,18 +85,22 @@
                 <br />
                 <asp:Label ID="wageLabel" runat="server" Text="Hourly Wage: "></asp:Label>
                 <asp:TextBox ID="wageField" class="form-control" runat="server"></asp:TextBox>
-                <br />
-                <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT [TEAM_ID] FROM [TEAMS]"></asp:SqlDataSource>
-                <asp:Label ID="manageLabel" runat="server" Text="Manages: "></asp:Label>
-                <div class="form-control">
-                <asp:DropDownList class="dropdown-item" ID="manageDropDown" runat="server" DataSourceID="SqlDataSource1" DataValueField="TEAM_ID" OnDataBound="SqlDataSource1_DataBound"></asp:DropDownList>
-                </div>
+                
+
+
+                <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT [TEAM_ID] FROM [TEAMS]" ></asp:SqlDataSource>
+               
                     <br />
                 <asp:Label ID="teamLabel" runat="server" Text="Team: "></asp:Label>
                 <div class="form-control">
-                <asp:DropDownList class="dropdown-item" ID="teamDropDown" runat="server" DataSourceID="SqlDataSource1" DataValueField="TEAM_ID"></asp:DropDownList>
+                <asp:DropDownList class="dropdown-item" ID="teamDropDown" runat="server" DataSourceID="SqlDataSource1" DataValueField="TEAM_ID" OnDataBound="SqlDataSource1_DataBound"></asp:DropDownList>
                 </div>
                     <br />
+
+
+
+
+
                 <asp:Button ID="Submit" class="btn btn-lg btn-primary btn-block" runat="server" Text="Submit" OnClick="Submit_Click" />
                 <br />
                 <asp:Label ID="outputLabel" runat="server" Text=""></asp:Label>
