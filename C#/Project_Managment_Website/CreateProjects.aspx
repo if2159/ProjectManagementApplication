@@ -88,10 +88,10 @@
                 </div>
         <br/>
         
-        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT [DEPARTMENT_ID] FROM [DEPARTMENTS]" OnSelecting="SqlDataSource1_Selecting"></asp:SqlDataSource>
+        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:PROJECT_MANAGMENTConnectionString %>" SelectCommand="SELECT DEPARTMENT_ID, NAME FROM [DEPARTMENTS]" OnSelecting="SqlDataSource1_Selecting"></asp:SqlDataSource>
         <asp:Label class="sr-only" ID="Label3" runat="server" Text="Controlling Department: "></asp:Label>    
         <div class="form-control">
-        <asp:DropDownList class="dropdown-item" ID="controllingDepartmentField" runat="server" DataSourceID="SqlDataSource1" DataTextField="DEPARTMENT_ID" DataValueField="DEPARTMENT_ID" OnSelectedIndexChanged="deparmentsDropDown_SelectedIndexChanged" AutoPostBack="True" OnDataBound ="SqlDataSouce1_DataBound">
+        <asp:DropDownList class="dropdown-item" ID="controllingDepartmentField" runat="server" DataSourceID="SqlDataSource1" DataTextField="NAME" DataValueField="DEPARTMENT_ID" OnSelectedIndexChanged="deparmentsDropDown_SelectedIndexChanged" AutoPostBack="True" OnDataBound ="SqlDataSouce1_DataBound">
         </asp:DropDownList>
         </div>
     <div class="alert alert-primary" runat="server" role="alert" id="departmentAlert">
