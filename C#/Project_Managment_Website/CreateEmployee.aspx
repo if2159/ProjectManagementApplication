@@ -63,9 +63,11 @@
                 </li>
             </ul>
         </div>
+        <div class="form-inline my-2 my-lg-0 ">
+            <a class="form-control mr-sm-2 " href="SignOut.aspx">Signout</a>
 
+        </div>
     </nav>
-
     
     <div class="container">
         <form method="post" id="form1" runat="server">
