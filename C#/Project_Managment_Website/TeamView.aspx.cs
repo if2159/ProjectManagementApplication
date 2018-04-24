@@ -323,7 +323,7 @@ public partial class TeamView : System.Web.UI.Page
         }
         if (!Page.IsPostBack)
         {
-            teamsLeadingDropDown.Items.Insert(0, new ListItem("-Select-", String.Empty));
+            teamsLeadingDropDown.Items.Insert(0, new ListItem("Team to View:", String.Empty));
             teamsLeadingDropDown.SelectedIndex = 0; ;
         }
 
@@ -335,7 +335,7 @@ public partial class TeamView : System.Web.UI.Page
             dateSelectedDropDown.Items.Insert(0, new ListItem("Last 30 Days", "-30"));
             dateSelectedDropDown.Items.Insert(0, new ListItem("Last 90 Days", "-90"));
             dateSelectedDropDown.Items.Insert(0, new ListItem("All", "-999"));
-            dateSelectedDropDown.Items.Insert(0, new ListItem("-Select-", ""));
+            dateSelectedDropDown.Items.Insert(0, new ListItem("Projects created in the last:", ""));
             dateSelectedDropDown.SelectedIndex = 0; ;
         }
 
